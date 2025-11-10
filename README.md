@@ -1143,5 +1143,3 @@ Frontend Developer | React Specialist | MERN Stack Developer
 _Last Updated: January 2025_
 
 </div>
-#   F i n a l _ P o r t f o l i o  
- 
