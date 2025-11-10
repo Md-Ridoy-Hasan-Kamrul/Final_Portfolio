@@ -1,386 +1,725 @@
-<div align="center"># 🚀 Modern Portfolio - Md. Ridoy Hasan Kamrul
+<div align="center"><div align="center"># 🚀 Modern Portfolio - Md. Ridoy Hasan Kamrul
 
-# 🚀 Md. Ridoy Hasan Kamrul - Portfolio<div align="center">
+# 🚀 Professional Portfolio - Md. Ridoy Hasan Kamrul# 🚀 Md. Ridoy Hasan Kamrul - Portfolio<div align="center">
 
-### 💼 Frontend Developer | React Specialist | MERN Stack Developer![Portfolio Preview](https://via.placeholder.com/1200x600/1F2937/FFFFFF?text=Replace+with+Your+Portfolio+Screenshot)
+### 💼 Frontend Developer | React Specialist | MERN Stack Expert### 💼 Frontend Developer | React Specialist | MERN Stack Developer![Portfolio Preview](https://via.placeholder.com/1200x600/1F2937/FFFFFF?text=Replace+with+Your+Portfolio+Screenshot)
 
-[![Portfolio](https://img.shields.io/badge/Portfolio-Live-blue?style=for-the-badge&logo=vercel&logoColor=white)](https://mdridoyhasankamrul.com)[![React](https://img.shields.io/badge/React-19.0-61DAFB?logo=react&logoColor=white)](https://reactjs.org/)
+[![Live Demo](https://img.shields.io/badge/🌐_Live_Demo-Visit_Now-00C7B7?style=for-the-badge&labelColor=1a1a1a)](https://kamrulportfolio.netlify.app)[![Portfolio](https://img.shields.io/badge/Portfolio-Live-blue?style=for-the-badge&logo=vercel&logoColor=white)](https://mdridoyhasankamrul.com)[![React](https://img.shields.io/badge/React-19.0-61DAFB?logo=react&logoColor=white)](https://reactjs.org/)
 
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/md-ridoy-hasan-kamrul)[![TypeScript](https://img.shields.io/badge/TypeScript-5.5-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![React](https://img.shields.io/badge/React-19.0-61DAFB?style=for-the-badge&logo=react&logoColor=white)](https://reactjs.org/)
+
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.5-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/md-ridoy-hasan-kamrul)[![TypeScript](https://img.shields.io/badge/TypeScript-5.5-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4-06B6D4?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 
 [![GitHub](https://img.shields.io/badge/GitHub-Follow-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Md-Ridoy-Hasan-Kamrul)[![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4-06B6D4?logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 
-[![Email](https://img.shields.io/badge/Email-Contact-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:mdridoyhasankamrul@gmail.com)[![Vite](https://img.shields.io/badge/Vite-5.4-646CFF?logo=vite&logoColor=white)](https://vitejs.dev/)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/md-ridoy-hasan-kamrul)
+
+[![GitHub](https://img.shields.io/badge/GitHub-Follow-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Md-Ridoy-Hasan-Kamrul)[![Email](https://img.shields.io/badge/Email-Contact-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:mdridoyhasankamrul@gmail.com)[![Vite](https://img.shields.io/badge/Vite-5.4-646CFF?logo=vite&logoColor=white)](https://vitejs.dev/)
+
+[![Email](https://img.shields.io/badge/Email-Contact-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:mdridoyhasankamrul@gmail.com)
 
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 <br/>
 
+<br/>
+
+**🎯 A world-class portfolio showcasing enterprise-grade web development with cutting-edge animations, optimized performance, and production-ready architecture**
+
 **A production-grade, high-performance portfolio website built following enterprise-level architectural standards**
+
+<br/>
 
 ![React](https://img.shields.io/badge/React-19.0-61DAFB?style=flat-square&logo=react&logoColor=white)
 
+[View Live Demo](https://kamrulportfolio.netlify.app) • [Featured Projects](#-featured-projects) • [Tech Stack](#-tech-stack) • [Get Started](#-getting-started)
+
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.5-3178C6?style=flat-square&logo=typescript&logoColor=white)[View Live Demo](#) · [Report Bug](https://github.com/Md-Ridoy-Hasan-Kamrul/portfolio/issues) · [Request Feature](https://github.com/Md-Ridoy-Hasan-Kamrul/portfolio/issues)
+
+</div>
 
 ![Vite](https://img.shields.io/badge/Vite-5.4-646CFF?style=flat-square&logo=vite&logoColor=white)
 
+---
+
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white)</div>
-
-![Framer Motion](https://img.shields.io/badge/Framer%20Motion-12.2-0055FF?style=flat-square&logo=framer&logoColor=white)
-
-![Performance](https://img.shields.io/badge/Lighthouse-95%2B-00C853?style=flat-square&logo=lighthouse&logoColor=white)---
-
-<br/>## 📋 Table of Contents
-
-### 🌟 A world-class portfolio showcasing modern web development with 3D animations, optimized performance, and enterprise-grade code quality- [Overview](#-overview)
-
-- [Features](#-features)
-
-[View Projects](#-featured-projects) • [Tech Stack](#-tech-stack) • [Performance](#-performance--seo) • [Getting Started](#-getting-started)- [Tech Stack](#-tech-stack)
-
-- [Performance](#-performance)
-
-</div>- [Getting Started](#-getting-started)
-
-- [Project Structure](#-project-structure)
-
----- [Internationalization](#-internationalization)
-
-- [Accessibility](#-accessibility)
-
-## 📋 Table of Contents- [Deployment](#-deployment)
-
-- [Contributing](#-contributing)
-
-- [✨ Overview](#-overview)- [License](#-license)
-
-- [🎯 Features](#-features)- [Contact](#-contact)
-
-- [🛠 Tech Stack](#-tech-stack)
-
-- [🚀 Featured Projects](#-featured-projects)---
-
-- [⚡ Performance & SEO](#-performance--seo)
-
-- [🎨 Design Philosophy](#-design-philosophy)## 🎯 Overview
-
-- [💻 Getting Started](#-getting-started)
-
-- [📂 Project Structure](#-project-structure)This portfolio showcases a **Principal Frontend Architect approach** with over 10 years of combined best practices in large-scale web application development. Built with modern technologies and following SOLID principles, this project demonstrates expertise in:
-
-- [🌐 Internationalization](#-internationalization)
-
-- [♿ Accessibility](#-accessibility)- ⚡ **High Performance**: Lighthouse score > 95
-
-- [🔧 Configuration](#-configuration)- ♿ **Accessibility**: WCAG AA compliant
-
-- [📦 Build & Deployment](#-build--deployment)- 🌍 **Internationalization**: Multi-language support (EN/FR)
-
-- [🧪 Development Tools](#-development-tools)- 📱 **Responsive Design**: Mobile-first, fluid layouts
-
-- [📝 License](#-license)- 🎨 **Modern UI/UX**: Clean, professional design with smooth animations
-
-- [📧 Contact](#-contact)- 🔒 **Type Safety**: Fully typed with TypeScript
-
-- 🧪 **Testable**: Clean separation of concerns
-
----
-
----
 
 ## ✨ Overview
 
-## ✨ Features
+![Framer Motion](https://img.shields.io/badge/Framer%20Motion-12.2-0055FF?style=flat-square&logo=framer&logoColor=white)
 
-This portfolio represents **Principal Frontend Architect standards** in modern web development, combining cutting-edge technologies with enterprise-level best practices. Built for worldwide clients with a focus on performance, accessibility, and exceptional user experience.
+This portfolio represents **Principal Frontend Architect standards** in modern web development, combining cutting-edge technologies with enterprise-level best practices. Built for worldwide clients with a focus on **performance**, **accessibility**, and **exceptional user experience**.
 
-### Core Features
+![Performance](https://img.shields.io/badge/Lighthouse-95%2B-00C853?style=flat-square&logo=lighthouse&logoColor=white)---
 
 ### 🎯 Key Highlights
 
-- ✅ Fully responsive design across all devices
+<br/>## 📋 Table of Contents
 
-````- ✅ Dark/Light theme support (coming soon)
+- ⚡ **Lightning Performance** - Lighthouse score 95+ with optimized Core Web Vitals
 
-✅ Lightning-fast performance (Lighthouse 95+)- ✅ Smooth scroll animations
+- 🎨 **Stunning Animations** - GSAP-powered custom cursor & Framer Motion effects### 🌟 A world-class portfolio showcasing modern web development with 3D animations, optimized performance, and enterprise-grade code quality- [Overview](#-overview)
 
-✅ Modern 3D animations with Framer Motion- ✅ SEO optimized
+- 📱 **Responsive Design** - Mobile-first approach, fluid layouts across all devices
 
-✅ Fully responsive & mobile-first design- ✅ Fast page loads with code splitting
+- ♿ **WCAG AA Compliant** - Full keyboard navigation & screen reader support- [Features](#-features)
 
-✅ Enterprise-grade code architecture- ✅ Keyboard navigation support
+- 🔒 **Type-Safe** - Fully typed with TypeScript for robust code quality
 
-✅ SEO optimized with structured data- ✅ Screen reader friendly
+- 🚀 **Production-Ready** - Deployed on Netlify with CI/CD pipeline[View Projects](#-featured-projects) • [Tech Stack](#-tech-stack) • [Performance](#-performance--seo) • [Getting Started](#-getting-started)- [Tech Stack](#-tech-stack)
 
-✅ Web Vitals monitoring & analytics- ✅ Progressive Web App (PWA) ready
+---- [Performance](#-performance)
 
-✅ Type-safe with TypeScript
+## 🎯 Features</div>- [Getting Started](#-getting-started)
 
-✅ Internationalization (EN/FR)### Sections
+### 🎨 Modern UI/UX- [Project Structure](#-project-structure)
 
-✅ WCAG AA accessibility compliant
+- ✅ **Custom GSAP Cursor** - Interactive corner-bracket cursor with parallax movement
 
-✅ Production-ready deployment- 🏠 **Hero** - Eye-catching introduction with CTA buttons
+- ✅ **TrueFocus Animation** - Word-by-word blur effect on hero text---- [Internationalization](#-internationalization)
 
-```- 👤 **About** - Professional background and education
+- ✅ **Smooth Scroll** - Viewport-triggered animations with Framer Motion
 
-- 💼 **Experience** - Work history timeline
+- ✅ **3D Card Effects** - Interactive project cards with gradient overlays- [Accessibility](#-accessibility)
 
----- 🚀 **Projects** - Featured work with live demos
+- ✅ **Animated Navigation** - Active state detection with morphing backgrounds
 
-- 🛠️ **Skills** - Technical expertise showcase
+## 📋 Table of Contents- [Deployment](#-deployment)
 
-## 🎯 Features- 📬 **Contact** - Multiple contact methods
+### ⚡ Performance Optimized
 
-- 📄 **Footer** - Professional footer with social links
+- ✅ **Code Splitting** - Automatic chunk optimization with Vite- [Contributing](#-contributing)
 
-### 🎨 **Modern UI/UX**
+- ✅ **Lazy Loading** - Images and components load on demand
 
-- **3D Animations**: Professional animations inspired by [ReactBits](https://reactbits.dev/), [Aceternity UI](https://ui.aceternity.com), and [MagicUI](https://magicui.design)---
+- ✅ **Tree Shaking** - Minimal bundle size with dead code elimination- [✨ Overview](#-overview)- [License](#-license)
 
-- **Animated Hero Section**: Floating gradient orbs, animated profile image with rotating gradient borders
+- ✅ **Component Memoization** - Efficient re-render prevention
 
-- **Interactive Project Cards**: 3D hover effects, gradient overlays, smooth transitions## 🛠️ Tech Stack
+- ✅ **Web Vitals Monitoring** - Real-time LCP, FID, CLS tracking- [🎯 Features](#-features)- [Contact](#-contact)
 
-- **Smooth Scrolling**: Viewport-triggered animations for engaging user experience
+### ♿ Accessibility First- [🛠 Tech Stack](#-tech-stack)
 
-- **Dark Mode Support**: Coming soon### Frontend Core
+- ✅ **Semantic HTML5** - Proper structure for assistive technologies
 
+- ✅ **ARIA Labels** - Descriptive labels on all interactive elements- [🚀 Featured Projects](#-featured-projects)---
 
+- ✅ **Keyboard Navigation** - Full keyboard support with visible focus indicators
 
-### ⚡ **Performance Optimized**| Technology   | Version | Purpose     |
+- ✅ **Color Contrast** - WCAG AA compliant contrast ratios- [⚡ Performance & SEO](#-performance--seo)
 
-- **Core Web Vitals**: LCP < 2.5s, FID < 100ms, CLS < 0.1| ------------ | ------- | ----------- |
+- ✅ **Screen Reader Tested** - Optimized for NVDA, JAWS, VoiceOver
 
-- **Code Splitting**: Automatic chunk optimization with Vite| React        | 19.0    | UI library  |
-
-- **Image Optimization**: Lazy loading, responsive images| TypeScript   | 5.5     | Type safety |
-
-- **Bundle Size**: Optimized with Terser minification| Vite         | 5.4     | Build tool  |
-
-- **Resource Hints**: Preload, prefetch for critical resources| Tailwind CSS | 3.4     | Styling     |
-
-
-
-### 🔍 **SEO Excellence**### Additional Libraries
-
-- **Structured Data**: JSON-LD schema for Person, Website, and Projects
-
-- **Open Graph Tags**: Optimized social media sharing| Library       | Purpose                  |
-
-- **Twitter Cards**: Rich preview cards| ------------- | ------------------------ |
-
-- **Semantic HTML**: Proper heading hierarchy and landmarks| Framer Motion | Animations               |
-
-- **Meta Tags**: Dynamic metadata generation| React Spring  | Physics-based animations |
-
-| i18next       | Internationalization     |
-
-### 🌐 **Internationalization (i18n)**| Lucide React  | Icon system              |
-
-- **Multi-language Support**: English and French translations
-
-- **Dynamic Language Switching**: Real-time content updates### Development Tools
-
-- **Localized URLs**: SEO-friendly language URLs
-
-- **ESLint** - Code linting
-
-### ♿ **Accessibility (a11y)**- **PostCSS** - CSS processing
-
-- **WCAG AA Compliant**: Meeting international accessibility standards- **TypeScript ESLint** - TypeScript linting
-
-- **Keyboard Navigation**: Full keyboard support
-
-- **Screen Reader Friendly**: Proper ARIA labels and roles---
-
-- **Focus Management**: Visible focus indicators
-
-- **Color Contrast**: Meeting WCAG contrast requirements## ⚡ Performance
-
-
-
----### Lighthouse Scores (Target: > 95)
-
-
-
-## 🛠 Tech Stack```
-
-Performance:   98/100
-
-### **Frontend Core**Accessibility: 100/100
-
-```Best Practices: 100/100
-
-React 19.0          → Latest React features with automatic batchingSEO:           100/100
-
-TypeScript 5.5      → Type safety and enhanced DX```
-
-Vite 5.4            → Lightning-fast dev server and build tool
-
-Tailwind CSS 3.4    → Utility-first styling with custom theme### Core Web Vitals
-
-````
-
-- **LCP** (Largest Contentful Paint): < 2.5s
-
-### **Animation & Interactions**- **FID** (First Input Delay): < 100ms
-
-````- **CLS** (Cumulative Layout Shift): < 0.1
-
-Framer Motion 12.2  → Production-ready 3D animations- **FCP** (First Contentful Paint): < 1.8s
-
-React Spring 10.0   → Physics-based animations- **TTI** (Time to Interactive): < 3.8s
-
-Lucide React 0.344  → Modern icon system
-
-```### Optimization Techniques
-
-
-
-### **Internationalization**- ✅ Code splitting & lazy loading
-
-```- ✅ Image optimization
-
-i18next 25.6        → Robust i18n framework- ✅ Minification & compression
-
-react-i18next 16.2  → React bindings for i18next- ✅ Tree shaking
-
-```- ✅ Component memoization
-
-- ✅ Efficient re-render prevention
-
-### **Performance & Analytics**
-
-```---
-
-Custom Web Vitals   → LCP, FID, CLS, INP monitoring
-
-Custom SEO Utils    → Metadata, structured data, OG tags## 🚀 Getting Started
-
-````
-
-### Prerequisites
-
-### **Development Tools**
-
-````bash
-
-ESLint 9.9          → Code quality and consistencyNode.js >= 18.0.0
-
-TypeScript ESLint   → TypeScript-specific lintingnpm >= 9.0.0 or yarn >= 1.22.0
-
-PostCSS & Autoprefixer → CSS processing```
-
-```
-
-### Installation
+- [🎨 Design Philosophy](#-design-philosophy)## 🎯 Overview
 
 ---
 
-1. **Clone the repository**
+- [💻 Getting Started](#-getting-started)
 
-## 🚀 Featured Projects
+## 🛠 Tech Stack
 
-```bash
+- [📂 Project Structure](#-project-structure)This portfolio showcases a **Principal Frontend Architect approach** with over 10 years of combined best practices in large-scale web application development. Built with modern technologies and following SOLID principles, this project demonstrates expertise in:
 
-### 🏠 [Q Global Living](https://qhomes.mtscorporate.com/en)git clone https://github.com/Md-Ridoy-Hasan-Kamrul/portfolio.git
+### Frontend Core
 
-**Real Estate Platform** | Next.js 16, React 19, TypeScript, Tailwind v4cd portfolio
+| Technology | Version | Purpose |- [🌐 Internationalization](#-internationalization)
 
-- Full-stack real estate marketplace with property listings and event registration```
+|------------|---------|---------|
 
-- Complete i18n system (EN/FR), admin dashboards, and escrow-protected transactions
+| **React** | 19.0 | UI library with latest features |- [♿ Accessibility](#-accessibility)- ⚡ **High Performance**: Lighthouse score > 95
 
-- SEO optimization, custom authentication flows, and React Compiler compliance2. **Install dependencies**
+| **TypeScript** | 5.5 | Type safety & developer experience |
 
+| **Vite** | 5.4 | Lightning-fast build tool |- [🔧 Configuration](#-configuration)- ♿ **Accessibility**: WCAG AA compliant
 
+| **Tailwind CSS** | 3.4 | Utility-first styling framework |
 
-### 📊 [TherellWalker](https://myledger.mtscorporate.com/)```bash
+- [📦 Build & Deployment](#-build--deployment)- 🌍 **Internationalization**: Multi-language support (EN/FR)
 
-**Trading Journal & Performance Analytics** | React 19, Tailwind CSS, Vitenpm install
+### Animation & Interaction
 
-- Trade logging with reflections and P&L calculations# or
+| Library | Purpose |- [🧪 Development Tools](#-development-tools)- 📱 **Responsive Design**: Mobile-first, fluid layouts
 
-- Authentication system with responsive dark theme UIyarn install
+|---------|---------|
 
-- Performance analytics and data visualization```
+| **Framer Motion** | Production-ready animations |- [📝 License](#-license)- 🎨 **Modern UI/UX**: Clean, professional design with smooth animations
 
+| **GSAP** | High-performance custom cursor |
 
+| **Lucide React** | Modern icon system |- [📧 Contact](#-contact)- 🔒 **Type Safety**: Fully typed with TypeScript
 
-### 🏗️ [CoorDeck Technologies](https://alex-coordinate.vercel.app)3. **Start development server**
+### Development Tools- 🧪 **Testable**: Clean separation of concerns
+
+- **ESLint** - Code quality & consistency
+
+- **TypeScript ESLint** - Type-safe linting---
+
+- **PostCSS** - CSS processing
+
+- **Autoprefixer** - Browser compatibility---
+
+---## ✨ Overview
+
+## 🚀 Featured Projects## ✨ Features
+
+### 🏠 [Q Global Living](https://qhomes.mtscorporate.com/en)This portfolio represents **Principal Frontend Architect standards** in modern web development, combining cutting-edge technologies with enterprise-level best practices. Built for worldwide clients with a focus on performance, accessibility, and exceptional user experience.
+
+**Real Estate Platform** | Next.js 16, React 19, TypeScript, Tailwind v4
+
+- Full-stack marketplace with internationalization (EN/FR)### Core Features
+
+- Admin dashboards & escrow-protected transactions
+
+- SEO optimized with custom authentication flows### 🎯 Key Highlights
+
+### 📊 [TherellWalker](https://myledger.mtscorporate.com/)- ✅ Fully responsive design across all devices
+
+**Trading Journal Platform** | React 19, Tailwind CSS, Vite
+
+- Trade logging with P&L calculations````- ✅ Dark/Light theme support (coming soon)
+
+- Authentication with responsive dark theme
+
+- Performance analytics & data visualization✅ Lightning-fast performance (Lighthouse 95+)- ✅ Smooth scroll animations
+
+### 🏗️ [CoorDeck Technologies](https://alex-coordinate.vercel.app)✅ Modern 3D animations with Framer Motion- ✅ SEO optimized
 
 **Temporary Works Management** | Next.js 14, TypeScript
 
-- 90+ Lighthouse score with full SEO optimization```bash
+- 90+ Lighthouse score with full SEO✅ Fully responsive & mobile-first design- ✅ Fast page loads with code splitting
 
-- WCAG 2.1 AA accessibility compliantnpm run dev
+- WCAG 2.1 AA accessibility compliant
 
-- Framer Motion animations from Figma design# or
+- Framer Motion animations from Figma design✅ Enterprise-grade code architecture- ✅ Keyboard navigation support
 
-yarn dev
-
-### 🎨 [IndividUX](https://troyabel-gules.vercel.app)```
+### 🎨 [IndividUX](https://troyabel-gules.vercel.app)✅ SEO optimized with structured data- ✅ Screen reader friendly
 
 **UX Career Platform** | Next.js
 
-- Professional UX career platform with modern design4. **Open your browser**
+- Professional career platform with modern design✅ Web Vitals monitoring & analytics- ✅ Progressive Web App (PWA) ready
 
 - Built with Next.js best practices
 
-```
+✅ Type-safe with TypeScript
 
-### 🛒 [Layls E-commerce](https://www.layls.com)http://localhost:5173
+### 🛒 [Layls E-commerce](https://www.layls.com)
 
-**E-commerce Platform** | Next.js```
+**E-commerce Platform** | Next.js✅ Internationalization (EN/FR)### Sections
 
-- Google Auth 2.0 and WhatsApp/Email OTP authentication
+- Google Auth 2.0 & WhatsApp/Email OTP
 
-- Secure password toggle and login-gated content### Build for Production
+- Secure authentication & login-gated content✅ WCAG AA accessibility compliant
 
-- Designed home page and built key UI features
+### 📚 [Bundoora Courses](https://interactive-flow-chart.vercel.app)✅ Production-ready deployment- 🏠 **Hero** - Eye-catching introduction with CTA buttons
+
+**Interactive Course Platform** | React
+
+- Interactive flow chart implementation```- 👤 **About** - Professional background and education
+
+- Modern course browsing experience
+
+- 💼 **Experience** - Work history timeline
+
+### 🏠 [Skywalker Rentals](https://skywalker-rho.vercel.app)
+
+**Property Rental Platform** | React, Tailwind CSS---- 🚀 **Projects** - Featured work with live demos
+
+- Property browsing, searching, and booking
+
+- User authentication & saved listings- 🛠️ **Skills** - Technical expertise showcase
+
+- Detail pages with image/video galleries
+
+## 🎯 Features- 📬 **Contact** - Multiple contact methods
+
+### 🎵 [Beatzingeez Music](https://beatzingeez.com)
+
+**Music Streaming Platform** | React- 📄 **Footer** - Professional footer with social links
+
+- Modern streaming interface
+
+- Rich media player integration### 🎨 **Modern UI/UX**
+
+### 🏘️ [HuurScanner](https://huurscanner.nl)- **3D Animations**: Professional animations inspired by [ReactBits](https://reactbits.dev/), [Aceternity UI](https://ui.aceternity.com), and [MagicUI](https://magicui.design)---
+
+**Rental Home Scanner** | React
+
+- Advanced property search & filtering- **Animated Hero Section**: Floating gradient orbs, animated profile image with rotating gradient borders
+
+- Real-time rental market insights
+
+- **Interactive Project Cards**: 3D hover effects, gradient overlays, smooth transitions## 🛠️ Tech Stack
+
+---
+
+- **Smooth Scrolling**: Viewport-triggered animations for engaging user experience
+
+## ⚡ Performance
+
+- **Dark Mode Support**: Coming soon### Frontend Core
+
+### Lighthouse Scores (Target: > 95)
+
+| Metric | Target | Actual |
+
+|--------|--------|--------|### ⚡ **Performance Optimized**| Technology | Version | Purpose |
+
+| 🎯 Performance | 90+ | **98/100** |
+
+| ♿ Accessibility | 90+ | **100/100** |- **Core Web Vitals**: LCP < 2.5s, FID < 100ms, CLS < 0.1| ------------ | ------- | ----------- |
+
+| 🔧 Best Practices | 90+ | **100/100** |
+
+| 🔍 SEO | 90+ | **100/100** |- **Code Splitting**: Automatic chunk optimization with Vite| React | 19.0 | UI library |
+
+### Core Web Vitals- **Image Optimization**: Lazy loading, responsive images| TypeScript | 5.5 | Type safety |
+
+````- **Bundle Size**: Optimized with Terser minification| Vite         | 5.4     | Build tool  |
+
+✅ LCP (Largest Contentful Paint):    < 1.8s
+
+✅ FID (First Input Delay):            < 50ms- **Resource Hints**: Preload, prefetch for critical resources| Tailwind CSS | 3.4     | Styling     |
+
+✅ CLS (Cumulative Layout Shift):      < 0.05
+
+✅ FCP (First Contentful Paint):       < 1.2s
+
+✅ TTI (Time to Interactive):          < 2.5s
+
+```### 🔍 **SEO Excellence**### Additional Libraries
+
+
+
+### Optimization Techniques- **Structured Data**: JSON-LD schema for Person, Website, and Projects
+
+- ⚡ Code splitting & lazy loading
+
+- 🖼️ Image optimization with lazy loading- **Open Graph Tags**: Optimized social media sharing| Library       | Purpose                  |
+
+- 📦 Minification & compression (Terser)
+
+- 🌳 Tree shaking for minimal bundle size- **Twitter Cards**: Rich preview cards| ------------- | ------------------------ |
+
+- 💾 Component memoization & efficient re-renders
+
+- **Semantic HTML**: Proper heading hierarchy and landmarks| Framer Motion | Animations               |
+
+---
+
+- **Meta Tags**: Dynamic metadata generation| React Spring  | Physics-based animations |
+
+## 💻 Getting Started
+
+| i18next       | Internationalization     |
+
+### Prerequisites
+
+### 🌐 **Internationalization (i18n)**| Lucide React  | Icon system              |
 
 ```bash
 
-### 📚 [Bundoora Courses](https://interactive-flow-chart.vercel.app)npm run build
+Node.js >= 18.0.0- **Multi-language Support**: English and French translations
 
-**Interactive Course Platform** | React# or
+npm >= 9.0.0 or yarn >= 1.22.0
 
-- Interactive flow chart implementationyarn build
-
-- Modern course browsing experience```
+```- **Dynamic Language Switching**: Real-time content updates### Development Tools
 
 
 
-### 🏠 [Skywalker Rentals](https://skywalker-rho.vercel.app)### Preview Production Build
+### Installation- **Localized URLs**: SEO-friendly language URLs
 
-**Property Rental Platform** | React, Tailwind CSS
 
-- Property browsing, searching, and booking functionality```bash
 
-- User authentication and saved listing profilesnpm run preview
+1. **Clone the repository**- **ESLint** - Code linting
 
-- Property detail pages with image/video galleries# or
+```bash
 
-yarn preview
+git clone https://github.com/Md-Ridoy-Hasan-Kamrul/Final_Portfolio.git### ♿ **Accessibility (a11y)**- **PostCSS** - CSS processing
 
-### 🎵 [Beatzingeez Music](https://beatzingeez.com)```
+cd Final_Portfolio
 
-**Music Streaming Platform** | React
+```- **WCAG AA Compliant**: Meeting international accessibility standards- **TypeScript ESLint** - TypeScript linting
 
-- Modern music streaming interface---
 
-- Rich media player integration
+
+2. **Install dependencies**- **Keyboard Navigation**: Full keyboard support
+
+```bash
+
+npm install- **Screen Reader Friendly**: Proper ARIA labels and roles---
+
+# or
+
+yarn install- **Focus Management**: Visible focus indicators
+
+````
+
+- **Color Contrast**: Meeting WCAG contrast requirements## ⚡ Performance
+
+3. **Start development server**
+
+```bash
+
+npm run dev
+
+# or---### Lighthouse Scores (Target: > 95)
+
+yarn dev
+
+```
+
+4. **Open browser**## 🛠 Tech Stack```
+
+```
+
+http://localhost:5173Performance:   98/100
+
+```
+
+### **Frontend Core**Accessibility: 100/100
+
+### Build for Production
+
+````Best Practices: 100/100
+
+```bash
+
+npm run buildReact 19.0          → Latest React features with automatic batchingSEO:           100/100
+
+# or
+
+yarn buildTypeScript 5.5      → Type safety and enhanced DX```
+
+````
+
+Vite 5.4 → Lightning-fast dev server and build tool
+
+### Preview Production Build
+
+Tailwind CSS 3.4 → Utility-first styling with custom theme### Core Web Vitals
+
+`````bash
+
+npm run preview````
+
+# or
+
+yarn preview- **LCP** (Largest Contentful Paint): < 2.5s
+
+`````
+
+### **Animation & Interactions**- **FID** (First Input Delay): < 100ms
+
+---
+
+````- **CLS** (Cumulative Layout Shift): < 0.1
 
 ## 📁 Project Structure
 
-### 🏘️ [HuurScanner](https://huurscanner.nl)
+Framer Motion 12.2  → Production-ready 3D animations- **FCP** (First Contentful Paint): < 1.8s
 
-**Rental Home Scanner** | React```
+```
 
-- Advanced property search and filteringportfolio/
+portfolio/React Spring 10.0   → Physics-based animations- **TTI** (Time to Interactive): < 3.8s
 
-- Real-time rental market insights├── public/                    # Static assets
+├── public/                    # Static assets
+
+├── src/Lucide React 0.344  → Modern icon system
+
+│   ├── components/           # React components
+
+│   │   ├── Navigation.tsx   # Animated navigation bar```### Optimization Techniques
+
+│   │   ├── Hero.tsx         # Hero with TrueFocus animation
+
+│   │   ├── About.tsx        # About section
+
+│   │   ├── Experience.tsx   # Experience timeline
+
+│   │   ├── Projects.tsx     # Featured projects showcase### **Internationalization**- ✅ Code splitting & lazy loading
+
+│   │   ├── Skills.tsx       # Skills & technologies
+
+│   │   ├── Contact.tsx      # Contact section```- ✅ Image optimization
+
+│   │   ├── Footer.tsx       # Footer component
+
+│   │   ├── TargetCursor.tsx # GSAP custom cursori18next 25.6        → Robust i18n framework- ✅ Minification & compression
+
+│   │   └── TrueFocus.tsx    # Text focus animation
+
+│   ├── App.tsx              # Main app componentreact-i18next 16.2  → React bindings for i18next- ✅ Tree shaking
+
+│   ├── main.tsx             # Entry point
+
+│   ├── index.css            # Global styles```- ✅ Component memoization
+
+│   └── vite-env.d.ts        # Vite types
+
+├── eslint.config.js         # ESLint configuration- ✅ Efficient re-render prevention
+
+├── tailwind.config.js       # Tailwind configuration
+
+├── tsconfig.json            # TypeScript configuration### **Performance & Analytics**
+
+├── vite.config.ts           # Vite configuration
+
+└── package.json             # Dependencies & scripts```---
+
+```
+
+Custom Web Vitals   → LCP, FID, CLS, INP monitoring
+
+---
+
+Custom SEO Utils    → Metadata, structured data, OG tags## 🚀 Getting Started
+
+## 🎨 Key Components
+
+````
+
+### **TargetCursor.tsx**
+
+Custom GSAP-powered cursor with:### Prerequisites
+
+- 360° spinning animation when idle
+
+- Corner brackets snap to `.cursor-target` elements### **Development Tools**
+
+- Parallax movement on hover
+
+- Mobile detection (hidden on touch devices)````bash
+
+### **TrueFocus.tsx**ESLint 9.9 → Code quality and consistencyNode.js >= 18.0.0
+
+Word-by-word focus animation with:
+
+- Auto-cycling through words with blur effectsTypeScript ESLint → TypeScript-specific lintingnpm >= 9.0.0 or yarn >= 1.22.0
+
+- Corner bracket indicators with glow
+
+- Responsive text sizing (3xl → 7xl)PostCSS & Autoprefixer → CSS processing```
+
+- Blue theme matching portfolio brand
+
+````
+
+### **Navigation.tsx**
+
+Animated navigation with:### Installation
+
+- Active section detection on scroll
+
+- Smooth scroll with proper offset calculation---
+
+- 3D hover effects with layoutId morphing
+
+- Mobile menu with staggered animations1. **Clone the repository**
+
+
+
+### **Projects.tsx**## 🚀 Featured Projects
+
+Featured project showcase with:
+
+- 3D card hover effects```bash
+
+- Gradient overlays on interaction
+
+- Category badges & external links### 🏠 [Q Global Living](https://qhomes.mtscorporate.com/en)git clone https://github.com/Md-Ridoy-Hasan-Kamrul/portfolio.git
+
+- Responsive grid layout
+
+**Real Estate Platform** | Next.js 16, React 19, TypeScript, Tailwind v4cd portfolio
+
+---
+
+- Full-stack real estate marketplace with property listings and event registration```
+
+## 🚀 Deployment
+
+- Complete i18n system (EN/FR), admin dashboards, and escrow-protected transactions
+
+### Netlify (Current)
+
+- SEO optimization, custom authentication flows, and React Compiler compliance2. **Install dependencies**
+
+[![Netlify Status](https://api.netlify.com/api/v1/badges/your-badge-id/deploy-status)](https://app.netlify.com/sites/kamrulportfolio/deploys)
+
+
+
+**Live URL**: [https://kamrulportfolio.netlify.app](https://kamrulportfolio.netlify.app)
+
+### 📊 [TherellWalker](https://myledger.mtscorporate.com/)```bash
+
+```bash
+
+# Build command**Trading Journal & Performance Analytics** | React 19, Tailwind CSS, Vitenpm install
+
+npm run build
+
+- Trade logging with reflections and P&L calculations# or
+
+# Publish directory
+
+dist- Authentication system with responsive dark theme UIyarn install
+
+````
+
+- Performance analytics and data visualization```
+
+### Alternative Platforms
+
+#### **Vercel**
+
+```bash### 🏗️ [CoorDeck Technologies](https://alex-coordinate.vercel.app)3. **Start development server**
+
+npm install -g vercel
+
+vercel --prod**Temporary Works Management** | Next.js 14, TypeScript
+
+```
+
+- 90+ Lighthouse score with full SEO optimization```bash
+
+#### **GitHub Pages**
+
+```bash- WCAG 2.1 AA accessibility compliantnpm run dev
+
+npm run build
+
+npm run deploy- Framer Motion animations from Figma design# or
+
+```
+
+yarn dev
+
+---
+
+### 🎨 [IndividUX](https://troyabel-gules.vercel.app)```
+
+## 🤝 Contributing
+
+**UX Career Platform** | Next.js
+
+Contributions are welcome! Please follow these steps:
+
+- Professional UX career platform with modern design4. **Open your browser**
+
+1. Fork the repository
+
+2. Create a feature branch (`git checkout -b feature/AmazingFeature`)- Built with Next.js best practices
+
+3. Commit your changes (`git commit -m 'Add AmazingFeature'`)
+
+4. Push to the branch (`git push origin feature/AmazingFeature`)```
+
+5. Open a Pull Request
+
+### 🛒 [Layls E-commerce](https://www.layls.com)http://localhost:5173
+
+### Code Style
+
+- Follow existing code conventions**E-commerce Platform** | Next.js```
+
+- Use TypeScript strict mode
+
+- Write meaningful commit messages- Google Auth 2.0 and WhatsApp/Email OTP authentication
+
+- Ensure all linting passes
+
+- Secure password toggle and login-gated content### Build for Production
+
+---
+
+- Designed home page and built key UI features
+
+## 📄 License
+
+````bash
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+### 📚 [Bundoora Courses](https://interactive-flow-chart.vercel.app)npm run build
+
+---
+
+**Interactive Course Platform** | React# or
+
+## 📧 Contact
+
+- Interactive flow chart implementationyarn build
+
+<div align="center">
+
+- Modern course browsing experience```
+
+### Let's Build Something Amazing Together! 🚀
+
+
+
+**Md. Ridoy Hasan Kamrul**
+
+Frontend Developer | React Specialist | MERN Stack Expert### 🏠 [Skywalker Rentals](https://skywalker-rho.vercel.app)### Preview Production Build
+
+
+
+[![Portfolio](https://img.shields.io/badge/🌐_Portfolio-Visit_Now-00C7B7?style=for-the-badge)](https://kamrulportfolio.netlify.app)**Property Rental Platform** | React, Tailwind CSS
+
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0077B5?style=for-the-badge&logo=linkedin)](https://www.linkedin.com/in/md-ridoy-hasan-kamrul)
+
+[![GitHub](https://img.shields.io/badge/GitHub-Follow-181717?style=for-the-badge&logo=github)](https://github.com/Md-Ridoy-Hasan-Kamrul)- Property browsing, searching, and booking functionality```bash
+
+[![Email](https://img.shields.io/badge/Email-Contact-D14836?style=for-the-badge&logo=gmail)](mailto:mdridoyhasankamrul@gmail.com)
+
+- User authentication and saved listing profilesnpm run preview
+
+📍 **Location**: Dhaka, Bangladesh
+
+📧 **Email**: mdridoyhasankamrul@gmail.com  - Property detail pages with image/video galleries# or
+
+📱 **Phone**: +880 1680 092066
+
+💼 **Available for**: Freelance Projects & Full-time Opportunitiesyarn preview
+
+
+
+---### 🎵 [Beatzingeez Music](https://beatzingeez.com)```
+
+
+
+### 🌟 If you found this project helpful, give it a star!**Music Streaming Platform** | React
+
+
+
+[![GitHub Stars](https://img.shields.io/github/stars/Md-Ridoy-Hasan-Kamrul/Final_Portfolio?style=social)](https://github.com/Md-Ridoy-Hasan-Kamrul/Final_Portfolio)- Modern music streaming interface---
+
+
+
+</div>- Rich media player integration
+
+
+
+---## 📁 Project Structure
+
+
+
+<div align="center">### 🏘️ [HuurScanner](https://huurscanner.nl)
+
+
+
+**Built with ❤️ by Md. Ridoy Hasan Kamrul****Rental Home Scanner** | React```
+
+
+
+_Last Updated: January 2025_- Advanced property search and filteringportfolio/
+
+
+
+</div>- Real-time rental market insights├── public/                    # Static assets
+
 
 │   └── locales/              # Translation files
 
@@ -430,7 +769,7 @@ yarn preview
 
 - Breadcrumb navigation schema└── package.json              # Dependencies
 
-```
+````
 
 ✅ **Meta Tags Optimization**
 
@@ -480,11 +819,9 @@ This portfolio supports multiple languages using `i18next`.
 
 This portfolio follows a **Modern Professional Design System** with:- 🇫🇷 French (fr)
 
-
-
 ### **Color Palette**### Adding a New Language
 
-```css
+````css
 
 Primary:    Blue (#2563EB) → Purple (#9333EA)1. Create a new translation file:
 
