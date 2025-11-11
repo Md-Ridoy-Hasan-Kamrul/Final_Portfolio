@@ -210,22 +210,12 @@ export default function Hero() {
                 <div className='absolute inset-2 rounded-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 p-1'>
                   {/* Image container */}
                   <div className='w-full h-full rounded-full overflow-hidden bg-white'>
-                    {/* Placeholder for profile image */}
-                    <div className='w-full h-full bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100 flex items-center justify-center'>
-                      <motion.div
-                        className='text-8xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600'
-                        animate={{
-                          scale: [1, 1.1, 1],
-                        }}
-                        transition={{
-                          duration: 4,
-                          repeat: Infinity,
-                          ease: 'easeInOut',
-                        }}
-                      >
-                        RH
-                      </motion.div>
-                    </div>
+                    {/* Profile image */}
+                    <img
+                      src='/images/Profile.jpg'
+                      alt='Md. Ridoy Hasan Kamrul - Front-End Developer'
+                      className='lg:w-72 w-48 h-full object-cover ml-auto mr-auto'
+                    />
                   </div>
                 </div>
 
