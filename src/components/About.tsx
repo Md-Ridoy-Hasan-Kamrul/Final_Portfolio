@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import ScrambledText from './ScrambledText';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -56,13 +57,16 @@ export default function About() {
               'Specializing in the MERN stack with a strong focus on frontend development, I build responsive, user-friendly web applications that deliver exceptional user experiences.',
               'I thrive in both team and independent work environments, bringing a problem-solving mindset and passion for creating impactful digital solutions. My goal is to grow globally as a frontend developer, contributing to projects that make a difference.',
             ].map((text, index) => (
-              <motion.p
-                key={index}
-                variants={itemVariants}
-                className='text-lg text-gray-700 leading-relaxed'
-              >
-                {text}
-              </motion.p>
+              <motion.div key={index} variants={itemVariants}>
+                <ScrambledText
+                  className='text-lg text-gray-700 leading-relaxed'
+                  radius={120}
+                  duration={800}
+                  scrambleChars='.:!@#$%&*'
+                >
+                  {text}
+                </ScrambledText>
+              </motion.div>
             ))}
           </motion.div>
 
