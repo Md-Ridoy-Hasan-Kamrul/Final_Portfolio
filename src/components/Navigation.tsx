@@ -131,7 +131,7 @@ const Navigation = memo(() => {
             <img
               src='/logo.png'
               alt='KH Kamrul - Frontend Engineer'
-              className='h-16 sm:h-20 md:h-24 lg:h-36 w-auto relative z-10 object-contain'
+              className='h-20 sm:h-20 md:h-24 lg:h-36 w-auto relative z-10 object-contain'
             />
             <motion.div
               className='absolute inset-0 bg-gradient-to-r from-blue-400/20 to-purple-400/20 rounded-lg blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10'
