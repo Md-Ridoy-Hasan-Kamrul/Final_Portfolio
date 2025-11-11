@@ -105,34 +105,25 @@ const projects: Project[] = [
 
 const ProjectCard = memo(({ project }: { project: Project }) => (
   <motion.article
-    className='cursor-target bg-gradient-to-br from-white to-gray-50 p-6 sm:p-8 rounded-2xl border-2 border-gray-100 hover:border-blue-400 transition-all duration-500 group relative overflow-hidden shadow-lg hover:shadow-2xl'
+    className='cursor-target bg-white p-6 sm:p-8 rounded-2xl border border-gray-200 hover:border-blue-400 transition-all duration-300 group relative overflow-hidden shadow-md hover:shadow-xl h-full flex flex-col'
     initial={{ opacity: 0, y: 20 }}
     whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true, margin: '-50px' }}
     transition={{ duration: 0.5 }}
-    whileHover={{
-      y: -12,
-      scale: 1.02,
-      transition: { duration: 0.3, type: 'spring', stiffness: 300 },
-    }}
   >
     {/* Animated gradient overlay on hover */}
     <motion.div
-      className='absolute inset-0 bg-gradient-to-br from-blue-500/0 via-purple-500/0 to-pink-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 -z-0 rounded-2xl'
-      initial={false}
-      whileHover={{
-        background: [
-          'linear-gradient(135deg, rgba(59, 130, 246, 0) 0%, rgba(168, 85, 247, 0) 50%, rgba(236, 72, 153, 0) 100%)',
-          'linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(168, 85, 247, 0.1) 50%, rgba(236, 72, 153, 0.1) 100%)',
-        ],
-        transition: { duration: 0.7 },
+      className='absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-500 pointer-events-none'
+      style={{
+        background:
+          'linear-gradient(135deg, #3b82f6 0%, #a855f7 50%, #ec4899 100%)',
       }}
     />
 
-    {/* Decorative corner accent */}
-    <div className='absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-blue-100 to-purple-100 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-2xl rounded-full -z-0' />
+    {/* Subtle corner glow */}
+    <div className='absolute -top-10 -right-10 w-40 h-40 bg-gradient-to-br from-blue-400/20 to-purple-400/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-3xl rounded-full pointer-events-none' />
 
-    <div className='relative z-10'>
+    <div className='relative z-10 flex flex-col h-full'>
       <div className='flex justify-between items-start mb-3 sm:mb-4'>
         <motion.span
           className='text-xs sm:text-sm font-bold text-white uppercase tracking-wider px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full shadow-md group-hover:shadow-lg group-hover:from-blue-500 group-hover:to-purple-500 transition-all duration-300'
@@ -167,7 +158,7 @@ const ProjectCard = memo(({ project }: { project: Project }) => (
         {project.description}
       </p>
 
-      <ul className='space-y-2 mb-4 sm:mb-6'>
+      <ul className='space-y-2 mb-6 flex-grow'>
         {project.highlights.map((highlight, idx) => (
           <motion.li
             key={idx}
@@ -183,24 +174,26 @@ const ProjectCard = memo(({ project }: { project: Project }) => (
         ))}
       </ul>
 
-      <motion.a
-        href={project.liveUrl}
-        target='_blank'
-        rel='noopener noreferrer'
-        className='cursor-target inline-flex items-center text-sm sm:text-base font-semibold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent hover:from-blue-500 hover:to-purple-500 transition-all duration-300 group/link'
-        whileHover={{ x: 8 }}
-      >
-        View Live Site
-        <motion.span
-          whileHover={{ x: 4 }}
-          transition={{ type: 'spring', stiffness: 400 }}
+      <div className='mt-auto pt-4'>
+        <motion.a
+          href={project.liveUrl}
+          target='_blank'
+          rel='noopener noreferrer'
+          className='cursor-target inline-flex items-center text-sm sm:text-base font-semibold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent hover:from-blue-500 hover:to-purple-500 transition-all duration-300 group/link'
+          whileHover={{ x: 8 }}
         >
-          <ExternalLink
-            className='ml-2 h-4 w-4 text-blue-600 group-hover/link:text-purple-600 transition-colors'
-            aria-hidden='true'
-          />
-        </motion.span>
-      </motion.a>
+          View Live Site
+          <motion.span
+            whileHover={{ x: 4 }}
+            transition={{ type: 'spring', stiffness: 400 }}
+          >
+            <ExternalLink
+              className='ml-2 h-4 w-4 text-blue-600 group-hover/link:text-purple-600 transition-colors'
+              aria-hidden='true'
+            />
+          </motion.span>
+        </motion.a>
+      </div>
     </div>
   </motion.article>
 ));
