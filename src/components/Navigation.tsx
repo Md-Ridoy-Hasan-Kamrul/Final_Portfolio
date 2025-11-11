@@ -71,7 +71,14 @@ const Navigation = memo(() => {
       // Wait a tiny bit for menu to start closing, then scroll
       setTimeout(() => {
         // Get actual navbar height dynamically
-        const navHeight = window.innerWidth >= 1024 ? 80 : 64;
+        const navHeight =
+          window.innerWidth >= 1024
+            ? 128
+            : window.innerWidth >= 768
+            ? 112
+            : window.innerWidth >= 640
+            ? 96
+            : 80;
 
         // Get the element's position relative to the document
         const elementTop = element.offsetTop;
@@ -111,17 +118,21 @@ const Navigation = memo(() => {
       <div className='absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-blue-500 to-transparent opacity-50' />
 
       <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
-        <div className='flex justify-between items-center h-16 lg:h-20'>
+        <div className='flex justify-between items-center h-20 sm:h-24 md:h-28 lg:h-28'>
           {/* Logo with 3D effect */}
           <motion.a
             href='#home'
             onClick={(e) => handleLinkClick(e, '#home')}
-            className='cursor-target text-xl lg:text-2xl font-bold bg-gradient-to-r from-gray-900 via-blue-600 to-purple-600 bg-clip-text text-transparent hover:from-blue-600 hover:via-purple-600 hover:to-pink-600 transition-all duration-500 relative group'
+            className='cursor-target relative group'
             aria-label='Go to home section'
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            <span className='relative z-10'>RH Kamrul</span>
+            <img
+              src='/logo.png'
+              alt='KH Kamrul - Frontend Engineer'
+              className='h-16 sm:h-20 md:h-24 lg:h-36 w-auto relative z-10 object-contain'
+            />
             <motion.div
               className='absolute inset-0 bg-gradient-to-r from-blue-400/20 to-purple-400/20 rounded-lg blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10'
               animate={{
