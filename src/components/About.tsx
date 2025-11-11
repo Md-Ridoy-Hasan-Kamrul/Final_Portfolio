@@ -1,22 +1,22 @@
 import { motion } from 'framer-motion';
 
-const fadeInUp = {
-  initial: { opacity: 0, y: 30 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, margin: '-100px' },
-  transition: { duration: 0.6 },
-};
-
-const staggerContainer = {
-  initial: {},
-  whileInView: {},
-  viewport: { once: true },
-};
-
-const staggerChildren = {
-  whileInView: {
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
     transition: {
-      staggerChildren: 0.1,
+      staggerChildren: 0.15,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
     },
   },
 };
@@ -25,25 +25,30 @@ export default function About() {
   return (
     <section
       id='about'
-      className='py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8 bg-white relative overflow-hidden'
+      className='py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8 bg-white relative'
     >
-      {/* Subtle background decoration */}
-      <div className='absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-blue-50 to-purple-50 rounded-full blur-3xl opacity-50 -z-0' />
-
-      <div className='max-w-7xl mx-auto relative z-10'>
-        <motion.h2
-          className='text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-8 sm:mb-12'
-          {...fadeInUp}
+      <div className='max-w-7xl mx-auto'>
+        {/* Title */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className='mb-16'
         >
-          About Me
-        </motion.h2>
+          <h2 className='text-4xl sm:text-5xl font-bold text-gray-900 mb-4'>
+            About Me
+          </h2>
+          <div className='w-20 h-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded'></div>
+        </motion.div>
 
-        <div className='grid gap-8 sm:gap-12 md:grid-cols-2'>
+        <div className='grid lg:grid-cols-3 gap-12'>
+          {/* Left Column - Main Description */}
           <motion.div
-            className='space-y-4 sm:space-y-6'
-            variants={staggerContainer}
-            initial='initial'
-            whileInView='whileInView'
+            className='lg:col-span-2 space-y-6'
+            variants={containerVariants}
+            initial='hidden'
+            whileInView='visible'
             viewport={{ once: true }}
           >
             {[
@@ -53,71 +58,59 @@ export default function About() {
             ].map((text, index) => (
               <motion.p
                 key={index}
-                className='text-base sm:text-lg text-gray-700 leading-relaxed'
-                variants={fadeInUp}
+                variants={itemVariants}
+                className='text-lg text-gray-700 leading-relaxed'
               >
                 {text}
               </motion.p>
             ))}
           </motion.div>
 
+          {/* Right Column - Contact & Education */}
           <motion.div
-            className='space-y-4 sm:space-y-6'
-            variants={staggerChildren}
-            initial='initial'
-            whileInView='whileInView'
+            className='space-y-8'
+            variants={containerVariants}
+            initial='hidden'
+            whileInView='visible'
             viewport={{ once: true }}
           >
-            {[
-              { title: 'Location', content: 'Dhaka, Bangladesh' },
-              {
-                title: 'Email',
-                content: 'mdridoyhasankamrul@gmail.com',
-                isLink: true,
-                href: 'mailto:mdridoyhasankamrul@gmail.com',
-              },
-              {
-                title: 'Phone',
-                content: '+880 1680 092066',
-                isLink: true,
-                href: 'tel:+8801680092066',
-              },
-            ].map((item) => (
-              <motion.div
-                key={item.title}
-                className='group'
-                variants={fadeInUp}
-              >
-                <h3 className='text-lg sm:text-xl font-semibold text-gray-900 mb-2 sm:mb-3'>
-                  {item.title}
-                </h3>
-                {item.isLink ? (
-                  <a
-                    href={item.href}
-                    className='cursor-target text-sm sm:text-base text-blue-600 hover:text-blue-700 transition-colors break-all'
-                  >
-                    {item.content}
-                  </a>
-                ) : (
-                  <p className='text-sm sm:text-base text-gray-700'>
-                    {item.content}
-                  </p>
-                )}
-              </motion.div>
-            ))}
+            <motion.div variants={itemVariants}>
+              <h3 className='text-lg font-bold text-gray-900 mb-2'>Location</h3>
+              <p className='text-base text-gray-600'>Dhaka, Bangladesh</p>
+            </motion.div>
 
-            <motion.div variants={fadeInUp} className='pt-2'>
-              <h3 className='text-lg sm:text-xl font-semibold text-gray-900 mb-2 sm:mb-3'>
+            <motion.div variants={itemVariants}>
+              <h3 className='text-lg font-bold text-gray-900 mb-2'>Email</h3>
+              <a
+                href='mailto:mdridoyhasankamrul@gmail.com'
+                className='cursor-target text-base text-blue-600 hover:text-blue-700 transition-colors break-all'
+              >
+                mdridoyhasankamrul@gmail.com
+              </a>
+            </motion.div>
+
+            <motion.div variants={itemVariants}>
+              <h3 className='text-lg font-bold text-gray-900 mb-2'>Phone</h3>
+              <a
+                href='tel:+8801680092066'
+                className='cursor-target text-base text-blue-600 hover:text-blue-700 transition-colors'
+              >
+                +880 1680 092066
+              </a>
+            </motion.div>
+
+            <motion.div variants={itemVariants}>
+              <h3 className='text-lg font-bold text-gray-900 mb-3'>
                 Education
               </h3>
-              <div className='space-y-2 pl-4 border-l-4 border-blue-600'>
-                <p className='text-sm sm:text-base text-gray-700 font-medium'>
+              <div className='pl-4 border-l-4 border-blue-600 space-y-2'>
+                <p className='text-base font-medium text-gray-900'>
                   B.Sc in Computer Science & Engineering
                 </p>
-                <p className='text-sm sm:text-base text-gray-600'>
+                <p className='text-sm text-gray-600'>
                   University of Information Technology and Sciences
                 </p>
-                <p className='text-xs sm:text-sm text-gray-500'>2022</p>
+                <p className='text-sm text-gray-500'>2022</p>
               </div>
             </motion.div>
           </motion.div>
