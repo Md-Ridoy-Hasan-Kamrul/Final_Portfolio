@@ -1,6 +1,7 @@
 import { ExternalLink } from 'lucide-react';
 import { memo } from 'react';
 import { motion } from 'framer-motion';
+import { Cover } from './ui/cover';
 
 interface Project {
   title: string;
@@ -218,7 +219,7 @@ export default function Projects() {
           transition={{ duration: 0.6 }}
         >
           <h2 className='text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4'>
-            Featured Projects
+            Featured <Cover>Projects</Cover>
           </h2>
           <p className='text-base sm:text-lg text-gray-600 mb-12 sm:mb-16 max-w-2xl'>
             A selection of production-ready web applications built with modern
