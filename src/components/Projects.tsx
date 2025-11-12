@@ -111,6 +111,13 @@ const ProjectCard = memo(({ project }: { project: Project }) => (
     whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true, margin: '-50px' }}
     transition={{ duration: 0.5 }}
+    whileHover={{
+      rotateX: 10,
+      rotateY: 5,
+      scale: 1.05,
+      transition: { duration: 0.3 },
+    }}
+    style={{ transformStyle: 'preserve-3d' }}
   >
     {/* Animated gradient overlay on hover */}
     <motion.div
