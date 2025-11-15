@@ -90,7 +90,7 @@ const TrueFocus: React.FC<TrueFocusProps> = ({
             ref={(el) => {
               wordRefs.current[index] = el;
             }}
-            className='relative text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold cursor-pointer text-gray-900 leading-tight'
+            className='relative text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold cursor-pointer text-gray-900 dark:text-white leading-tight transition-colors duration-300'
             style={
               {
                 filter: manualMode

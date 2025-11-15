@@ -1,6 +1,8 @@
 import { useState, useEffect, memo } from 'react';
 import { Menu, X, Github, Linkedin } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { ThemeToggle } from './ThemeToggle';
+import { useTheme } from '../contexts/ThemeContext';
 
 const navLinks = [
   { href: '#home', label: 'Home' },
@@ -12,6 +14,7 @@ const navLinks = [
 ];
 
 const Navigation = memo(() => {
+  const { theme } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('#home');
@@ -105,8 +108,8 @@ const Navigation = memo(() => {
     <motion.nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         isScrolled
-          ? 'bg-white/95 backdrop-blur-lg shadow-lg shadow-blue-500/5'
-          : 'bg-white/80 backdrop-blur-md'
+          ? 'bg-white/95 dark:bg-gray-900/95 backdrop-blur-lg shadow-lg shadow-blue-500/5 dark:shadow-purple-500/5'
+          : 'bg-white/80 dark:bg-gray-900/80 backdrop-blur-md'
       }`}
       role='navigation'
       aria-label='Main navigation'
@@ -129,9 +132,9 @@ const Navigation = memo(() => {
             whileTap={{ scale: 0.95 }}
           >
             <img
-              src='/logo.png'
+              src={theme === 'dark' ? '/logo-dark.png' : '/logo.png'}
               alt='KH Kamrul - Frontend Engineer'
-              className='h-20 sm:h-20 md:h-24 lg:h-36 w-auto relative z-10 object-contain'
+              className='h-20 sm:h-20 md:h-24 lg:h-36 w-auto relative z-10 object-contain transition-opacity duration-300'
             />
             <motion.div
               className='absolute inset-0 bg-gradient-to-r from-blue-400/20 to-purple-400/20 rounded-lg blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10'
@@ -159,7 +162,7 @@ const Navigation = memo(() => {
                   className={`cursor-target relative px-4 py-2 font-medium transition-all duration-300 rounded-lg group ${
                     isActive
                       ? 'text-white'
-                      : 'text-gray-700 hover:text-blue-600'
+                      : 'text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400'
                   }`}
                   initial={{ opacity: 0, y: -20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -204,13 +207,14 @@ const Navigation = memo(() => {
               );
             })}
 
-            {/* Social icons in desktop nav */}
+            {/* Social icons and theme toggle in desktop nav */}
             <div className='hidden lg:flex items-center gap-2 ml-6 pl-6 border-l border-gray-200'>
+              <ThemeToggle />
               <motion.a
                 href='https://github.com/Md-Ridoy-Hasan-Kamrul'
                 target='_blank'
                 rel='noopener noreferrer'
-                className='cursor-target p-2 text-gray-700 hover:text-white hover:bg-gray-900 rounded-full transition-all duration-300 group relative'
+                className='cursor-target p-2 text-gray-700 hover:text-white hover:bg-gray-900 dark:text-gray-300 dark:hover:bg-gray-700 rounded-full transition-all duration-300 group relative'
                 aria-label='GitHub Profile'
                 whileHover={{ scale: 1.1, rotate: 5 }}
                 whileTap={{ scale: 0.9 }}
@@ -222,7 +226,7 @@ const Navigation = memo(() => {
                 href='https://www.linkedin.com/in/md-ridoy-hasan-kamrul'
                 target='_blank'
                 rel='noopener noreferrer'
-                className='cursor-target p-2 text-gray-700 hover:text-white hover:bg-blue-600 rounded-full transition-all duration-300 group relative'
+                className='cursor-target p-2 text-gray-700 hover:text-white hover:bg-blue-600 dark:text-gray-300 dark:hover:bg-blue-600 rounded-full transition-all duration-300 group relative'
                 aria-label='LinkedIn Profile'
                 whileHover={{ scale: 1.1, rotate: -5 }}
                 whileTap={{ scale: 0.9 }}
@@ -236,7 +240,7 @@ const Navigation = memo(() => {
           {/* Mobile menu button with 3D effect */}
           <motion.button
             onClick={() => setIsOpen(!isOpen)}
-            className='md:hidden p-3 text-gray-700 hover:text-white hover:bg-gradient-to-r hover:from-blue-600 hover:to-purple-600 rounded-xl transition-all duration-300 relative group shadow-md hover:shadow-xl'
+            className='md:hidden p-3 text-gray-700 dark:text-gray-300 hover:text-white hover:bg-gradient-to-r hover:from-blue-600 hover:to-purple-600 rounded-xl transition-all duration-300 relative group shadow-md hover:shadow-xl'
             aria-label={isOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={isOpen}
             whileHover={{ scale: 1.05, rotate: isOpen ? 180 : 0 }}
@@ -275,7 +279,7 @@ const Navigation = memo(() => {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            className='md:hidden bg-white/95 backdrop-blur-lg border-t border-gray-200 shadow-2xl shadow-blue-500/10'
+            className='md:hidden bg-white/95 dark:bg-gray-900/95 backdrop-blur-lg border-t border-gray-200 dark:border-gray-700 shadow-2xl shadow-blue-500/10 dark:shadow-purple-500/10'
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
@@ -292,7 +296,7 @@ const Navigation = memo(() => {
                     className={`cursor-target block px-6 py-3 font-medium rounded-xl transition-all duration-300 relative group ${
                       isActive
                         ? 'text-white bg-gradient-to-r from-blue-600 to-purple-600 shadow-lg shadow-blue-500/30'
-                        : 'text-gray-700 hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 hover:text-blue-600'
+                        : 'text-gray-700 dark:text-gray-300 hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 dark:hover:from-blue-900/20 dark:hover:to-purple-900/20 hover:text-blue-600 dark:hover:text-blue-400'
                     }`}
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
@@ -320,19 +324,20 @@ const Navigation = memo(() => {
                 );
               })}
 
-              {/* Social links in mobile menu */}
+              {/* Social links and theme toggle in mobile menu */}
               <motion.div
-                className='flex justify-center gap-4 pt-6 mt-6 border-t border-gray-200'
+                className='flex justify-center gap-4 pt-6 mt-6 border-t border-gray-200 dark:border-gray-700'
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 20 }}
                 transition={{ delay: navLinks.length * 0.05, duration: 0.3 }}
               >
+                <ThemeToggle />
                 <motion.a
                   href='https://github.com/Md-Ridoy-Hasan-Kamrul'
                   target='_blank'
                   rel='noopener noreferrer'
-                  className='cursor-target p-3 text-white bg-gray-900 rounded-full shadow-lg hover:shadow-xl transition-all duration-300'
+                  className='cursor-target p-3 text-white bg-gray-900 dark:bg-gray-800 rounded-full shadow-lg hover:shadow-xl transition-all duration-300'
                   aria-label='GitHub Profile'
                   whileHover={{ scale: 1.1, rotate: 5 }}
                   whileTap={{ scale: 0.9 }}

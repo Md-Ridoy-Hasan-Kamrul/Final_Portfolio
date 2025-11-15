@@ -26,7 +26,7 @@ export default function About() {
   return (
     <section
       id='about'
-      className='py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8 bg-white relative'
+      className='py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8 bg-white dark:bg-gray-900 relative transition-colors duration-300'
     >
       <div className='max-w-7xl mx-auto'>
         {/* Title */}
@@ -37,7 +37,7 @@ export default function About() {
           transition={{ duration: 0.6 }}
           className='mb-16'
         >
-          <h2 className='text-4xl sm:text-5xl font-bold text-gray-900 mb-4'>
+          <h2 className='text-4xl sm:text-5xl font-bold text-gray-900 dark:text-white mb-4'>
             About Me
           </h2>
           <div className='w-20 h-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded'></div>
@@ -59,7 +59,7 @@ export default function About() {
             ].map((text, index) => (
               <motion.div key={index} variants={itemVariants}>
                 <ScrambledText
-                  className='text-lg text-gray-700 leading-relaxed'
+                  className='text-lg text-gray-700 dark:text-gray-300 leading-relaxed'
                   radius={120}
                   duration={800}
                   scrambleChars='.:!@#$%&*'
@@ -79,12 +79,18 @@ export default function About() {
             viewport={{ once: true }}
           >
             <motion.div variants={itemVariants}>
-              <h3 className='text-lg font-bold text-gray-900 mb-2'>Location</h3>
-              <p className='text-base text-gray-600'>Dhaka, Bangladesh</p>
+              <h3 className='text-lg font-bold text-gray-900 dark:text-white mb-2'>
+                Location
+              </h3>
+              <p className='text-base text-gray-600 dark:text-gray-300'>
+                Dhaka, Bangladesh
+              </p>
             </motion.div>
 
             <motion.div variants={itemVariants}>
-              <h3 className='text-lg font-bold text-gray-900 mb-2'>Email</h3>
+              <h3 className='text-lg font-bold text-gray-900 dark:text-white mb-2'>
+                Email
+              </h3>
               <a
                 href='mailto:mdridoyhasankamrul@gmail.com'
                 className='cursor-target text-base text-blue-600 hover:text-blue-700 transition-colors break-all'
@@ -94,7 +100,9 @@ export default function About() {
             </motion.div>
 
             <motion.div variants={itemVariants}>
-              <h3 className='text-lg font-bold text-gray-900 mb-2'>Phone</h3>
+              <h3 className='text-lg font-bold text-gray-900 dark:text-white mb-2'>
+                Phone
+              </h3>
               <a
                 href='tel:+8801680092066'
                 className='cursor-target text-base text-blue-600 hover:text-blue-700 transition-colors'
@@ -104,17 +112,17 @@ export default function About() {
             </motion.div>
 
             <motion.div variants={itemVariants}>
-              <h3 className='text-lg font-bold text-gray-900 mb-3'>
+              <h3 className='text-lg font-bold text-gray-900 dark:text-white mb-3'>
                 Education
               </h3>
               <div className='pl-4 border-l-4 border-blue-600 space-y-2'>
-                <p className='text-base font-medium text-gray-900'>
+                <p className='text-base font-medium text-gray-900 dark:text-white'>
                   B.Sc in Computer Science & Engineering
                 </p>
-                <p className='text-sm text-gray-600'>
+                <p className='text-sm text-gray-600 dark:text-gray-400'>
                   University of Information Technology and Sciences
                 </p>
-                <p className='text-sm text-gray-500'>2022</p>
+                <p className='text-sm text-gray-500 dark:text-gray-400'>2022</p>
               </div>
             </motion.div>
           </motion.div>

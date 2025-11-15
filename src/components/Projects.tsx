@@ -106,7 +106,7 @@ const projects: Project[] = [
 
 const ProjectCard = memo(({ project }: { project: Project }) => (
   <motion.article
-    className='cursor-target bg-white p-6 sm:p-8 rounded-2xl border border-gray-200 hover:border-blue-400 transition-all duration-300 group relative overflow-hidden shadow-md hover:shadow-xl h-full flex flex-col'
+    className='cursor-target bg-white dark:bg-gray-800 p-6 sm:p-8 rounded-2xl border border-gray-200 dark:border-gray-700 hover:border-blue-400 dark:hover:border-purple-400 transition-all duration-300 group relative overflow-hidden shadow-md hover:shadow-xl dark:shadow-gray-900/50 h-full flex flex-col'
     initial={{ opacity: 0, y: 20 }}
     whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true, margin: '-50px' }}
@@ -152,36 +152,34 @@ const ProjectCard = memo(({ project }: { project: Project }) => (
           <ExternalLink className='h-5 w-5' aria-hidden='true' />
         </motion.a>
       </div>
-
       <motion.h3
-        className='text-xl sm:text-2xl font-bold text-gray-900 mb-2 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-blue-600 group-hover:to-purple-600 transition-all duration-300'
+        className='text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-blue-600 group-hover:to-purple-600 transition-all duration-300'
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         transition={{ delay: 0.2 }}
       >
         {project.title}
       </motion.h3>
-
-      <p className='text-sm sm:text-base text-gray-600 mb-4 font-medium'>
+      <p className='text-sm sm:text-base text-gray-600 dark:text-gray-300 mb-4 font-medium'>
         {project.description}
       </p>
-
       <ul className='space-y-2 mb-6 flex-grow'>
         {project.highlights.map((highlight, idx) => (
           <motion.li
             key={idx}
-            className='text-gray-700 text-xs sm:text-sm flex'
+            className='text-gray-700 dark:text-gray-300 text-xs sm:text-sm flex'
             initial={{ opacity: 0, x: -10 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ delay: idx * 0.1 }}
             viewport={{ once: true }}
           >
-            <span className='mr-2 text-blue-600 flex-shrink-0'>•</span>
+            <span className='mr-2 text-blue-600 dark:text-blue-400 flex-shrink-0'>
+              •
+            </span>
             <span>{highlight}</span>
           </motion.li>
         ))}
-      </ul>
-
+      </ul>{' '}
       <div className='mt-auto pt-4'>
         <motion.a
           href={project.liveUrl}
@@ -212,7 +210,7 @@ export default function Projects() {
   return (
     <section
       id='projects'
-      className='py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-gray-50 to-white relative overflow-hidden'
+      className='py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800 relative overflow-hidden transition-colors duration-300'
     >
       {/* Background decoration */}
       <div className='absolute top-20 left-0 w-72 h-72 bg-blue-100/30 rounded-full blur-3xl -z-0' />
@@ -225,10 +223,10 @@ export default function Projects() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className='text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4'>
+          <h2 className='text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-4'>
             Featured <Cover>Projects</Cover>
           </h2>
-          <p className='text-base sm:text-lg text-gray-600 mb-12 sm:mb-16 max-w-2xl'>
+          <p className='text-base sm:text-lg text-gray-600 dark:text-gray-300 mb-12 sm:mb-16 max-w-2xl'>
             A selection of production-ready web applications built with modern
             technologies, focusing on performance, accessibility, and user
             experience.
