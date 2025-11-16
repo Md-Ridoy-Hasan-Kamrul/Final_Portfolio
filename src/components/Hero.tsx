@@ -6,12 +6,12 @@ export default function Hero() {
   return (
     <section
       id='home'
-      className='min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 pt-24 sm:pt-28 md:pt-32 lg:pt-8 bg-gradient-to-br from-white via-gray-50 to-blue-50 relative overflow-hidden'
+      className='min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 pt-24 sm:pt-28 md:pt-32 lg:pt-8 bg-gradient-to-br from-white via-gray-50 to-blue-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 relative overflow-hidden transition-colors duration-300'
     >
       {/* Animated background elements */}
       <div className='absolute inset-0 overflow-hidden pointer-events-none'>
         <motion.div
-          className='absolute top-20 left-10 w-72 h-72 bg-blue-200/30 rounded-full blur-3xl'
+          className='absolute top-20 left-10 w-72 h-72 bg-blue-200/30 dark:bg-blue-500/10 rounded-full blur-3xl'
           animate={{
             scale: [1, 1.2, 1],
             x: [0, 50, 0],
@@ -24,7 +24,7 @@ export default function Hero() {
           }}
         />
         <motion.div
-          className='absolute bottom-20 right-10 w-96 h-96 bg-purple-200/20 rounded-full blur-3xl'
+          className='absolute bottom-20 right-10 w-96 h-96 bg-purple-200/20 dark:bg-purple-500/10 rounded-full blur-3xl'
           animate={{
             scale: [1, 1.3, 1],
             x: [0, -50, 0],
@@ -49,7 +49,7 @@ export default function Hero() {
           >
             <div className='space-y-3 sm:space-y-4'>
               <motion.h2
-                className='text-sm sm:text-base lg:text-lg font-medium text-gray-600 tracking-wide'
+                className='text-sm sm:text-base lg:text-lg font-medium text-gray-600 dark:text-gray-400 tracking-wide'
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.2, duration: 0.6 }}
@@ -77,7 +77,7 @@ export default function Hero() {
                 />
               </motion.div>
               <motion.p
-                className='text-xl sm:text-2xl lg:text-3xl text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 font-semibold mt-4'
+                className='text-xl sm:text-2xl lg:text-3xl text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 dark:from-blue-400 dark:via-purple-400 dark:to-pink-400 font-semibold mt-4'
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.6, duration: 0.6 }}
@@ -87,7 +87,7 @@ export default function Hero() {
             </div>
 
             <motion.p
-              className='text-base sm:text-lg lg:text-xl text-gray-600 max-w-2xl leading-relaxed'
+              className='text-base sm:text-lg lg:text-xl text-gray-600 dark:text-gray-300 max-w-2xl leading-relaxed'
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.7, duration: 0.6 }}
@@ -118,7 +118,7 @@ export default function Hero() {
               </motion.a>
               <motion.a
                 href='#contact'
-                className='cursor-target inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 text-sm sm:text-base font-medium text-gray-900 bg-white border-2 border-gray-900 hover:bg-gray-900 hover:text-white transition-all duration-300 shadow-md hover:shadow-lg'
+                className='cursor-target inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 text-sm sm:text-base font-medium text-gray-900 dark:text-white bg-white dark:bg-gray-800 border-2 border-gray-900 dark:border-gray-700 hover:bg-gray-900 hover:text-white dark:hover:bg-gray-700 transition-all duration-300 shadow-md hover:shadow-lg'
                 aria-label='Get in touch'
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -157,7 +157,7 @@ export default function Hero() {
                   rel={
                     social.label !== 'Email' ? 'noopener noreferrer' : undefined
                   }
-                  className='cursor-target text-gray-600 hover:text-gray-900 transition-all duration-300 hover:scale-110'
+                  className='cursor-target text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-all duration-300 hover:scale-110'
                   aria-label={`Visit my ${social.label} profile`}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
