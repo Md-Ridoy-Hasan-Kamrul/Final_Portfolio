@@ -99,9 +99,55 @@ export default function Experience() {
                   >
                     {exp.title}
                   </motion.h3>
-                  <p className='text-base sm:text-lg text-blue-600 dark:text-purple-400 font-medium mt-1'>
-                    {exp.company}
-                  </p>
+                  <div className='flex items-center gap-2 mt-1'>
+                    <p className='text-base sm:text-lg text-blue-600 dark:text-purple-400 font-medium'>
+                      {exp.company}
+                    </p>
+                    {exp.period.includes('Present') && (
+                      <motion.div
+                        className='relative inline-flex items-center gap-1.5 px-2.5 py-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 dark:from-blue-400 dark:via-purple-400 dark:to-pink-400 rounded-md shadow-lg'
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        viewport={{ once: true }}
+                        transition={{
+                          delay: 0.3,
+                          duration: 0.5,
+                          type: 'spring',
+                        }}
+                      >
+                        {/* Shimmer effect */}
+                        <motion.span
+                          className='absolute inset-0 rounded-md bg-gradient-to-r from-transparent via-white/20 to-transparent'
+                          animate={{
+                            x: ['-100%', '100%'],
+                          }}
+                          transition={{
+                            duration: 2,
+                            repeat: Infinity,
+                            ease: 'linear',
+                          }}
+                        />
+
+                        {/* Pulsing dot */}
+                        <motion.span
+                          className='relative w-1.5 h-1.5 bg-green-300 rounded-full shadow-lg'
+                          animate={{
+                            scale: [1, 1.4, 1],
+                            opacity: [1, 0.7, 1],
+                          }}
+                          transition={{
+                            duration: 1.5,
+                            repeat: Infinity,
+                            ease: 'easeInOut',
+                          }}
+                        />
+
+                        <span className='relative text-[10px] sm:text-xs font-bold text-white uppercase tracking-wide'>
+                          Currently Active
+                        </span>
+                      </motion.div>
+                    )}
+                  </div>
                   <div className='flex flex-col sm:flex-row sm:gap-4 text-gray-600 dark:text-gray-400 mt-2'>
                     <p className='text-xs sm:text-sm'>{exp.period}</p>
                     <p className='text-xs sm:text-sm hidden sm:block'>•</p>
