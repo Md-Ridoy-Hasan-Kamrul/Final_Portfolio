@@ -3,6 +3,7 @@ import { Menu, X, Github, Linkedin } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ThemeToggle } from './ThemeToggle';
 import { useTheme } from '../contexts/ThemeContext';
+import { Container } from './ui/Container';
 
 const navLinks = [
   { href: '#home', label: 'Home' },
@@ -106,7 +107,7 @@ const Navigation = memo(() => {
 
   return (
     <motion.nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+      className={`fixed top-0 inset-x-0 z-50 transition-all duration-500 ${
         isScrolled
           ? 'bg-white/95 dark:bg-gray-900/95 backdrop-blur-lg shadow-lg shadow-blue-500/5 dark:shadow-purple-500/5'
           : 'bg-white/80 dark:bg-gray-900/80 backdrop-blur-md'
@@ -120,9 +121,8 @@ const Navigation = memo(() => {
       {/* Gradient border bottom */}
       <div className='absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-blue-500 to-transparent opacity-50' />
 
-      <div className='px-4 sm:px-6 lg:px-8'>
-        <div className='max-w-7xl mx-auto'>
-          <div className='flex justify-between items-center h-20 sm:h-24 md:h-28 lg:h-28'>
+      <Container>
+        <div className='flex justify-between items-center h-20 sm:h-24 md:h-28 lg:h-28'>
           {/* Logo with 3D effect */}
           <motion.a
             href='#home'
@@ -209,7 +209,7 @@ const Navigation = memo(() => {
             })}
 
             {/* Social icons and theme toggle in desktop nav */}
-            <div className='hidden lg:flex items-center gap-2 ml-6 pl-6 border-l border-gray-200'>
+            <div className='hidden lg:flex items-center gap-2 ml-6 pl-6 border-l border-gray-200 dark:border-gray-700'>
               <ThemeToggle />
               <motion.a
                 href='https://github.com/Md-Ridoy-Hasan-Kamrul'
@@ -273,9 +273,8 @@ const Navigation = memo(() => {
             {/* Animated background pulse */}
             <div className='absolute inset-0 bg-gradient-to-r from-blue-400/20 to-purple-400/20 rounded-xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity -z-10' />
           </motion.button>
-          </div>
         </div>
-      </div>
+      </Container>
 
       {/* Mobile Menu with animations */}
       <AnimatePresence>
@@ -287,8 +286,7 @@ const Navigation = memo(() => {
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3, ease: 'easeInOut' }}
           >
-            <div className='px-4 sm:px-6 lg:px-8 py-6'>
-              <div className='max-w-7xl mx-auto space-y-2'>
+            <Container className='space-y-2 py-6'>
               {navLinks.map((link, index) => {
                 const isActive = activeSection === link.href;
                 return (
@@ -359,8 +357,7 @@ const Navigation = memo(() => {
                   <Linkedin className='h-5 w-5' />
                 </motion.a>
               </motion.div>
-              </div>
-            </div>
+            </Container>
           </motion.div>
         )}
       </AnimatePresence>

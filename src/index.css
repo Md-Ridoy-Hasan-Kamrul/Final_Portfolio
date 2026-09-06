@@ -1,3 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  /* Keep fixed navbar and in-flow sections on the same horizontal axis */
+  html {
+    scrollbar-gutter: stable;
+  }
+}

@@ -1,12 +1,13 @@
 import { ArrowRight, Github, Linkedin, Mail } from 'lucide-react';
 import { motion } from 'framer-motion';
 import TrueFocus from './TrueFocus';
+import { Container } from './ui/Container';
 
 export default function Hero() {
   return (
     <section
       id='home'
-      className='min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 pt-24 sm:pt-28 md:pt-32 lg:pt-8 bg-gradient-to-br from-white via-gray-50 to-blue-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 relative overflow-hidden transition-colors duration-300'
+      className='min-h-screen flex items-center justify-center pt-24 sm:pt-28 md:pt-32 lg:pt-8 bg-gradient-to-br from-white via-gray-50 to-blue-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 relative overflow-hidden transition-colors duration-300'
     >
       {/* Animated background elements */}
       <div className='absolute inset-0 overflow-hidden pointer-events-none'>
@@ -38,7 +39,7 @@ export default function Hero() {
         />
       </div>
 
-      <div className='max-w-7xl w-full mx-auto relative z-10'>
+      <Container className='relative z-10'>
         <div className='grid lg:grid-cols-2 gap-8 lg:gap-12 items-center'>
           {/* Text Content */}
           <motion.div
@@ -250,7 +251,7 @@ export default function Hero() {
             </motion.div>
           </motion.div>
         </div>
-      </div>
+      </Container>
     </section>
   );
 }

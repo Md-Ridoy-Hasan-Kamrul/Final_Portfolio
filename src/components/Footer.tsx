@@ -1,9 +1,11 @@
+import { Container } from './ui/Container';
+
 export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className='bg-gray-900 dark:bg-gray-950 text-white py-8 sm:py-12 px-4 sm:px-6 lg:px-8 transition-colors duration-300'>
-      <div className='max-w-7xl mx-auto'>
+    <footer className='bg-gray-900 dark:bg-gray-950 text-white py-8 sm:py-12 transition-colors duration-300'>
+      <Container>
         <div className='flex flex-col gap-4 sm:gap-6 md:flex-row md:justify-between md:items-center'>
           <div className='text-center md:text-left'>
             <p className='text-base sm:text-lg font-semibold mb-1 sm:mb-2 text-white dark:text-gray-100'>
@@ -23,7 +25,7 @@ export default function Footer() {
             </p>
           </div>
         </div>
-      </div>
+      </Container>
     </footer>
   );
 }

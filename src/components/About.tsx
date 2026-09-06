@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import ScrambledText from './ScrambledText';
+import { Container } from './ui/Container';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -44,9 +45,9 @@ export default function About() {
   return (
     <section
       id='about'
-      className='py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8 bg-white dark:bg-gray-900 relative transition-colors duration-300'
+      className='py-16 sm:py-20 lg:py-24 bg-white dark:bg-gray-900 relative transition-colors duration-300'
     >
-      <div className='max-w-7xl mx-auto'>
+      <Container>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -180,7 +181,7 @@ export default function About() {
             ))}
           </div>
         </motion.div>
-      </div>
+      </Container>
     </section>
   );
 }

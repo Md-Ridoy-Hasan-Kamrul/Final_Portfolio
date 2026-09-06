@@ -1,17 +1,18 @@
 import { Mail, Phone, MapPin, Github, Linkedin } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { Container } from './ui/Container';
 
 export default function Contact() {
   return (
     <section
       id='contact'
-      className='py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8 bg-white dark:bg-gray-900 relative overflow-hidden transition-colors duration-300'
+      className='py-12 sm:py-16 lg:py-20 bg-white dark:bg-gray-900 relative overflow-hidden transition-colors duration-300'
     >
       {/* Background gradients */}
       <div className='absolute top-0 left-0 w-96 h-96 bg-gradient-to-br from-blue-100/30 dark:from-blue-900/20 to-transparent rounded-full blur-3xl -z-0' />
       <div className='absolute bottom-0 right-0 w-96 h-96 bg-gradient-to-tl from-purple-100/30 dark:from-purple-900/20 to-transparent rounded-full blur-3xl -z-0' />
 
-      <div className='max-w-7xl mx-auto relative z-10'>
+      <Container className='relative z-10'>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -158,7 +159,7 @@ export default function Contact() {
             </motion.div>
           </motion.div>
         </div>
-      </div>
+      </Container>
     </section>
   );
 }

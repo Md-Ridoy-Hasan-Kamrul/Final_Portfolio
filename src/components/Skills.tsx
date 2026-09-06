@@ -1,5 +1,6 @@
 import { memo } from 'react';
 import { motion } from 'framer-motion';
+import { Container } from './ui/Container';
 
 interface SkillCategory {
   title: string;
@@ -99,12 +100,12 @@ export default function Skills() {
   return (
     <section
       id='skills'
-      className='py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-800 relative overflow-hidden transition-colors duration-300'
+      className='py-12 sm:py-16 lg:py-20 bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-800 relative overflow-hidden transition-colors duration-300'
     >
       {/* Background decoration */}
       <div className='absolute top-0 right-0 w-96 h-96 bg-gradient-to-bl from-purple-100/30 to-transparent rounded-full blur-3xl -z-0' />
 
-      <div className='max-w-7xl mx-auto relative z-10'>
+      <Container className='relative z-10'>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -125,7 +126,7 @@ export default function Skills() {
             <SkillCard key={index} category={category} index={index} />
           ))}
         </div>
-      </div>
+      </Container>
     </section>
   );
 }
