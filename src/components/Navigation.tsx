@@ -120,8 +120,9 @@ const Navigation = memo(() => {
       {/* Gradient border bottom */}
       <div className='absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-blue-500 to-transparent opacity-50' />
 
-      <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
-        <div className='flex justify-between items-center h-20 sm:h-24 md:h-28 lg:h-28'>
+      <div className='px-4 sm:px-6 lg:px-8'>
+        <div className='max-w-7xl mx-auto'>
+          <div className='flex justify-between items-center h-20 sm:h-24 md:h-28 lg:h-28'>
           {/* Logo with 3D effect */}
           <motion.a
             href='#home'
@@ -272,6 +273,7 @@ const Navigation = memo(() => {
             {/* Animated background pulse */}
             <div className='absolute inset-0 bg-gradient-to-r from-blue-400/20 to-purple-400/20 rounded-xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity -z-10' />
           </motion.button>
+          </div>
         </div>
       </div>
 
@@ -285,7 +287,8 @@ const Navigation = memo(() => {
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3, ease: 'easeInOut' }}
           >
-            <div className='px-4 py-6 space-y-2'>
+            <div className='px-4 sm:px-6 lg:px-8 py-6'>
+              <div className='max-w-7xl mx-auto space-y-2'>
               {navLinks.map((link, index) => {
                 const isActive = activeSection === link.href;
                 return (
@@ -356,6 +359,7 @@ const Navigation = memo(() => {
                   <Linkedin className='h-5 w-5' />
                 </motion.a>
               </motion.div>
+              </div>
             </div>
           </motion.div>
         )}

@@ -215,7 +215,7 @@ export default function Hero() {
                     <img
                       src='/images/Profile.png'
                       alt='Md. Ridoy Hasan Kamrul - Frontend Developer'
-                      className='lg:w-full w-48 h-full object-cover ml-auto mr-auto'
+                      className='w-full h-full object-cover ml-auto mr-auto'
                     />
                   </div>
                 </div>

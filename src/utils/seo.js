@@ -106,7 +106,7 @@ export const generatePersonSchema = () => {
     jobTitle: 'Frontend Developer',
     url: 'https://mdridoyhasankamrul.com',
     email: 'mdridoyhasankamrul@gmail.com',
-    image: 'https://mdridoyhasankamrul.com/profile.jpg',
+    image: 'https://mdridoyhasankamrul.com/profile.png',
     sameAs: [
       'https://github.com/Md-Ridoy-Hasan-Kamrul',
       'https://www.linkedin.com/in/md-ridoy-hasan-kamrul',
