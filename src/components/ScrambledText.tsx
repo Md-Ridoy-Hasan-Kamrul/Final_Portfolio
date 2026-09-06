@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 
 export interface ScrambledTextProps {
   className?: string;
@@ -17,15 +17,17 @@ const ScrambledText: React.FC<ScrambledTextProps> = ({
   duration = 800,
   scrambleChars = '.:!@#$%&*',
 }) => {
-  const [displayText, setDisplayText] = useState<string[]>([]);
   const originalText = String(children);
+  const [displayText, setDisplayText] = useState(() => originalText.split(''));
+  const [prevText, setPrevText] = useState(originalText);
   const containerRef = useRef<HTMLDivElement>(null);
   const charsRef = useRef<HTMLSpanElement[]>([]);
   const animatingChars = useRef<Set<number>>(new Set());
 
-  useEffect(() => {
+  if (originalText !== prevText) {
+    setPrevText(originalText);
     setDisplayText(originalText.split(''));
-  }, [originalText]);
+  }
 
   const scrambleCharacter = (index: number) => {
     if (animatingChars.current.has(index)) return;
