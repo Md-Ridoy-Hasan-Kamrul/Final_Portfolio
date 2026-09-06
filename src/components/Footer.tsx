@@ -10,7 +10,7 @@ export default function Footer() {
               Md. Ridoy Hasan Kamrul
             </p>
             <p className='text-gray-400 dark:text-gray-500 text-xs sm:text-sm'>
-              Front-End Developer specializing in MERN Stack
+              Frontend Developer | React.js | Next.js | TypeScript
             </p>
           </div>
 

@@ -8,23 +8,54 @@ interface SkillCategory {
 
 const skillCategories: SkillCategory[] = [
   {
-    title: 'Frontend Technologies',
-    skills: ['React', 'Next.js', 'JavaScript', 'TypeScript', 'HTML5', 'CSS3'],
-  },
-  {
-    title: 'Styling & Design',
-    skills: ['Tailwind CSS', 'Bootstrap 5', 'Responsive Design', 'Figma'],
-  },
-  {
-    title: 'Backend & Tools',
-    skills: ['Node.js', 'Postman', 'Git', 'GitHub'],
-  },
-  {
-    title: 'Soft Skills',
+    title: 'Frontend',
     skills: [
-      'Problem-Solving',
-      'Team Collaboration',
-      'Communication',
+      'React.js',
+      'Next.js',
+      'TypeScript',
+      'JavaScript (ES6+)',
+      'HTML5',
+      'CSS3',
+      'Tailwind CSS',
+      'Redux',
+      'React Router',
+    ],
+  },
+  {
+    title: 'APIs & Integration',
+    skills: ['REST APIs', 'Axios', 'Postman'],
+  },
+  {
+    title: 'Performance & Quality',
+    skills: [
+      'Lighthouse',
+      'Web Performance Optimization',
+      'Accessibility',
+      'SEO',
+      'Cross-Browser Compatibility',
+      'Jest',
+    ],
+  },
+  {
+    title: 'Tools & Deployment',
+    skills: [
+      'Git',
+      'GitHub',
+      'Vite',
+      'Webpack',
+      'Figma',
+      'Vercel',
+      'Coolify',
+      'Railway',
+      'CI/CD',
+    ],
+  },
+  {
+    title: 'Methodologies',
+    skills: [
+      'Agile',
+      'Component-Based Architecture',
+      'Responsive Design',
       'Client Requirement Analysis',
     ],
   },
@@ -84,8 +115,8 @@ export default function Skills() {
             Skills & Expertise
           </h2>
           <p className='text-base sm:text-lg text-gray-600 dark:text-gray-300 mb-12 sm:mb-16 max-w-2xl'>
-            A comprehensive toolkit for building modern, performant web
-            applications with focus on user experience and code quality.
+            Frontend, APIs, performance, deployment, and methodologies used to
+            ship responsive, accessible, and production-ready web applications.
           </p>
         </motion.div>
 

@@ -17,7 +17,7 @@
 export const DEFAULT_SEO = {
   title: 'Md. Ridoy Hasan Kamrul - Frontend Developer',
   description:
-    'Computer Science graduate specializing in MERN stack with a strong focus on frontend development. Building responsive, user-friendly web applications with React, Next.js, and modern web technologies.',
+    'Frontend Developer specializing in React.js, Next.js, TypeScript, and JavaScript. Building responsive, user-friendly, and production-ready web applications with Tailwind CSS, Redux, and RESTful APIs.',
   canonical: 'https://mdridoyhasankamrul.com',
   openGraph: {
     type: 'website',
@@ -42,9 +42,10 @@ export const DEFAULT_SEO = {
     'Frontend Developer',
     'React Developer',
     'Next.js Developer',
-    'MERN Stack',
     'TypeScript',
+    'JavaScript',
     'Tailwind CSS',
+    'Redux',
     'Web Development',
     'UI/UX Development',
     'Bangladesh Developer',
@@ -117,19 +118,19 @@ export const generatePersonSchema = () => {
     },
     knowsAbout: [
       'Frontend Development',
-      'React',
+      'React.js',
       'Next.js',
       'TypeScript',
       'JavaScript',
       'Tailwind CSS',
-      'MERN Stack',
+      'Redux',
       'Web Performance',
       'Accessibility',
       'SEO',
     ],
     alumniOf: {
       '@type': 'EducationalOrganization',
-      name: 'Computer Science',
+      name: 'University of Information Technology and Sciences (UITS)',
     },
   };
 };

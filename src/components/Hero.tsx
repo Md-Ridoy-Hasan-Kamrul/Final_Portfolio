@@ -82,7 +82,7 @@ export default function Hero() {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.6, duration: 0.6 }}
               >
-                Front-End Developer
+                Frontend Developer | React.js | Next.js | TypeScript
               </motion.p>
             </div>
 
@@ -92,9 +92,10 @@ export default function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.7, duration: 0.6 }}
             >
-              Computer Science graduate specializing in MERN stack with a strong
-              focus on frontend development. Building responsive, user-friendly
-              web applications with React, Next.js, and modern web technologies.
+              Frontend Developer specializing in React.js, Next.js, TypeScript,
+              and JavaScript. Building responsive, user-friendly, and
+              production-ready web applications with Tailwind CSS, Redux, and
+              RESTful APIs.
             </motion.p>
 
             <motion.div
@@ -212,9 +213,9 @@ export default function Hero() {
                   <div className='w-full h-full rounded-full overflow-hidden bg-white'>
                     {/* Profile image */}
                     <img
-                      src='/images/Profile.jpg'
-                      alt='Md. Ridoy Hasan Kamrul - Front-End Developer'
-                      className='lg:w-72 w-48 h-full object-cover ml-auto mr-auto'
+                      src='/images/Profile.png'
+                      alt='Md. Ridoy Hasan Kamrul - Frontend Developer'
+                      className='lg:w-full w-48 h-full object-cover ml-auto mr-auto'
                     />
                   </div>
                 </div>

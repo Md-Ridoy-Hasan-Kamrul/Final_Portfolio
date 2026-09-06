@@ -13,93 +13,86 @@ interface Project {
 
 const projects: Project[] = [
   {
-    title: 'Q Global Living',
-    description: 'Real Estate Platform',
-    highlights: [
-      'Built a full-stack real estate marketplace using Next.js 16, React 19, TypeScript, & Tailwind CSS v4 with internationalization (EN/FR), featuring property listings, event registration, admin dashboards, and escrow-protected transactions',
-      'Implemented complete i18n system, responsive design (mobile-first), SEO optimization, custom authentication flows (admin/client/partner roles), and performance optimization with React Compiler compliance',
-    ],
-    liveUrl: 'https://qhomes.mtscorporate.com/en',
-    category: 'Next.js',
-  },
-  {
-    title: 'TherellWalker',
-    description: 'Trading Journal & Performance Analytics Platform',
-    highlights: [
-      'Highlights the tech stack (React 19, Tailwind CSS, Vite) and main features (trade logging and reflections)',
-      'Emphasizes key technical implementations (authentication, P&L calculations, responsive dark theme UI)',
-    ],
-    liveUrl: 'https://myledger.mtscorporate.com/',
-    category: 'React.js',
-  },
-  {
     title: 'CoorDeck Technologies',
-    description: 'Smarter Temporary Works Management',
+    description: 'Connected Teams Coordinated Projects',
     highlights: [
-      'Built a 90+ Lighthouse site using Next.js 14, TypeScript, & Tailwind from a Figma design',
-      'Implemented full SEO, WCAG 2.1 AA accessibility, and Framer Motion animations',
+      'An all-in-one B2B construction project management software to manage sites, coordinate teams, and track tasks.',
+      'Tech: Next.js, Tailwind, Swiper',
     ],
     liveUrl: 'https://alex-coordinate.vercel.app',
     category: 'Next.js',
   },
   {
-    title: 'IndividUX',
-    description: 'Your UX Career, Designed Around You',
+    title: 'Dr. T UX Coaching',
+    description: 'Every Stage of Your UX Career',
     highlights: [
-      'Professional UX career platform',
-      'Built with Next.js and modern design principles',
+      'Expert 1:1 UX coaching to help you build a standout portfolio, master interviews, and launch your design career.',
+      'Tech: Next.js, Tailwind, Lenis, and Framer Motion',
     ],
     liveUrl: 'https://troyabel-gules.vercel.app',
     category: 'Next.js',
   },
   {
-    title: 'Layls E-commerce',
-    description: 'E-commerce Products Platform',
+    title: 'layls',
+    description: 'Online Dress Marketplace',
     highlights: [
-      'Implemented complete authentication system with Google Auth 2.0 and WhatsApp/Email OTP',
-      'Designed the home page and built key UI features like secure password toggle and login-gated content',
+      "A Jordanian online marketplace for buying, selling, and renting new and used women's dresses.",
+      'Tech: Next.js, Tailwind, and Framer Motion',
     ],
     liveUrl: 'https://www.layls.com',
     category: 'Next.js',
   },
   {
-    title: 'Bundoora Courses',
-    description: 'Interactive Course Platform',
+    title: 'MakTech',
+    description:
+      'Full-Stack IT Solutions That Drive Business Growth at Every Stage',
     highlights: [
-      'Interactive flow chart implementation',
-      'Modern course browsing experience',
+      'MakTech is a digital-first technology partner that provides end-to-end digital solutions for startups and enterprises. Their team of over 180 professionals focuses on long-term digital success through strategy, design, and scalable infrastructure.',
+      'Tech: React, Tailwind, GSAP, React Router',
     ],
-    liveUrl: 'https://interactive-flow-chart.vercel.app',
+    liveUrl: 'https://maktechgroup.com',
     category: 'React.js',
   },
   {
-    title: 'Skywalker Rentals',
-    description: 'Apartments for Rent, Houses for Sales',
+    title: 'Elyxa AI',
+    description:
+      'Your plans should adapt to your life. Not the other way around.',
     highlights: [
-      'Built a React & Tailwind CSS rental app for browsing, searching, and booking properties',
-      'Implemented user authentication, saved listing profiles, and property detail pages with image/video',
+      'Elyxa is an AI-powered execution planning platform that detects when you\'re falling behind and automatically recalibrates your day, so you can maintain momentum instead of starting over.',
+      'Tech: React, Tailwind, GSAP',
     ],
-    liveUrl: 'https://skywalker-rho.vercel.app',
+    liveUrl: 'https://elyxaai.com',
     category: 'React.js',
   },
   {
-    title: 'Beatzingeez Music',
-    description: 'Music Streaming Website',
+    title: 'Rain',
+    description: 'Trusted Cryptocurrency Exchange',
     highlights: [
-      'Modern music streaming platform',
-      'Rich media player integration',
+      'Rain is a leading digital asset platform designed for secure crypto investment opportunities, offering real-time market tracking, exchange services, options trading, and mining capabilities.',
+      'Tech: React, Tailwind, React Router',
     ],
-    liveUrl: 'https://beatzingeez.com',
+    liveUrl: 'https://rainbitx.com',
     category: 'React.js',
   },
   {
-    title: 'HuurScanner',
-    description: 'Rental Home Scanner',
+    title: 'Skyridge Group',
+    description:
+      'Global Real Estate Investment Opportunities and Strategic Development',
     highlights: [
-      'Advanced property search and filtering',
-      'Real-time rental market insights',
+      'A Greater Washington real estate platform that partners with investors to acquire and renovate properties, offering verified listings, instant agent connections, and real-time AI market valuations.',
+      'Tech: React, Tailwind CSS, GSAP',
     ],
-    liveUrl: 'https://huurscanner.nl',
+    liveUrl: 'https://skyridgegroup.com',
+    category: 'React.js',
+  },
+  {
+    title: 'M19 Logistics',
+    description: 'Logistics Evolved. Delivery Delivered.',
+    highlights: [
+      'A comprehensive courier service providing rapid same-day delivery, specialist transport, and full end-to-end logistics solutions across the UK and Europe.',
+      'Tech: React, Tailwind, React Router',
+    ],
+    liveUrl: 'https://m19logistics.com',
     category: 'React.js',
   },
 ];

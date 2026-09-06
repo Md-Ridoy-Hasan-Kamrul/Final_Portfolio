@@ -12,38 +12,14 @@ interface ExperienceItem {
 const experiences: ExperienceItem[] = [
   {
     title: 'Front-End Developer',
-    company: 'MAK Tech Solution',
+    company: 'Maktech',
     period: 'January 2025 – Present',
     location: 'Dhaka, Bangladesh',
     responsibilities: [
-      'Delivered multiple live projects for clients',
-      'Developed solutions tailored to specific client requirements',
-      'Integrated new NPM packages to meet project needs',
-      'Designed and implemented user interfaces using React, Next.js, Tailwind CSS, and JavaScript',
-      'Utilized tools such as Postman, GitHub, Git, and Figma to collaborate effectively and ensure high-quality deliverables',
-    ],
-  },
-  {
-    title: 'Researcher',
-    company: 'Business Process Outsourcing',
-    period: 'January 2022 – December 2024',
-    location: 'Dhaka, Bangladesh',
-    responsibilities: [
-      'Worked on property access point (APN) research',
-      'Conducted market analysis for business process outsourcing',
-      'Collaborated with direct marketing services team',
-    ],
-  },
-  {
-    title: 'Front-End Developer (Internship)',
-    company: 'Matrix Apparels Ltd.',
-    period: 'January 2021 – August 2021',
-    location: 'Dhaka, Bangladesh',
-    responsibilities: [
-      'Learned to understand, analyze, design, and develop project requirements',
-      'Gained proficiency in building frontend-based web applications',
-      'Developed teamwork skills and the ability to approach problems from different perspectives',
-      'Designed and implemented frontend interfaces using HTML, CSS, Bootstrap, and JavaScript',
+      'Delivered multiple live, bespoke web applications for diverse clients via Fiverr, managing the end-to-end frontend development lifecycle.',
+      'Architected scalable user interfaces utilizing React, Next.js, TypeScript, Redux, and Tailwind CSS, ensuring strict adherence to responsive design principles.',
+      'Executed seamless API testing and version control using Postman, Git, and GitHub, facilitating efficient collaboration and high-quality code deployments.',
+      'Optimized project architectures by identifying and integrating specialized NPM packages to solve complex technical client requirements.',
     ],
   },
 ];
