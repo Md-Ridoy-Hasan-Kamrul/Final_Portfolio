@@ -1,17 +1,14 @@
 import { ArrowRight, Github, Linkedin, Mail } from 'lucide-react';
 import { motion } from 'framer-motion';
 import TrueFocus from './TrueFocus';
-import HeroVideoBg from './HeroVideoBg';
 import { Container } from './ui/Container';
 
 export default function Hero() {
   return (
     <section
       id='home'
-      className='min-h-screen flex items-center justify-center pt-24 sm:pt-28 md:pt-32 lg:pt-8 bg-gray-950 relative overflow-hidden transition-colors duration-300'
+      className='min-h-screen flex items-center justify-center pt-24 sm:pt-28 md:pt-32 lg:pt-8 bg-transparent relative overflow-hidden transition-colors duration-300'
     >
-      <HeroVideoBg />
-
       {/* Soft accent orbs over video (kept subtle so UI stays primary) */}
       <div className='absolute inset-0 z-[1] overflow-hidden pointer-events-none'>
         <motion.div

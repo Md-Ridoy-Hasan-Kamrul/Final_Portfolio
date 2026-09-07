@@ -110,7 +110,7 @@ const Navigation = memo(() => {
       className={`fixed top-0 inset-x-0 z-50 transition-all duration-500 ${
         isScrolled
           ? 'bg-white/95 dark:bg-gray-900/95 backdrop-blur-lg shadow-lg shadow-blue-500/5 dark:shadow-purple-500/5'
-          : 'bg-white/80 dark:bg-gray-900/80 backdrop-blur-md'
+          : 'bg-transparent backdrop-blur-0'
       }`}
       role='navigation'
       aria-label='Main navigation'

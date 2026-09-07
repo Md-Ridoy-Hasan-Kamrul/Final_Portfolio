@@ -1,4 +1,5 @@
 import Navigation from './components/Navigation';
+import HeroVideoBg from './components/HeroVideoBg';
 import Hero from './components/Hero';
 import About from './components/About';
 import Experience from './components/Experience';
@@ -18,8 +19,9 @@ function App() {
           hideDefaultCursor={true}
           parallaxOn={true}
         />
+        <HeroVideoBg />
         <Navigation />
-        <main className='overflow-x-hidden'>
+        <main className='overflow-x-hidden relative z-10'>
           <Hero />
           <About />
           <Experience />
