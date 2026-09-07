@@ -21,15 +21,17 @@ function App() {
         />
         <HeroVideoBg />
         <Navigation />
-        <main className='overflow-x-hidden relative z-10'>
-          <Hero />
-          <About />
-          <Experience />
-          <Projects />
-          <Skills />
-          <Contact />
-        </main>
-        <Footer />
+        <div className='relative z-10'>
+          <main className='overflow-x-hidden'>
+            <Hero />
+            <About />
+            <Experience />
+            <Projects />
+            <Skills />
+            <Contact />
+          </main>
+          <Footer />
+        </div>
       </div>
     </ThemeProvider>
   );
