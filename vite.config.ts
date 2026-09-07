@@ -54,7 +54,7 @@ export default defineConfig({
         // Manual chunk splitting for better caching
         manualChunks: {
           'react-vendor': ['react', 'react-dom'],
-          'animation-vendor': ['framer-motion', '@react-spring/web'],
+          'animation-vendor': ['framer-motion', 'gsap', '@gsap/react', 'lenis'],
           'i18n-vendor': ['i18next', 'react-i18next'],
           'icons-vendor': ['lucide-react'],
         },
