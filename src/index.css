@@ -8,3 +8,48 @@
     scrollbar-gutter: stable;
   }
 }
+
+@layer components {
+  /* Exact dark-panel tone from the reference footer */
+  .footer-panel {
+    background:
+      radial-gradient(
+        90% 55% at 50% -5%,
+        rgba(223, 54, 64, 0.22) 0%,
+        rgba(90, 40, 28, 0.18) 32%,
+        transparent 68%
+      ),
+      radial-gradient(
+        70% 40% at 80% 20%,
+        rgba(198, 167, 94, 0.06),
+        transparent 60%
+      ),
+      linear-gradient(180deg, #1a1412 0%, #100e0c 42%, #0a0908 100%);
+    color: #e8e2d6;
+  }
+
+  .footer-gold-line {
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(198, 167, 94, 0.15) 18%,
+      rgba(198, 167, 94, 0.85) 50%,
+      rgba(198, 167, 94, 0.15) 82%,
+      transparent 100%
+    );
+  }
+
+  .footer-quote-sheen {
+    background: linear-gradient(
+      105deg,
+      rgba(232, 226, 214, 0.45) 0%,
+      rgba(232, 226, 214, 0.92) 42%,
+      rgba(198, 167, 94, 0.95) 50%,
+      rgba(232, 226, 214, 0.92) 58%,
+      rgba(232, 226, 214, 0.45) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+}
