@@ -228,20 +228,31 @@ export default function Footer() {
           </div>
         </div>
 
+        {/* Oversized brand wordmark — sits in the band between columns and quote */}
         <motion.div
           style={{ y: markY }}
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true, margin: '0px 0px -60px 0px' }}
           transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-          className='pointer-events-none relative mt-10 w-full select-none overflow-visible px-1'
+          className='pointer-events-none relative mt-10 -mx-2 select-none overflow-visible sm:-mx-4'
           aria-hidden='true'
         >
           <span
             className='absolute inset-0 bg-gradient-to-t from-gold/[0.10] via-transparent to-transparent blur-2xl'
             aria-hidden='true'
           />
-          <span className='relative mx-auto block w-full max-w-full whitespace-nowrap bg-gradient-to-b from-bone/35 to-bone/[0.05] bg-clip-text text-center font-serif text-[clamp(2.75rem,11.5vw,8.5rem)] font-bold leading-[0.85] tracking-[-0.06em] text-transparent'>
+          <span
+            className='relative block -translate-x-[1.5vw] whitespace-nowrap text-center font-serif text-[13vw] font-bold leading-[0.85] tracking-[-0.07em] sm:text-[14vw]'
+            style={{
+              backgroundImage:
+                'linear-gradient(to bottom, rgba(232, 226, 214, 0.4), rgba(232, 226, 214, 0.06))',
+              WebkitBackgroundClip: 'text',
+              backgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              color: 'transparent',
+            }}
+          >
             {BRAND}
           </span>
         </motion.div>
