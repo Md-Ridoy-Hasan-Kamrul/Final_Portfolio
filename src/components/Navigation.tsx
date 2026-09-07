@@ -5,6 +5,7 @@ import { ThemeToggle } from './ThemeToggle';
 import { useTheme } from '../contexts/ThemeContext';
 import { Container } from './ui/Container';
 import HamburgerMenu from './HamburgerMenu';
+import AnimatedSVGUnderline from './AnimatedSVGUnderline';
 
 const navLinks = [
   { href: '#home', label: 'Home' },
@@ -152,8 +153,8 @@ const Navigation = memo(() => {
             />
           </motion.a>
 
-          {/* Desktop Navigation with 3D effects */}
-          <div className='hidden md:flex items-center space-x-1 lg:space-x-2'>
+          {/* Desktop Navigation — Framer AnimatedSVGUnderline */}
+          <div className='hidden md:flex items-center space-x-1 lg:space-x-3'>
             {navLinks.map((link, index) => {
               const isActive = activeSection === link.href;
               return (
@@ -161,50 +162,30 @@ const Navigation = memo(() => {
                   key={link.href}
                   href={link.href}
                   onClick={(e) => handleLinkClick(e, link.href)}
-                  className={`cursor-target relative px-4 py-2 font-medium transition-all duration-300 rounded-lg group ${
-                    isActive
-                      ? 'text-white'
-                      : 'text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400'
-                  }`}
+                  className='cursor-target relative px-2 py-1 font-medium'
                   initial={{ opacity: 0, y: -20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1, duration: 0.4 }}
-                  whileHover={{ scale: 1.05, y: -2 }}
-                  whileTap={{ scale: 0.95 }}
+                  transition={{ delay: index * 0.08, duration: 0.4 }}
+                  whileTap={{ scale: 0.97 }}
                 >
-                  {/* Hover effect background - shows when NOT active */}
-                  {!isActive && (
-                    <motion.div className='absolute inset-0 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-0' />
-                  )}
-
-                  {/* Active state background with gradient */}
-                  {isActive && (
-                    <motion.div
-                      className='absolute inset-0 bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 rounded-lg shadow-lg shadow-blue-500/30 z-0'
-                      layoutId='activeNavBg'
-                      transition={{
-                        type: 'spring',
-                        stiffness: 380,
-                        damping: 30,
-                      }}
-                      style={{
-                        backgroundSize: '200% 100%',
-                      }}
-                    />
-                  )}
-
-                  {/* Link text */}
-                  <span className='relative z-10'>{link.label}</span>
-
-                  {/* Active indicator dot */}
-                  {isActive && (
-                    <motion.div
-                      className='absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-white rounded-full'
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      transition={{ type: 'spring', stiffness: 500 }}
-                    />
-                  )}
+                  <AnimatedSVGUnderline
+                    text={link.label}
+                    forceShow={isActive}
+                    textColor={
+                      isActive
+                        ? theme === 'dark'
+                          ? '#60A5FA'
+                          : '#2563EB'
+                        : theme === 'dark'
+                          ? '#D1D5DB'
+                          : '#374151'
+                    }
+                    underlineColor={
+                      theme === 'dark' ? '#A78BFA' : '#3B82F6'
+                    }
+                    strokeWidth={2.5}
+                    gap={1}
+                  />
                 </motion.a>
               );
             })}
