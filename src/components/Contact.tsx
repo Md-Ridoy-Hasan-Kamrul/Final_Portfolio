@@ -41,7 +41,7 @@ export default function Contact() {
                 icon: Mail,
                 title: 'Email',
                 content: 'mdridoyhasankamrul@gmail.com',
-                href: 'mailto:mdridoyhasankamrul@gmail.com',
+                href: 'https://mail.google.com/mail/?view=cm&fs=1&to=mdridoyhasankamrul@gmail.com',
               },
               {
                 icon: Phone,
@@ -75,6 +75,12 @@ export default function Contact() {
                   {item.href ? (
                     <a
                       href={item.href}
+                      {...(item.href.startsWith('http')
+                        ? {
+                            target: '_blank' as const,
+                            rel: 'noopener noreferrer',
+                          }
+                        : {})}
                       className='cursor-target text-sm sm:text-base text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors break-all'
                     >
                       {item.content}

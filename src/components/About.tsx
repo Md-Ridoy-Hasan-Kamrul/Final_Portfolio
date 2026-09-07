@@ -110,7 +110,9 @@ export default function About() {
                 Email
               </h3>
               <a
-                href='mailto:mdridoyhasankamrul@gmail.com'
+                href='https://mail.google.com/mail/?view=cm&fs=1&to=mdridoyhasankamrul@gmail.com'
+                target='_blank'
+                rel='noopener noreferrer'
                 className='cursor-target text-base text-blue-600 hover:text-blue-700 transition-colors break-all'
               >
                 mdridoyhasankamrul@gmail.com

@@ -147,7 +147,7 @@ export default function Hero() {
                   label: 'LinkedIn',
                 },
                 {
-                  href: 'mailto:mdridoyhasankamrul@gmail.com',
+                  href: 'https://mail.google.com/mail/?view=cm&fs=1&to=mdridoyhasankamrul@gmail.com',
                   icon: Mail,
                   label: 'Email',
                 },
@@ -155,12 +155,14 @@ export default function Hero() {
                 <motion.a
                   key={social.label}
                   href={social.href}
-                  target={social.label !== 'Email' ? '_blank' : undefined}
-                  rel={
-                    social.label !== 'Email' ? 'noopener noreferrer' : undefined
-                  }
+                  target='_blank'
+                  rel='noopener noreferrer'
                   className='cursor-target text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-all duration-300 hover:scale-110'
-                  aria-label={`Visit my ${social.label} profile`}
+                  aria-label={
+                    social.label === 'Email'
+                      ? 'Compose email in Gmail'
+                      : `Visit my ${social.label} profile`
+                  }
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.9 + index * 0.1, duration: 0.4 }}
