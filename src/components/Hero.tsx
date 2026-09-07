@@ -1,18 +1,21 @@
 import { ArrowRight, Github, Linkedin, Mail } from 'lucide-react';
 import { motion } from 'framer-motion';
 import TrueFocus from './TrueFocus';
+import HeroVideoBg from './HeroVideoBg';
 import { Container } from './ui/Container';
 
 export default function Hero() {
   return (
     <section
       id='home'
-      className='min-h-screen flex items-center justify-center pt-24 sm:pt-28 md:pt-32 lg:pt-8 bg-gradient-to-br from-white via-gray-50 to-blue-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 relative overflow-hidden transition-colors duration-300'
+      className='min-h-screen flex items-center justify-center pt-24 sm:pt-28 md:pt-32 lg:pt-8 bg-gray-950 relative overflow-hidden transition-colors duration-300'
     >
-      {/* Animated background elements */}
-      <div className='absolute inset-0 overflow-hidden pointer-events-none'>
+      <HeroVideoBg />
+
+      {/* Soft accent orbs over video (kept subtle so UI stays primary) */}
+      <div className='absolute inset-0 z-[1] overflow-hidden pointer-events-none'>
         <motion.div
-          className='absolute top-20 left-10 w-72 h-72 bg-blue-200/30 dark:bg-blue-500/10 rounded-full blur-3xl'
+          className='absolute top-20 left-10 w-72 h-72 bg-blue-200/20 dark:bg-blue-500/10 rounded-full blur-3xl'
           animate={{
             scale: [1, 1.2, 1],
             x: [0, 50, 0],
@@ -25,7 +28,7 @@ export default function Hero() {
           }}
         />
         <motion.div
-          className='absolute bottom-20 right-10 w-96 h-96 bg-purple-200/20 dark:bg-purple-500/10 rounded-full blur-3xl'
+          className='absolute bottom-20 right-10 w-96 h-96 bg-purple-200/15 dark:bg-purple-500/10 rounded-full blur-3xl'
           animate={{
             scale: [1, 1.3, 1],
             x: [0, -50, 0],
