@@ -18,7 +18,7 @@ const LINKEDIN = 'https://www.linkedin.com/in/md-ridoy-hasan-kamrul';
 const DISPLAY_NAME = 'Md. Ridoy Hasan Kamrul';
 const BRAND = 'KAMRUL';
 const QUOTE =
-  'Interfaces should feel inevitable — clear, fast, and built to last.';
+  'Interfaces should feel inevitable clear, fast, and built to last.';
 
 const nav = [
   { label: 'Home', href: '#home' },
@@ -134,12 +134,12 @@ export default function Footer() {
         <div className='grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr]'>
           <div>
             <div className='flex items-center gap-2.5'>
-              <span className='grid h-14 w-14 flex-shrink-0 place-items-center sm:h-16 sm:w-16'>
+              <span className='-ml-2.5 grid h-14 w-14 flex-shrink-0 place-items-center sm:-ml-3 sm:h-16 sm:w-16'>
                 <img
                   src='/logo-dark.png'
                   alt=''
                   aria-hidden='true'
-                  className='h-full w-full object-contain'
+                  className='h-full w-full object-contain object-left'
                   width={64}
                   height={64}
                 />
@@ -150,8 +150,8 @@ export default function Footer() {
             </div>
             <p className='mt-4 max-w-sm text-sm leading-relaxed text-bone/55'>
               Frontend Developer specializing in React.js, Next.js, TypeScript,
-              and JavaScript. Building responsive, production-ready interfaces
-              — open to remote and contract work worldwide.
+              and JavaScript. Building responsive, production-ready interfaces —
+              open to remote and contract work worldwide.
             </p>
             <div className='mt-5 flex items-center gap-2.5'>
               <a
@@ -218,8 +218,8 @@ export default function Footer() {
               {EMAIL}
               <ArrowUpRight className='h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5' />
             </a>
-            <div className='mt-4 flex items-center gap-2 font-mono text-xs text-bone/45'>
-              <span className='relative flex h-1.5 w-1.5'>
+            <div className='relative mt-4 font-mono text-xs text-bone/45'>
+              <span className='absolute -left-3 top-1/2 flex h-1.5 w-1.5 -translate-y-1/2'>
                 <span className='absolute inline-flex h-full w-full animate-ping rounded-full bg-crimson opacity-75' />
                 <span className='relative inline-flex h-1.5 w-1.5 rounded-full bg-crimson' />
               </span>
