@@ -1,9 +1,10 @@
 import { useState, useEffect, memo } from 'react';
-import { Menu, X, Github, Linkedin } from 'lucide-react';
+import { Github, Linkedin } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ThemeToggle } from './ThemeToggle';
 import { useTheme } from '../contexts/ThemeContext';
 import { Container } from './ui/Container';
+import HamburgerMenu from './HamburgerMenu';
 
 const navLinks = [
   { href: '#home', label: 'Home' },
@@ -238,41 +239,17 @@ const Navigation = memo(() => {
             </div>
           </div>
 
-          {/* Mobile menu button with 3D effect */}
-          <motion.button
-            onClick={() => setIsOpen(!isOpen)}
-            className='md:hidden p-3 text-gray-700 dark:text-gray-300 hover:text-white hover:bg-gradient-to-r hover:from-blue-600 hover:to-purple-600 rounded-xl transition-all duration-300 relative group shadow-md hover:shadow-xl'
-            aria-label={isOpen ? 'Close menu' : 'Open menu'}
-            aria-expanded={isOpen}
-            whileHover={{ scale: 1.05, rotate: isOpen ? 180 : 0 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <AnimatePresence mode='wait'>
-              {isOpen ? (
-                <motion.div
-                  key='close'
-                  initial={{ rotate: -90, opacity: 0 }}
-                  animate={{ rotate: 0, opacity: 1 }}
-                  exit={{ rotate: 90, opacity: 0 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <X className='h-6 w-6' aria-hidden='true' />
-                </motion.div>
-              ) : (
-                <motion.div
-                  key='menu'
-                  initial={{ rotate: 90, opacity: 0 }}
-                  animate={{ rotate: 0, opacity: 1 }}
-                  exit={{ rotate: -90, opacity: 0 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <Menu className='h-6 w-6' aria-hidden='true' />
-                </motion.div>
-              )}
-            </AnimatePresence>
-            {/* Animated background pulse */}
-            <div className='absolute inset-0 bg-gradient-to-r from-blue-400/20 to-purple-400/20 rounded-xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity -z-10' />
-          </motion.button>
+          {/* Mobile hamburger — Framer HamburgerMenu morph */}
+          <div className='md:hidden relative flex items-center justify-center p-1 text-gray-800 dark:text-white'>
+            <HamburgerMenu
+              isOpen={isOpen}
+              onToggle={setIsOpen}
+              size={40}
+              strokeWidth={2.5}
+              strokeColor='currentColor'
+              className='cursor-target'
+            />
+          </div>
         </div>
       </Container>
 
