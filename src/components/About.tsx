@@ -91,7 +91,7 @@ export default function About() {
     <section
       ref={sectionRef}
       id='about'
-      className='py-16 sm:py-20 lg:py-24 bg-transparent relative overflow-hidden transition-colors duration-300'
+      className='relative overflow-hidden bg-transparent py-16 sm:py-20 lg:py-24'
     >
       {/* Section-only cinematic video BG — UI unchanged */}
       <div className='pointer-events-none absolute inset-0 z-0' aria-hidden>
@@ -107,7 +107,7 @@ export default function About() {
           <source src={ABOUT_VIDEO_SRC} type='video/mp4' />
         </video>
         {/* Darker cinematic wash so video reads deep, not washed-out */}
-        <div className='absolute inset-0 bg-[#041018]/72 dark:bg-[#02080e]/80' />
+        <div className='absolute inset-0 bg-[#041018]/72' />
         <div className='absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/55' />
       </div>
 
