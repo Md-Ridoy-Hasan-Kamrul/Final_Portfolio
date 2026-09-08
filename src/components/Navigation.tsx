@@ -417,29 +417,25 @@ const Navigation = memo(() => {
                     href={link.href}
                     onClick={(e) => handleLinkClick(e, link.href)}
                     variants={cornerMenuField}
-                    className={`cursor-target block px-6 py-3 font-medium rounded-xl transition-colors duration-300 relative group overflow-hidden ${
+                    className={`cursor-target relative group block overflow-hidden rounded-xl px-6 py-3 font-medium transition-colors duration-300 ${
                       isActive
-                        ? 'nav-active-beach text-white shadow-lg shadow-teal-900/25'
+                        ? 'nav-active-pill text-white'
                         : onDarkNav
                           ? 'text-gray-200 hover:bg-white/10 hover:text-white'
                           : onProjects
                             ? 'text-black hover:bg-black/5 hover:text-[#175A67]'
-                            : 'text-zinc-800 dark:text-zinc-200 hover:bg-zinc-400/30 dark:hover:bg-zinc-700/50 hover:text-blue-700 dark:hover:text-blue-300'
+                            : 'text-zinc-800 hover:bg-zinc-400/30 hover:text-zinc-900 dark:text-zinc-200 dark:hover:bg-zinc-700/50 dark:hover:text-white'
                     }`}
                     whileHover={{ scale: 1.02, x: 4 }}
                     whileTap={{ scale: 0.98 }}
                   >
                     {isActive && (
-                      <span className='nav-active-wave' aria-hidden='true'>
-                        <span className='nav-active-wave__layer nav-active-wave__layer--1' />
-                        <span className='nav-active-wave__layer nav-active-wave__layer--2' />
-                        <span className='nav-active-wave__layer nav-active-wave__layer--3' />
-                      </span>
+                      <span className='nav-active-wave' aria-hidden='true' />
                     )}
                     <span className='relative z-10 flex items-center'>
                       {isActive && (
                         <motion.span
-                          className='mr-2 h-2 w-2 rounded-full bg-white'
+                          className='mr-2 h-2 w-2 rounded-full bg-bone'
                           initial={{ scale: 0 }}
                           animate={{ scale: 1 }}
                           transition={{ type: 'spring', stiffness: 500 }}
@@ -448,25 +444,25 @@ const Navigation = memo(() => {
                       {link.label}
                     </span>
                     {!isActive && (
-                      <div className='absolute left-0 top-1/2 h-0 w-1 -translate-y-1/2 rounded-r bg-gradient-to-b from-teal-500 to-cyan-600 transition-all duration-300 group-hover:h-1/2' />
+                      <div className='absolute left-0 top-1/2 h-0 w-1 -translate-y-1/2 rounded-r bg-crimson transition-all duration-300 group-hover:h-1/2' />
                     )}
                   </motion.a>
                 );
               })}
 
               <motion.div
-                className='mt-6 flex justify-center gap-4 border-t border-zinc-400/50 pt-6 dark:border-zinc-700'
+                className='mt-6 flex justify-center gap-4 border-t border-white/10 pt-6'
                 variants={cornerMenuField}
               >
-                <ThemeToggle />
+                <ThemeToggle variant='mobile' />
                 <motion.a
                   href='https://github.com/Md-Ridoy-Hasan-Kamrul'
                   target='_blank'
                   rel='noopener noreferrer'
-                  className='cursor-target rounded-full bg-gray-900 p-3 text-white shadow-lg transition-all duration-300 hover:shadow-xl dark:bg-gray-800'
+                  className='nav-mobile-icon cursor-target'
                   aria-label='GitHub Profile'
-                  whileHover={{ scale: 1.1, rotate: 5 }}
-                  whileTap={{ scale: 0.9 }}
+                  whileHover={{ scale: 1.12, y: -3 }}
+                  whileTap={{ scale: 0.92 }}
                 >
                   <Github className='h-5 w-5' />
                 </motion.a>
@@ -474,10 +470,10 @@ const Navigation = memo(() => {
                   href='https://www.linkedin.com/in/md-ridoy-hasan-kamrul'
                   target='_blank'
                   rel='noopener noreferrer'
-                  className='cursor-target rounded-full bg-blue-600 p-3 text-white shadow-lg transition-all duration-300 hover:shadow-xl'
+                  className='nav-mobile-icon nav-mobile-icon--accent cursor-target'
                   aria-label='LinkedIn Profile'
-                  whileHover={{ scale: 1.1, rotate: -5 }}
-                  whileTap={{ scale: 0.9 }}
+                  whileHover={{ scale: 1.12, y: -3 }}
+                  whileTap={{ scale: 0.92 }}
                 >
                   <Linkedin className='h-5 w-5' />
                 </motion.a>
