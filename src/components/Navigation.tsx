@@ -107,12 +107,13 @@ const Navigation = memo(() => {
     }
   };
 
-  const onAbout = activeSection === '#about';
   const onProjects = activeSection === '#projects';
-  const useDarkLogo = theme === 'dark' || onAbout;
+  const onDarkNav =
+    activeSection === '#about' || activeSection === '#experience';
+  const useDarkLogo = theme === 'dark' || onDarkNav;
 
   const navSurfaceClass = (() => {
-    if (isOpen && onAbout) {
+    if (isOpen && onDarkNav) {
       return 'bg-[#041018]/95 backdrop-blur-xl border-b border-white/10 shadow-lg shadow-black/40';
     }
     if (isOpen && onProjects) {
@@ -124,6 +125,7 @@ const Navigation = memo(() => {
 
     switch (activeSection) {
       case '#about':
+      case '#experience':
         return 'bg-[#041018]/88 backdrop-blur-xl border-b border-white/10 shadow-lg shadow-black/30';
       case '#projects':
         return 'bg-white/55 backdrop-blur-xl border-b border-black/10 shadow-md shadow-black/5';
@@ -131,8 +133,6 @@ const Navigation = memo(() => {
         return isScrolled
           ? 'bg-white/80 dark:bg-gray-950/80 backdrop-blur-xl border-b border-black/5 dark:border-white/10 shadow-lg shadow-black/5'
           : 'bg-transparent';
-      case '#experience':
-        return 'bg-white/85 dark:bg-gray-900/85 backdrop-blur-xl border-b border-gray-200/60 dark:border-white/10 shadow-md';
       case '#skills':
         return 'bg-white/85 dark:bg-gray-900/85 backdrop-blur-xl border-b border-gray-200/60 dark:border-white/10 shadow-md';
       case '#contact':
@@ -156,7 +156,7 @@ const Navigation = memo(() => {
       {/* Gradient border bottom */}
       <div
         className={`absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent to-transparent opacity-60 ${
-          onAbout
+          onDarkNav
             ? 'via-blue-400/50'
             : onProjects
               ? 'via-[#175A67]/40'
@@ -213,7 +213,7 @@ const Navigation = memo(() => {
                     text={link.label}
                     forceShow={isActive}
                     textColor={
-                      onAbout
+                      onDarkNav
                         ? isActive
                           ? '#93C5FD'
                           : '#E5E7EB'
@@ -230,7 +230,7 @@ const Navigation = memo(() => {
                               : '#374151'
                     }
                     underlineColor={
-                      onAbout
+                      onDarkNav
                         ? '#60A5FA'
                         : onProjects
                           ? '#175A67'
@@ -248,7 +248,7 @@ const Navigation = memo(() => {
             {/* Social icons and theme toggle in desktop nav */}
             <div
               className={`hidden lg:flex items-center gap-2 ml-6 pl-6 border-l ${
-                onAbout
+                onDarkNav
                   ? 'border-white/20'
                   : onProjects
                     ? 'border-black/15'
@@ -261,7 +261,7 @@ const Navigation = memo(() => {
                 target='_blank'
                 rel='noopener noreferrer'
                 className={`cursor-target p-2 rounded-full transition-all duration-300 group relative ${
-                  onAbout
+                  onDarkNav
                     ? 'text-gray-200 hover:text-white hover:bg-white/10'
                     : onProjects
                       ? 'text-black hover:text-white hover:bg-black'
@@ -278,7 +278,7 @@ const Navigation = memo(() => {
                 target='_blank'
                 rel='noopener noreferrer'
                 className={`cursor-target p-2 rounded-full transition-all duration-300 group relative ${
-                  onAbout
+                  onDarkNav
                     ? 'text-gray-200 hover:text-white hover:bg-blue-600/80'
                     : onProjects
                       ? 'text-black hover:text-white hover:bg-blue-600'
@@ -296,7 +296,7 @@ const Navigation = memo(() => {
           {/* Mobile hamburger — Framer HamburgerMenu morph */}
           <div
             className={`md:hidden relative flex items-center justify-center p-1 ${
-              onAbout
+              onDarkNav
                 ? 'text-white'
                 : onProjects
                   ? 'text-black'
@@ -320,7 +320,7 @@ const Navigation = memo(() => {
         {isOpen && (
           <motion.div
             className={`md:hidden backdrop-blur-lg border-t shadow-2xl ${
-              onAbout
+              onDarkNav
                 ? 'bg-[#041018]/98 border-white/10 shadow-black/40'
                 : onProjects
                   ? 'bg-[#EAE3DE]/98 border-black/10 shadow-black/10'
@@ -342,7 +342,7 @@ const Navigation = memo(() => {
                     className={`cursor-target block px-6 py-3 font-medium rounded-xl transition-all duration-300 relative group ${
                       isActive
                         ? 'text-white bg-gradient-to-r from-blue-600 to-purple-600 shadow-lg shadow-blue-500/30'
-                        : onAbout
+                        : onDarkNav
                           ? 'text-gray-200 hover:bg-white/10 hover:text-white'
                           : onProjects
                             ? 'text-black hover:bg-black/5 hover:text-[#175A67]'
