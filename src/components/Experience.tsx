@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import { Briefcase, Calendar, MapPin, Sparkles } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Container } from './ui/Container';
-import FluidImage from './FluidImage';
+import FluidImage from './FluidImage.tsx';
 import { useTheme } from '../contexts/ThemeContext';
 
 const EXPERIENCE_VIDEO_SRC =
