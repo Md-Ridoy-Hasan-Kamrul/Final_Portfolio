@@ -286,6 +286,319 @@
     color: #e8e2d6;
   }
 
+  /* Day mode: megla sky + realistic rain + lightning */
+  .footer-panel--day {
+    background:
+      radial-gradient(
+        80% 50% at 20% 0%,
+        rgba(90, 110, 140, 0.35) 0%,
+        transparent 55%
+      ),
+      radial-gradient(
+        70% 45% at 85% 10%,
+        rgba(70, 90, 120, 0.4) 0%,
+        transparent 60%
+      ),
+      linear-gradient(
+        180deg,
+        #2a3340 0%,
+        #1c2430 38%,
+        #141a22 70%,
+        #0e1218 100%
+      );
+  }
+
+  .footer-storm-clouds {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background:
+      radial-gradient(
+        ellipse 55% 35% at 15% 8%,
+        rgba(160, 175, 195, 0.32),
+        transparent 70%
+      ),
+      radial-gradient(
+        ellipse 50% 30% at 55% 0%,
+        rgba(120, 140, 165, 0.38),
+        transparent 68%
+      ),
+      radial-gradient(
+        ellipse 60% 40% at 90% 12%,
+        rgba(100, 120, 150, 0.4),
+        transparent 65%
+      ),
+      radial-gradient(
+        ellipse 45% 28% at 40% 18%,
+        rgba(80, 95, 120, 0.28),
+        transparent 70%
+      );
+    filter: blur(10px);
+    animation: footer-cloud-drift 18s ease-in-out infinite alternate;
+  }
+
+  .footer-storm-mist {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background: linear-gradient(
+      180deg,
+      transparent 40%,
+      rgba(120, 140, 160, 0.08) 75%,
+      rgba(150, 170, 190, 0.14) 100%
+    );
+  }
+
+  .footer-rain {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+
+  .footer-raindrop {
+    position: absolute;
+    top: -40px;
+    border-radius: 999px;
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(210, 230, 245, 0.85) 40%,
+      rgba(180, 205, 230, 0.35) 100%
+    );
+    box-shadow: 0 0 2px rgba(200, 220, 240, 0.35);
+    transform: rotate(12deg);
+    animation-name: footer-raindrop-fall;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    will-change: transform;
+  }
+
+  .footer-lightning {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0;
+    mix-blend-mode: screen;
+  }
+
+  .footer-lightning--a {
+    background:
+      radial-gradient(
+        ellipse 65% 55% at 72% 8%,
+        rgba(220, 235, 255, 0.7) 0%,
+        rgba(140, 175, 255, 0.25) 38%,
+        transparent 68%
+      ),
+      linear-gradient(
+        180deg,
+        rgba(180, 200, 255, 0.18) 0%,
+        transparent 45%
+      );
+    animation: footer-lightning-flash-a 6.8s ease-in-out infinite;
+  }
+
+  .footer-lightning--b {
+    background: radial-gradient(
+      ellipse 55% 50% at 28% 4%,
+      rgba(235, 245, 255, 0.65) 0%,
+      rgba(130, 165, 255, 0.22) 40%,
+      transparent 70%
+    );
+    animation: footer-lightning-flash-b 11.2s ease-in-out infinite;
+    animation-delay: -4.1s;
+  }
+
+  .footer-bolt-svg {
+    position: absolute;
+    top: -4%;
+    width: clamp(3.5rem, 8vw, 5.5rem);
+    height: auto;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0;
+    filter: drop-shadow(0 0 6px rgba(180, 210, 255, 0.85))
+      drop-shadow(0 0 18px rgba(120, 170, 255, 0.45));
+  }
+
+  .footer-bolt-svg--1 {
+    right: 14%;
+    width: clamp(4rem, 9vw, 6.5rem);
+    animation: footer-bolt-strike-a 6.8s steps(1, end) infinite;
+  }
+
+  .footer-bolt-svg--2 {
+    left: 22%;
+    top: -2%;
+    width: clamp(3.2rem, 7vw, 5rem);
+    animation: footer-bolt-strike-b 11.2s steps(1, end) infinite;
+    animation-delay: -4.1s;
+  }
+
+  .footer-bolt-svg--3 {
+    right: 38%;
+    top: 0;
+    width: clamp(2.8rem, 6vw, 4.2rem);
+    animation: footer-bolt-strike-c 8.6s steps(1, end) infinite;
+    animation-delay: -1.8s;
+  }
+
+  @keyframes footer-cloud-drift {
+    from {
+      transform: translateX(-1.5%) scale(1);
+    }
+    to {
+      transform: translateX(2%) scale(1.04);
+    }
+  }
+
+  @keyframes footer-raindrop-fall {
+    0% {
+      transform: translate3d(0, -10vh, 0) rotate(12deg);
+    }
+    100% {
+      transform: translate3d(var(--rain-drift, -12px), 110vh, 0) rotate(12deg);
+    }
+  }
+
+  /* Real lightning: quick double flash then dark */
+  @keyframes footer-lightning-flash-a {
+    0%,
+    86%,
+    100% {
+      opacity: 0;
+    }
+    86.4% {
+      opacity: 0.95;
+    }
+    86.8% {
+      opacity: 0.08;
+    }
+    87.4% {
+      opacity: 1;
+    }
+    88% {
+      opacity: 0.35;
+    }
+    88.6% {
+      opacity: 0.7;
+    }
+    89.4% {
+      opacity: 0;
+    }
+  }
+
+  @keyframes footer-lightning-flash-b {
+    0%,
+    90%,
+    100% {
+      opacity: 0;
+    }
+    90.3% {
+      opacity: 0.8;
+    }
+    90.7% {
+      opacity: 0.05;
+    }
+    91.2% {
+      opacity: 1;
+    }
+    92% {
+      opacity: 0;
+    }
+  }
+
+  @keyframes footer-bolt-strike-a {
+    0%,
+    86%,
+    100% {
+      opacity: 0;
+    }
+    86.4% {
+      opacity: 1;
+    }
+    86.8% {
+      opacity: 0.15;
+    }
+    87.4% {
+      opacity: 1;
+    }
+    88.2% {
+      opacity: 0.4;
+    }
+    89% {
+      opacity: 0;
+    }
+  }
+
+  @keyframes footer-bolt-strike-b {
+    0%,
+    90%,
+    100% {
+      opacity: 0;
+    }
+    90.3% {
+      opacity: 1;
+    }
+    90.7% {
+      opacity: 0.1;
+    }
+    91.2% {
+      opacity: 0.95;
+    }
+    92% {
+      opacity: 0;
+    }
+  }
+
+  @keyframes footer-bolt-strike-c {
+    0%,
+    82%,
+    100% {
+      opacity: 0;
+    }
+    82.5% {
+      opacity: 0.9;
+    }
+    83% {
+      opacity: 0;
+    }
+    83.4% {
+      opacity: 1;
+    }
+    84.2% {
+      opacity: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .footer-storm-clouds,
+    .footer-raindrop,
+    .footer-lightning,
+    .footer-bolt-svg {
+      animation: none !important;
+    }
+
+    .footer-lightning,
+    .footer-bolt-svg {
+      opacity: 0;
+    }
+
+    .footer-rain {
+      opacity: 0.35;
+    }
+
+    .footer-raindrop {
+      top: 20%;
+      opacity: 0.2;
+      transform: rotate(12deg);
+    }
+  }
+
   .footer-gold-line {
     background: linear-gradient(
       90deg,

@@ -9,6 +9,8 @@ import {
 import { Mail, ArrowUpRight } from 'lucide-react';
 import { pageContainerClass } from './ui/Container';
 import CloudField from './motion/CloudField';
+import FooterStormWeather from './motion/FooterStormWeather';
+import { useTheme } from '../contexts/ThemeContext';
 
 const EMAIL = 'mdridoyhasankamrul@gmail.com';
 const GMAIL_COMPOSE = `https://mail.google.com/mail/?view=cm&fs=1&to=${EMAIL}`;
@@ -78,6 +80,8 @@ function DhakaClock() {
 }
 
 export default function Footer() {
+  const { theme } = useTheme();
+  const isDay = theme === 'light';
   const ref = useRef<HTMLElement>(null);
   const year = new Date().getFullYear();
 
@@ -109,9 +113,13 @@ export default function Footer() {
         sx.set(-SPOT);
         sy.set(-SPOT);
       }}
-      className='footer-panel relative isolate z-10 -mt-8 overflow-hidden rounded-t-[2rem] text-bone sm:rounded-t-[3rem]'
+      className={`footer-panel relative isolate z-10 -mt-8 overflow-hidden rounded-t-[2rem] text-bone sm:rounded-t-[3rem] ${
+        isDay ? 'footer-panel--day' : ''
+      }`}
     >
-      <CloudField className='opacity-70' />
+      {/* Dark: soft clouds. Day: megla sky + realistic rain + lightning */}
+      {!isDay && <CloudField className='opacity-70' />}
+      {isDay && <FooterStormWeather />}
 
       <span
         className='footer-gold-line absolute inset-x-0 top-0 z-10 h-px w-full'
@@ -126,7 +134,9 @@ export default function Footer() {
           height: SPOT,
           x: springX,
           y: springY,
-          background: 'radial-gradient(circle, #DF3640 0%, transparent 70%)',
+          background: isDay
+            ? 'radial-gradient(circle, #8eb4ff 0%, transparent 70%)'
+            : 'radial-gradient(circle, #DF3640 0%, transparent 70%)',
           filter: 'blur(30px)',
         }}
       />
@@ -246,8 +256,9 @@ export default function Footer() {
             <span
               className='relative block -translate-x-[1.5vw] whitespace-nowrap text-center font-serif text-[13vw] font-bold leading-[0.85] tracking-[-0.07em] sm:text-[14vw]'
               style={{
-                backgroundImage:
-                  'linear-gradient(to bottom, rgba(232, 226, 214, 0.4), rgba(232, 226, 214, 0.06))',
+                backgroundImage: isDay
+                  ? 'linear-gradient(to bottom, rgba(190, 210, 235, 0.45), rgba(120, 150, 190, 0.1))'
+                  : 'linear-gradient(to bottom, rgba(232, 226, 214, 0.4), rgba(232, 226, 214, 0.06))',
                 WebkitBackgroundClip: 'text',
                 backgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',

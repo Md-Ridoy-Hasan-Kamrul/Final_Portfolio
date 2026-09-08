@@ -43,7 +43,7 @@ const GRAIN_SVG = encodeURIComponent(
       <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" stitchTiles="stitch"/>
     </filter>
     <rect width="100%" height="100%" filter="url(#n)" opacity="0.08"/>
-  </svg>`
+  </svg>`,
 );
 
 const EASE = 'cubic-bezier(0.4, 0, 0.2, 1)';
@@ -117,7 +117,7 @@ export default function Skills({ categories }: SkillsProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
   const [isMobile, setIsMobile] = useState(() =>
-    typeof window !== 'undefined' ? window.innerWidth < 640 : false
+    typeof window !== 'undefined' ? window.innerWidth < 640 : false,
   );
 
   const categoryCount = categories.length;
@@ -146,11 +146,11 @@ export default function Skills({ categories }: SkillsProps) {
       setActiveIndex((prev) =>
         dir === 'next'
           ? (prev + 1) % categoryCount
-          : (prev + categoryCount - 1) % categoryCount
+          : (prev + categoryCount - 1) % categoryCount,
       );
       window.setTimeout(() => setIsAnimating(false), TRANSITION_MS);
     },
-    [isAnimating, categoryCount]
+    [isAnimating, categoryCount],
   );
 
   const roles = useMemo(() => {
@@ -287,7 +287,7 @@ export default function Skills({ categories }: SkillsProps) {
                 : 'rgba(255,255,255,0.85)',
             }}
           >
-            One focus area at a time — swipe through with the arrows.
+            One focus area at a time swipe through with the arrows.
           </p>
         </div>
 
@@ -412,9 +412,7 @@ export default function Skills({ categories }: SkillsProps) {
             textTransform: 'uppercase',
             color: isDark ? '#D7E8FF' : '#FFFFFF',
             opacity: 0.95,
-            textShadow: isDark
-              ? '0 0 18px rgba(140,190,255,0.4)'
-              : 'none',
+            textShadow: isDark ? '0 0 18px rgba(140,190,255,0.4)' : 'none',
           }}
         >
           Discover it
