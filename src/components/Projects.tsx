@@ -61,7 +61,7 @@ const projects: Project[] = [
     ],
     liveUrl: 'https://maktechgroup.com',
     category: 'React.js',
-    image: '/images/projects/maktech.png',
+    image: '/images/projects/maktech.jpg',
     fallback: 'linear-gradient(135deg, #1e3a8a, #3b82f6)',
   },
   {
@@ -86,7 +86,7 @@ const projects: Project[] = [
     ],
     liveUrl: 'https://rainbitx.com',
     category: 'React.js',
-    image: '/images/projects/rain.png',
+    image: '/images/projects/rain.jpg',
     fallback: 'linear-gradient(135deg, #0f172a, #06b6d4)',
   },
   {
@@ -99,7 +99,7 @@ const projects: Project[] = [
     ],
     liveUrl: 'https://skyridgegroup.com',
     category: 'React.js',
-    image: '/images/projects/skyridge.png',
+    image: '/images/projects/skyridge.jpg',
     fallback: 'linear-gradient(135deg, #14532d, #22c55e)',
   },
   {
