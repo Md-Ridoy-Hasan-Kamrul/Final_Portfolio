@@ -9,28 +9,32 @@ function buildDrops(count: number) {
     drops.push({
       id: i,
       left: `${(i * 37.7 + r * 11) % 100}%`,
-      delay: `${-((r * 2.4) % 2.4).toFixed(2)}s`,
-      duration: `${(0.55 + r * 0.85).toFixed(2)}s`,
-      height: `${10 + Math.floor(r * 22)}px`,
-      opacity: 0.25 + r * 0.55,
-      thickness: r > 0.7 ? 1.5 : 1,
-      drift: `${(-8 - r * 14).toFixed(1)}px`,
+      delay: `${-((r * 2.8) % 2.8).toFixed(2)}s`,
+      duration: `${(0.7 + r * 1.1).toFixed(2)}s`,
+      height: `${18 + Math.floor(r * 36)}px`,
+      opacity: 0.28 + r * 0.55,
+      thickness: r > 0.65 ? 1.6 : 1.1,
+      drift: `${(-10 - r * 18).toFixed(1)}px`,
     });
   }
   return drops;
 }
 
+/* Longer jagged bolts that travel deeper into the footer */
 const BOLT_A =
-  'M72 0 L68 38 L82 42 L58 98 L66 102 L42 168 L54 172 L28 248 L38 252 L18 320';
-const BOLT_A_BRANCH = 'M58 98 L78 118 L70 128 L92 155';
+  'M70 0 L66 48 L84 55 L55 130 L72 138 L40 230 L58 242 L28 340 L46 352 L18 450 L34 462 L8 560';
+const BOLT_A_BRANCH = 'M55 130 L92 168 L78 182 L112 230';
+const BOLT_A_BRANCH2 = 'M40 230 L12 280 L22 292 L0 340';
 const BOLT_B =
-  'M40 0 L48 45 L32 52 L55 110 L42 118 L68 185 L52 192 L78 268 L62 275 L88 340';
-const BOLT_B_BRANCH = 'M55 110 L28 140 L35 148 L12 180';
+  'M42 0 L52 55 L28 68 L62 150 L40 165 L78 260 L52 278 L90 380 L64 398 L98 500 L72 520 L105 600';
+const BOLT_B_BRANCH = 'M62 150 L18 200 L28 215 L0 265';
+const BOLT_B_BRANCH2 = 'M78 260 L110 310 L95 325 L125 380';
 const BOLT_C =
-  'M90 4 L78 50 L95 58 L70 120 L88 128 L60 200 L76 208 L48 290';
+  'M88 0 L72 60 L98 72 L60 160 L86 175 L48 280 L74 298 L36 410 L58 428 L22 540';
+const BOLT_C_BRANCH = 'M60 160 L95 210 L82 225 L118 280';
 
 export default function FooterStormWeather() {
-  const drops = useMemo(() => buildDrops(72), []);
+  const drops = useMemo(() => buildDrops(90), []);
 
   return (
     <>
@@ -57,19 +61,18 @@ export default function FooterStormWeather() {
         ))}
       </div>
 
-      {/* Sky flash fills */}
       <div className='footer-lightning footer-lightning--a' aria-hidden='true' />
       <div className='footer-lightning footer-lightning--b' aria-hidden='true' />
 
-      {/* Realistic SVG bolts */}
       <svg
         className='footer-bolt-svg footer-bolt-svg--1'
-        viewBox='0 0 120 340'
+        viewBox='0 0 130 560'
+        preserveAspectRatio='xMidYMin meet'
         aria-hidden='true'
       >
         <defs>
-          <filter id='footer-bolt-glow' x='-50%' y='-20%' width='200%' height='140%'>
-            <feGaussianBlur stdDeviation='2.5' result='blur' />
+          <filter id='footer-bolt-glow' x='-60%' y='-10%' width='220%' height='120%'>
+            <feGaussianBlur stdDeviation='3' result='blur' />
             <feMerge>
               <feMergeNode in='blur' />
               <feMergeNode in='SourceGraphic' />
@@ -80,7 +83,7 @@ export default function FooterStormWeather() {
           d={BOLT_A}
           fill='none'
           stroke='rgba(210,230,255,0.95)'
-          strokeWidth='2.2'
+          strokeWidth='2.4'
           strokeLinecap='round'
           strokeLinejoin='round'
           filter='url(#footer-bolt-glow)'
@@ -89,30 +92,38 @@ export default function FooterStormWeather() {
           d={BOLT_A}
           fill='none'
           stroke='rgba(255,255,255,0.95)'
-          strokeWidth='0.9'
+          strokeWidth='1'
           strokeLinecap='round'
           strokeLinejoin='round'
         />
         <path
           d={BOLT_A_BRANCH}
           fill='none'
-          stroke='rgba(200,220,255,0.75)'
-          strokeWidth='1.4'
+          stroke='rgba(200,220,255,0.8)'
+          strokeWidth='1.5'
           strokeLinecap='round'
           filter='url(#footer-bolt-glow)'
+        />
+        <path
+          d={BOLT_A_BRANCH2}
+          fill='none'
+          stroke='rgba(190,215,255,0.65)'
+          strokeWidth='1.2'
+          strokeLinecap='round'
         />
       </svg>
 
       <svg
         className='footer-bolt-svg footer-bolt-svg--2'
-        viewBox='0 0 120 340'
+        viewBox='0 0 130 600'
+        preserveAspectRatio='xMidYMin meet'
         aria-hidden='true'
       >
         <path
           d={BOLT_B}
           fill='none'
-          stroke='rgba(190,215,255,0.9)'
-          strokeWidth='2'
+          stroke='rgba(190,215,255,0.92)'
+          strokeWidth='2.2'
           strokeLinecap='round'
           strokeLinejoin='round'
           filter='url(#footer-bolt-glow)'
@@ -121,28 +132,36 @@ export default function FooterStormWeather() {
           d={BOLT_B}
           fill='none'
           stroke='#fff'
-          strokeWidth='0.85'
+          strokeWidth='0.95'
           strokeLinecap='round'
         />
         <path
           d={BOLT_B_BRANCH}
           fill='none'
-          stroke='rgba(210,230,255,0.7)'
-          strokeWidth='1.3'
+          stroke='rgba(210,230,255,0.75)'
+          strokeWidth='1.4'
+          strokeLinecap='round'
+        />
+        <path
+          d={BOLT_B_BRANCH2}
+          fill='none'
+          stroke='rgba(200,220,255,0.6)'
+          strokeWidth='1.15'
           strokeLinecap='round'
         />
       </svg>
 
       <svg
         className='footer-bolt-svg footer-bolt-svg--3'
-        viewBox='0 0 120 300'
+        viewBox='0 0 130 540'
+        preserveAspectRatio='xMidYMin meet'
         aria-hidden='true'
       >
         <path
           d={BOLT_C}
           fill='none'
-          stroke='rgba(200,225,255,0.85)'
-          strokeWidth='1.8'
+          stroke='rgba(200,225,255,0.9)'
+          strokeWidth='2'
           strokeLinecap='round'
           strokeLinejoin='round'
           filter='url(#footer-bolt-glow)'
@@ -150,11 +169,19 @@ export default function FooterStormWeather() {
         <path
           d={BOLT_C}
           fill='none'
-          stroke='rgba(255,255,255,0.9)'
-          strokeWidth='0.75'
+          stroke='rgba(255,255,255,0.92)'
+          strokeWidth='0.85'
+          strokeLinecap='round'
+        />
+        <path
+          d={BOLT_C_BRANCH}
+          fill='none'
+          stroke='rgba(195,220,255,0.7)'
+          strokeWidth='1.25'
           strokeLinecap='round'
         />
       </svg>
     </>
   );
 }
+
