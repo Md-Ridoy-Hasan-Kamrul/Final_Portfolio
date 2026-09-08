@@ -1,18 +1,50 @@
+import { useRef } from 'react';
 import { ArrowRight, Github, Linkedin, Mail } from 'lucide-react';
-import { motion } from 'framer-motion';
+import {
+  motion,
+  useScroll,
+  useTransform,
+  useMotionTemplate,
+} from 'framer-motion';
 import TrueFocus from './TrueFocus';
 import { Container } from './ui/Container';
 
 export default function Hero() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start start', 'end start'],
+  });
+
+  // Heavy exit as you leave Home → About
+  const contentY = useTransform(scrollYProgress, [0, 1], [0, -180]);
+  const contentScale = useTransform(scrollYProgress, [0, 0.85], [1, 0.78]);
+  const contentOpacity = useTransform(
+    scrollYProgress,
+    [0, 0.35, 0.75],
+    [1, 0.55, 0]
+  );
+  const contentBlur = useTransform(scrollYProgress, [0, 0.9], [0, 18]);
+  const contentFilter = useMotionTemplate`blur(${contentBlur}px)`;
+  const contentRotate = useTransform(scrollYProgress, [0, 1], [0, -3]);
+
+  const imageY = useTransform(scrollYProgress, [0, 1], [0, 140]);
+  const imageScale = useTransform(scrollYProgress, [0, 1], [1, 0.65]);
+  const imageOpacity = useTransform(scrollYProgress, [0, 0.55, 0.9], [1, 0.4, 0]);
+  const imageRotate = useTransform(scrollYProgress, [0, 1], [0, 8]);
+
+  const veilOpacity = useTransform(scrollYProgress, [0.25, 0.85], [0, 0.85]);
+
   return (
     <section
+      ref={sectionRef}
       id='home'
-      className='min-h-screen flex items-center justify-center pt-24 sm:pt-28 md:pt-32 lg:pt-8 bg-transparent relative overflow-hidden transition-colors duration-300'
+      className='relative flex min-h-screen items-center justify-center overflow-hidden bg-transparent pt-24 transition-colors duration-300 sm:pt-28 md:pt-32 lg:pt-8'
     >
-      {/* Soft accent orbs over video (kept subtle so UI stays primary) */}
-      <div className='absolute inset-0 z-[1] overflow-hidden pointer-events-none'>
+      {/* Soft accent orbs over video */}
+      <div className='pointer-events-none absolute inset-0 z-[1] overflow-hidden'>
         <motion.div
-          className='absolute top-20 left-10 w-72 h-72 bg-blue-200/20 dark:bg-blue-500/10 rounded-full blur-3xl'
+          className='absolute left-10 top-20 h-72 w-72 rounded-full bg-blue-200/20 blur-3xl dark:bg-blue-500/10'
           animate={{
             scale: [1, 1.2, 1],
             x: [0, 50, 0],
@@ -25,7 +57,7 @@ export default function Hero() {
           }}
         />
         <motion.div
-          className='absolute bottom-20 right-10 w-96 h-96 bg-purple-200/15 dark:bg-purple-500/10 rounded-full blur-3xl'
+          className='absolute bottom-20 right-10 h-96 w-96 rounded-full bg-purple-200/15 blur-3xl dark:bg-purple-500/10'
           animate={{
             scale: [1, 1.3, 1],
             x: [0, -50, 0],
@@ -39,23 +71,34 @@ export default function Hero() {
         />
       </div>
 
+      {/* Dark veil that rises as hero exits into About */}
+      <motion.div
+        className='pointer-events-none absolute inset-0 z-[5] bg-gradient-to-b from-transparent via-black/40 to-black'
+        style={{ opacity: veilOpacity }}
+        aria-hidden
+      />
+
       <Container className='relative z-10'>
-        <div className='grid lg:grid-cols-2 gap-8 lg:gap-12 items-center'>
-          {/* Text Content */}
+        <div className='grid items-center gap-8 lg:grid-cols-2 lg:gap-12'>
           <motion.div
-            className='space-y-6 sm:space-y-8 order-2 lg:order-1'
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+            className='order-2 space-y-6 sm:space-y-8 lg:order-1'
+            style={{
+              y: contentY,
+              scale: contentScale,
+              opacity: contentOpacity,
+              filter: contentFilter,
+              rotate: contentRotate,
+              transformOrigin: 'left center',
+            }}
           >
             <div className='space-y-3 sm:space-y-4'>
               <motion.h2
-                className='text-sm sm:text-base lg:text-lg font-medium text-gray-600 dark:text-gray-400 tracking-wide'
+                className='text-sm font-medium tracking-wide text-gray-600 dark:text-gray-400 sm:text-base lg:text-lg'
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.2, duration: 0.6 }}
               >
-                Hello, I'm
+                Hello, I&apos;m
               </motion.h2>
               <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
@@ -78,7 +121,7 @@ export default function Hero() {
                 />
               </motion.div>
               <motion.p
-                className='text-xl sm:text-2xl lg:text-3xl text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 dark:from-blue-400 dark:via-purple-400 dark:to-pink-400 font-semibold mt-4'
+                className='mt-4 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-xl font-semibold text-transparent dark:from-blue-400 dark:via-purple-400 dark:to-pink-400 sm:text-2xl lg:text-3xl'
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.6, duration: 0.6 }}
@@ -88,7 +131,7 @@ export default function Hero() {
             </div>
 
             <motion.p
-              className='text-base sm:text-lg lg:text-xl text-gray-600 dark:text-gray-300 max-w-2xl leading-relaxed'
+              className='max-w-2xl text-base leading-relaxed text-gray-600 dark:text-gray-300 sm:text-lg lg:text-xl'
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.7, duration: 0.6 }}
@@ -100,27 +143,27 @@ export default function Hero() {
             </motion.p>
 
             <motion.div
-              className='flex flex-col sm:flex-row gap-4 pt-2 sm:pt-4'
+              className='flex flex-col gap-4 pt-2 sm:flex-row sm:pt-4'
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.8, duration: 0.6 }}
             >
               <motion.a
                 href='#projects'
-                className='cursor-target group inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 text-sm sm:text-base font-medium text-white bg-gradient-to-r from-gray-900 to-gray-800 hover:from-gray-800 hover:to-gray-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5'
+                className='cursor-target group inline-flex items-center justify-center bg-gradient-to-r from-gray-900 to-gray-800 px-6 py-3 text-sm font-medium text-white shadow-lg transition-all duration-300 hover:-translate-y-0.5 hover:from-gray-800 hover:to-gray-700 hover:shadow-xl sm:px-8 sm:py-4 sm:text-base'
                 aria-label='View my projects'
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
                 View My Work
                 <ArrowRight
-                  className='ml-2 h-4 w-4 sm:h-5 sm:w-5 group-hover:translate-x-1 transition-transform'
+                  className='ml-2 h-4 w-4 transition-transform group-hover:translate-x-1 sm:h-5 sm:w-5'
                   aria-hidden='true'
                 />
               </motion.a>
               <motion.a
                 href='#contact'
-                className='cursor-target inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 text-sm sm:text-base font-medium text-gray-900 dark:text-white bg-white dark:bg-gray-800 border-2 border-gray-900 dark:border-gray-700 hover:bg-gray-900 hover:text-white dark:hover:bg-gray-700 transition-all duration-300 shadow-md hover:shadow-lg'
+                className='cursor-target inline-flex items-center justify-center border-2 border-gray-900 bg-white px-6 py-3 text-sm font-medium text-gray-900 shadow-md transition-all duration-300 hover:bg-gray-900 hover:text-white hover:shadow-lg dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700 sm:px-8 sm:py-4 sm:text-base'
                 aria-label='Get in touch'
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -130,7 +173,7 @@ export default function Hero() {
             </motion.div>
 
             <motion.div
-              className='flex gap-4 sm:gap-6 pt-4 sm:pt-8'
+              className='flex gap-4 pt-4 sm:gap-6 sm:pt-8'
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.9, duration: 0.6 }}
@@ -157,7 +200,7 @@ export default function Hero() {
                   href={social.href}
                   target='_blank'
                   rel='noopener noreferrer'
-                  className='cursor-target text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-all duration-300 hover:scale-110'
+                  className='cursor-target text-gray-600 transition-all duration-300 hover:scale-110 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white'
                   aria-label={
                     social.label === 'Email'
                       ? 'Compose email in Gmail'
@@ -177,55 +220,45 @@ export default function Hero() {
             </motion.div>
           </motion.div>
 
-          {/* Animated Profile Image */}
           <motion.div
-            className='order-1 lg:order-2 flex justify-center lg:justify-end'
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.4, duration: 0.8 }}
+            className='order-1 flex justify-center lg:order-2 lg:justify-end'
+            style={{
+              y: imageY,
+              scale: imageScale,
+              opacity: imageOpacity,
+              rotate: imageRotate,
+            }}
           >
             <motion.div
               className='relative'
-              animate={{
-                y: [0, -20, 0],
-              }}
+              animate={{ y: [0, -20, 0] }}
               transition={{
                 duration: 6,
                 repeat: Infinity,
                 ease: 'easeInOut',
               }}
             >
-              {/* Gradient border wrapper */}
-              <div className='relative w-64 h-64 sm:w-80 sm:h-80 lg:w-96 lg:h-96'>
-                {/* Animated gradient border */}
+              <div className='relative h-64 w-64 sm:h-80 sm:w-80 lg:h-96 lg:w-96'>
                 <motion.div
-                  className='absolute inset-0 rounded-full bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 blur-xl opacity-75'
-                  animate={{
-                    rotate: 360,
-                  }}
+                  className='absolute inset-0 rounded-full bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 opacity-75 blur-xl'
+                  animate={{ rotate: 360 }}
                   transition={{
                     duration: 8,
                     repeat: Infinity,
                     ease: 'linear',
                   }}
                 />
-
-                {/* Inner gradient border */}
                 <div className='absolute inset-2 rounded-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 p-1'>
-                  {/* Image container */}
-                  <div className='w-full h-full rounded-full overflow-hidden bg-white'>
-                    {/* Profile image */}
+                  <div className='h-full w-full overflow-hidden rounded-full bg-white'>
                     <img
                       src='/images/Profile.png'
                       alt='Md. Ridoy Hasan Kamrul - Frontend Developer'
-                      className='w-full h-full object-cover ml-auto mr-auto'
+                      className='ml-auto mr-auto h-full w-full object-cover'
                     />
                   </div>
                 </div>
-
-                {/* Floating particles */}
                 <motion.div
-                  className='absolute -top-4 -right-4 w-20 h-20 bg-blue-400/20 rounded-full blur-2xl'
+                  className='absolute -right-4 -top-4 h-20 w-20 rounded-full bg-blue-400/20 blur-2xl'
                   animate={{
                     scale: [1, 1.5, 1],
                     opacity: [0.3, 0.6, 0.3],
@@ -237,7 +270,7 @@ export default function Hero() {
                   }}
                 />
                 <motion.div
-                  className='absolute -bottom-4 -left-4 w-24 h-24 bg-purple-400/20 rounded-full blur-2xl'
+                  className='absolute -bottom-4 -left-4 h-24 w-24 rounded-full bg-purple-400/20 blur-2xl'
                   animate={{
                     scale: [1, 1.5, 1],
                     opacity: [0.3, 0.6, 0.3],

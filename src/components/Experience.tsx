@@ -7,6 +7,8 @@ import {
   Crown,
   MapPin,
 } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { useHeavySectionMotion } from '../hooks/useHeavySectionMotion';
 
 const EXPERIENCE_VIDEO_SRC =
   'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260606_154941_df1a96e1-a06f-450c-bd02-d863414cc1a0.mp4';
@@ -38,6 +40,7 @@ export default function Experience() {
   const sectionRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [inView, setInView] = useState(false);
+  const heavyStyle = useHeavySectionMotion(sectionRef, 'slamLeft');
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -100,7 +103,10 @@ export default function Experience() {
         aria-hidden
       />
 
-      <div className='relative z-10 flex flex-1 flex-col justify-center px-6 py-24 sm:px-10 lg:px-16 lg:py-28'>
+      <motion.div
+        className='relative z-10 flex flex-1 flex-col justify-center px-6 py-24 sm:px-10 lg:px-16 lg:py-28'
+        style={heavyStyle}
+      >
         <div className='max-w-3xl'>
           <div className='animate-fade-up mb-6 flex items-center gap-2 lg:mb-8'>
             <Crown className='h-4 w-4 text-white/70' aria-hidden />
@@ -201,7 +207,7 @@ export default function Experience() {
             </>
           )}
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 }

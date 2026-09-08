@@ -2,12 +2,14 @@ import {
   useCallback,
   useEffect,
   useMemo,
+  useRef,
   useState,
   type CSSProperties,
 } from 'react';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useTheme } from '../contexts/ThemeContext';
+import { useHeavySectionMotion } from '../hooks/useHeavySectionMotion';
 
 const IMAGES = [
   {
@@ -114,6 +116,8 @@ type SkillsProps = {
 export default function Skills({ categories }: SkillsProps) {
   const { theme } = useTheme();
   const isDark = theme === 'dark';
+  const sectionRef = useRef<HTMLElement>(null);
+  const heavyStyle = useHeavySectionMotion(sectionRef, 'flipDeck');
   const [activeIndex, setActiveIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
   const [isMobile, setIsMobile] = useState(() =>
@@ -184,17 +188,19 @@ export default function Skills({ categories }: SkillsProps) {
 
   return (
     <section
+      ref={sectionRef}
       id='skills'
       className='relative w-full overflow-hidden'
       style={{
         backgroundColor: sectionBg,
         transition: `background-color ${TRANSITION_MS}ms ${EASE}`,
         fontFamily: 'Inter, sans-serif',
+        perspective: 1200,
       }}
     >
-      <div
+      <motion.div
         className='relative w-full overflow-hidden'
-        style={{ height: '100vh' }}
+        style={{ height: '100vh', ...heavyStyle }}
       >
         {/* Theme wash */}
         <div
@@ -418,7 +424,7 @@ export default function Skills({ categories }: SkillsProps) {
           Discover it
           <ArrowRight className='h-5 w-5 sm:h-8 sm:w-8' strokeWidth={2.25} />
         </a>
-      </div>
+      </motion.div>
     </section>
   );
 }

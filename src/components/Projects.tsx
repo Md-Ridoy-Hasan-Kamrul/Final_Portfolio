@@ -4,6 +4,7 @@ import { Cover } from './ui/cover';
 import { Container } from './ui/Container';
 import DepthBlurCarousel from './DepthBlurCarousel';
 import { useTheme } from '../contexts/ThemeContext';
+import { useHeavySectionMotion } from '../hooks/useHeavySectionMotion';
 
 const PROJECTS_VIDEO_SRC =
   'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260901_122529_931c22c8-8d2d-47c0-ad51-b97f56a91e42.mp4';
@@ -209,6 +210,7 @@ export default function Projects() {
   const isNight = theme === 'dark';
   const sectionRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const heavyStyle = useHeavySectionMotion(sectionRef, 'zoomPunch');
   const [resolvedSrc, setResolvedSrc] = useState<Record<string, string>>(() =>
     Object.fromEntries(projects.map((p) => [p.image, p.fallback]))
   );
@@ -306,16 +308,16 @@ export default function Projects() {
         </video>
       </div>
 
-      <div className='projects-inner'>
+      <motion.div className='projects-inner' style={heavyStyle}>
         {/* Night moon — sits in the left gutter, not beside the title */}
         <span className='projects-moon' aria-hidden='true' />
 
         <Container className='relative z-10'>
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+            initial={{ opacity: 0, y: 40, scale: 0.94 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+            viewport={{ once: true, amount: 0.4 }}
+            transition={{ type: 'spring', stiffness: 100, damping: 16 }}
           >
             <h2
               className={`mb-3 text-2xl font-bold min-[375px]:text-3xl sm:mb-4 sm:text-4xl lg:text-5xl ${
@@ -356,7 +358,7 @@ export default function Projects() {
             className='w-full'
           />
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 }
