@@ -1,6 +1,9 @@
 import { motion } from 'framer-motion';
 import ScrambledText from './ScrambledText';
+import BadHandwriting from './BadHandwriting';
 import { Container } from './ui/Container';
+import { useTheme } from '../contexts/ThemeContext';
+import { useEffect, useState } from 'react';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -42,6 +45,23 @@ const education = [
 ];
 
 export default function About() {
+  const { theme } = useTheme();
+  const [fontSize, setFontSize] = useState(56);
+
+  useEffect(() => {
+    const update = () => {
+      const w = window.innerWidth;
+      if (w <= 320) setFontSize(36);
+      else if (w <= 375) setFontSize(42);
+      else if (w <= 640) setFontSize(48);
+      else if (w <= 1024) setFontSize(56);
+      else setFontSize(64);
+    };
+    update();
+    window.addEventListener('resize', update, { passive: true });
+    return () => window.removeEventListener('resize', update);
+  }, []);
+
   return (
     <section
       id='about'
@@ -55,9 +75,16 @@ export default function About() {
           transition={{ duration: 0.6 }}
           className='mb-16'
         >
-          <h2 className='text-4xl sm:text-5xl font-bold text-gray-900 dark:text-white mb-4'>
-            About Me
-          </h2>
+          <BadHandwriting
+            text='About Me'
+            fontSize={fontSize}
+            color={theme === 'dark' ? '#F3F4F6' : '#111827'}
+            letterSpacing={1}
+            lineHeight={1.15}
+            seed={42}
+            alignment='left'
+            className='mb-3'
+          />
           <div className='w-20 h-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded'></div>
         </motion.div>
 
