@@ -130,7 +130,11 @@
     border-radius: 50%;
     background:
       radial-gradient(circle at 32% 30%, #ffffff 0%, transparent 28%),
-      radial-gradient(circle at 62% 58%, rgba(180, 200, 220, 0.35) 0%, transparent 22%),
+      radial-gradient(
+        circle at 62% 58%,
+        rgba(180, 200, 220, 0.35) 0%,
+        transparent 22%
+      ),
       radial-gradient(
         circle at 40% 38%,
         #f8fbff 0%,
@@ -307,3 +311,107 @@
     color: transparent;
   }
 }
+
+/* Apogee-style entrance animations (Contact / Let's Work Together) */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-down {
+  from {
+    opacity: 0;
+    transform: translateY(-16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-left {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fade-right {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fade-scale {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes bar-grow {
+  from {
+    transform: scaleY(0);
+    opacity: 0;
+  }
+  to {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+}
+
+.contact-section .apogee-anim {
+  opacity: 0;
+}
+
+.contact-section.is-inview .animate-fade-up {
+  animation: fade-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.contact-section.is-inview .animate-fade-down {
+  animation: fade-down 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.contact-section.is-inview .animate-fade-left {
+  animation: fade-left 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.contact-section.is-inview .animate-fade-right {
+  animation: fade-right 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.contact-section.is-inview .animate-fade-scale {
+  animation: fade-scale 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.contact-section.is-inview .animate-bar-grow {
+  animation: bar-grow 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  opacity: 0;
+}
+
+.contact-glass {
+  background: rgba(17, 16, 15, 0.35);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+

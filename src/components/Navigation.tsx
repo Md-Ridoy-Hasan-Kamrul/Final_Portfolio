@@ -63,7 +63,7 @@ const Navigation = memo(() => {
 
   const handleLinkClick = (
     e: React.MouseEvent<HTMLAnchorElement>,
-    href: string
+    href: string,
   ) => {
     e.preventDefault();
 
@@ -81,10 +81,10 @@ const Navigation = memo(() => {
           window.innerWidth >= 1024
             ? 128
             : window.innerWidth >= 768
-            ? 112
-            : window.innerWidth >= 640
-            ? 96
-            : 80;
+              ? 112
+              : window.innerWidth >= 640
+                ? 96
+                : 80;
 
         // Get the element's position relative to the document
         const elementTop = element.offsetTop;
@@ -111,11 +111,13 @@ const Navigation = memo(() => {
   const onProjectsNight = onProjects && theme === 'dark';
   const onSkills = activeSection === '#skills';
   const onExperience = activeSection === '#experience';
+  const onContact = activeSection === '#contact';
   const onDarkNav =
     activeSection === '#about' ||
     onExperience ||
     onProjectsNight ||
-    onSkills;
+    onSkills ||
+    onContact;
   const useDarkLogo = theme === 'dark' || onDarkNav;
 
   const navSurfaceClass = (() => {
@@ -149,7 +151,7 @@ const Navigation = memo(() => {
           ? 'bg-[#070b14]/88 backdrop-blur-xl border-b border-sky-200/15 shadow-lg shadow-black/40'
           : 'bg-black/20 backdrop-blur-xl border-b border-white/20 shadow-lg shadow-black/15';
       case '#contact':
-        return 'bg-white/90 dark:bg-gray-950/90 backdrop-blur-xl border-b border-gray-200/70 dark:border-white/10 shadow-md';
+        return 'bg-[#080A19]/85 backdrop-blur-xl border-b border-white/10 shadow-lg shadow-black/30';
       default:
         return isScrolled
           ? 'bg-gradient-to-b from-zinc-300/95 via-zinc-200/95 to-zinc-300/90 dark:from-zinc-800/95 dark:via-zinc-900/95 dark:to-zinc-800/90 backdrop-blur-lg shadow-lg'
