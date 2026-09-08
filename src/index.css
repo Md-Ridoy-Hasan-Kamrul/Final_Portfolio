@@ -10,23 +10,58 @@
 }
 
 @layer components {
-  /* Light frosted glass field cards — BG clearly shows through */
+  /* Clear glass — BG shows through like frosted glass */
   .glass-field {
-    background: rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border: 1px solid rgba(255, 255, 255, 0.28);
+    background: linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.22) 0%,
+      rgba(255, 255, 255, 0.08) 55%,
+      rgba(255, 255, 255, 0.05) 100%
+    );
+    backdrop-filter: blur(4px) saturate(1.25);
+    -webkit-backdrop-filter: blur(4px) saturate(1.25);
+    border: 1px solid rgba(255, 255, 255, 0.5);
     box-shadow:
-      0 2px 16px rgba(0, 0, 0, 0.06),
-      inset 0 1px 0 rgba(255, 255, 255, 0.35);
+      0 4px 20px rgba(0, 0, 0, 0.12),
+      inset 0 1px 0 rgba(255, 255, 255, 0.65),
+      inset 0 -1px 0 rgba(255, 255, 255, 0.12);
   }
 
   .dark .glass-field {
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.18) 0%,
+      rgba(255, 255, 255, 0.06) 55%,
+      rgba(255, 255, 255, 0.04) 100%
+    );
+    border: 1px solid rgba(255, 255, 255, 0.42);
     box-shadow:
-      0 2px 16px rgba(0, 0, 0, 0.15),
-      inset 0 1px 0 rgba(255, 255, 255, 0.15);
+      0 4px 20px rgba(0, 0, 0, 0.18),
+      inset 0 1px 0 rgba(255, 255, 255, 0.5),
+      inset 0 -1px 0 rgba(255, 255, 255, 0.1);
+  }
+
+  .glass-field-title {
+    color: #ffe8a3;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-shadow:
+      0 0 12px rgba(255, 200, 100, 0.45),
+      0 1px 3px rgba(0, 0, 0, 0.85);
+  }
+
+  .glass-field-meta {
+    color: #fff;
+    font-weight: 500;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+  }
+
+  .glass-field-year {
+    color: #ffd27a;
+    font-weight: 600;
+    text-shadow:
+      0 0 8px rgba(255, 190, 80, 0.35),
+      0 1px 3px rgba(0, 0, 0, 0.8);
   }
 
   /* Exact dark-panel tone from the reference footer */

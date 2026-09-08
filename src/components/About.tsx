@@ -201,10 +201,8 @@ export default function About() {
                 whileHover={{ y: -4, scale: 1.02 }}
                 transition={{ type: 'spring', stiffness: 320, damping: 22 }}
               >
-                <p className='text-base font-semibold text-white'>
-                  MERN Stack
-                </p>
-                <p className='mt-1 text-sm text-white/80'>Ostad · 2024</p>
+                <p className='glass-field-title text-base'>MERN Stack</p>
+                <p className='glass-field-meta mt-1 text-sm'>Ostad · 2024</p>
               </motion.div>
             </motion.div>
           </motion.div>
@@ -239,14 +237,10 @@ export default function About() {
                 }}
               >
                 <div className='mb-2 flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1'>
-                  <p className='text-base font-semibold text-white'>
-                    {item.title}
-                  </p>
-                  <p className='text-sm font-medium text-white/75'>
-                    {item.year}
-                  </p>
+                  <p className='glass-field-title text-base'>{item.title}</p>
+                  <p className='glass-field-year text-sm'>{item.year}</p>
                 </div>
-                <p className='text-sm leading-relaxed text-white/85'>
+                <p className='glass-field-meta text-sm leading-relaxed'>
                   {item.school}
                 </p>
               </motion.div>
