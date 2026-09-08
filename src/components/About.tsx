@@ -45,7 +45,7 @@ export default function About() {
   return (
     <section
       id='about'
-      className='py-16 sm:py-20 lg:py-24 bg-white dark:bg-gray-900 relative transition-colors duration-300'
+      className='py-16 sm:py-20 lg:py-24 bg-transparent relative transition-colors duration-300'
     >
       <Container>
         <motion.div

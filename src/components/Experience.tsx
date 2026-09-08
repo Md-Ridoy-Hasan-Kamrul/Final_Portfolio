@@ -29,10 +29,10 @@ export default function Experience() {
   return (
     <section
       id='experience'
-      className='py-12 sm:py-16 lg:py-20 bg-white dark:bg-gray-900 relative overflow-hidden transition-colors duration-300'
+      className='py-12 sm:py-16 lg:py-20 bg-transparent relative overflow-hidden transition-colors duration-300'
     >
-      {/* Background gradient */}
-      <div className='absolute inset-0 bg-gradient-to-br from-gray-50 via-white to-blue-50/30 dark:from-gray-900 dark:via-gray-900 dark:to-purple-900/10 -z-0' />
+      {/* Soft wash so content stays readable over shared video BG */}
+      <div className='absolute inset-0 bg-gradient-to-br from-white/40 via-transparent to-blue-50/20 dark:from-gray-900/40 dark:via-transparent dark:to-purple-900/10 -z-0' />
 
       <Container className='relative z-10'>
         <motion.h2

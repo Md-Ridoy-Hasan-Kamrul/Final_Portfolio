@@ -204,7 +204,7 @@ export default function Projects() {
   return (
     <section
       id='projects'
-      className='py-12 sm:py-16 lg:py-20 bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800 relative overflow-hidden transition-colors duration-300'
+      className='py-12 sm:py-16 lg:py-20 bg-transparent relative overflow-hidden transition-colors duration-300'
     >
       {/* Background decoration */}
       <div className='absolute top-20 left-0 w-72 h-72 bg-blue-100/30 rounded-full blur-3xl -z-0' />

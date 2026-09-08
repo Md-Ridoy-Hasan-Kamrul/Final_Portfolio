@@ -1,9 +1,8 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { CustomEase } from 'gsap/CustomEase';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-gsap.registerPlugin(CustomEase, ScrollTrigger);
+gsap.registerPlugin(CustomEase);
 
 const VIDEO_SRC = 'https://cdn.zajno.com/dev/codepen/fossil/fossil.mp4';
 
@@ -19,8 +18,7 @@ type HeroVideoBgProps = {
 };
 
 /**
- * Fixed cinematic video behind navbar + hero (first viewport).
- * Does not replace nav/hero UI — backdrop only.
+ * Fixed cinematic video behind the whole site (navbar + all sections).
  */
 export default function HeroVideoBg({ className = '' }: HeroVideoBgProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -49,20 +47,6 @@ export default function HeroVideoBg({ className = '' }: HeroVideoBgProps) {
         },
       );
 
-      // Soften / hide after leaving the hero so lower sections stay clean
-      ScrollTrigger.create({
-        trigger: '#home',
-        start: 'bottom top',
-        onEnter: () => {
-          gsap.to(wrap, { autoAlpha: 0, duration: 0.4, overwrite: 'auto' });
-          video.pause();
-        },
-        onLeaveBack: () => {
-          gsap.to(wrap, { autoAlpha: 1, duration: 0.4, overwrite: 'auto' });
-          void video.play().catch(() => undefined);
-        },
-      });
-
       const play = () => {
         void video.play().catch(() => undefined);
       };
@@ -77,7 +61,7 @@ export default function HeroVideoBg({ className = '' }: HeroVideoBgProps) {
   return (
     <div
       ref={wrapRef}
-      className={`pointer-events-none fixed inset-x-0 top-0 z-0 h-[100dvh] overflow-hidden opacity-0 ${className}`}
+      className={`pointer-events-none fixed inset-0 z-0 overflow-hidden opacity-0 ${className}`}
       aria-hidden='true'
     >
       <video
@@ -92,8 +76,8 @@ export default function HeroVideoBg({ className = '' }: HeroVideoBgProps) {
         <source src={VIDEO_SRC} type='video/mp4' />
       </video>
 
-      {/* Scrim for navbar + hero text readability */}
-      <div className='absolute inset-0 bg-gradient-to-br from-white/80 via-white/65 to-blue-50/70 dark:from-gray-950/75 dark:via-gray-900/70 dark:to-gray-950/80' />
+      {/* Site-wide scrim for text readability over video */}
+      <div className='absolute inset-0 bg-gradient-to-br from-white/85 via-white/70 to-blue-50/75 dark:from-gray-950/80 dark:via-gray-900/75 dark:to-gray-950/85' />
     </div>
   );
 }

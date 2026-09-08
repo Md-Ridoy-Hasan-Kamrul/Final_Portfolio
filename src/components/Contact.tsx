@@ -6,7 +6,7 @@ export default function Contact() {
   return (
     <section
       id='contact'
-      className='py-12 sm:py-16 lg:py-20 bg-white dark:bg-gray-900 relative overflow-hidden transition-colors duration-300'
+      className='py-12 sm:py-16 lg:py-20 bg-transparent relative overflow-hidden transition-colors duration-300'
     >
       {/* Background gradients */}
       <div className='absolute top-0 left-0 w-96 h-96 bg-gradient-to-br from-blue-100/30 dark:from-blue-900/20 to-transparent rounded-full blur-3xl -z-0' />
