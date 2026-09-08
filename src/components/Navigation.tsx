@@ -110,9 +110,10 @@ const Navigation = memo(() => {
   const onProjects = activeSection === '#projects';
   const onProjectsNight = onProjects && theme === 'dark';
   const onSkills = activeSection === '#skills';
+  const onExperience = activeSection === '#experience';
   const onDarkNav =
     activeSection === '#about' ||
-    activeSection === '#experience' ||
+    onExperience ||
     onProjectsNight ||
     onSkills;
   const useDarkLogo = theme === 'dark' || onDarkNav;
@@ -130,8 +131,11 @@ const Navigation = memo(() => {
 
     switch (activeSection) {
       case '#about':
-      case '#experience':
         return 'bg-[#041018]/88 backdrop-blur-xl border-b border-white/10 shadow-lg shadow-black/30';
+      case '#experience':
+        return theme === 'dark'
+          ? 'bg-[#02080e]/88 backdrop-blur-xl border-b border-cyan-200/20 shadow-lg shadow-black/30'
+          : 'bg-[#0c1824]/75 backdrop-blur-xl border-b border-orange-200/20 shadow-lg shadow-black/25';
       case '#projects':
         return theme === 'dark'
           ? 'bg-[#070d16]/80 backdrop-blur-xl border-b border-white/10 shadow-lg shadow-black/30'

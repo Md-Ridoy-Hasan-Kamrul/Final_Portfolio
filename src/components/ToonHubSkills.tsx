@@ -171,7 +171,7 @@ export default function Skills({ categories }: SkillsProps) {
   };
 
   const sectionBg = isDark
-    ? `color-mix(in srgb, ${activeImage.bg} 28%, #070b14 72%)`
+    ? `color-mix(in srgb, ${activeImage.bg} 48%, #0a1020 52%)`
     : activeImage.bg;
 
   const titleLen = activeCategory?.title.length ?? 0;
@@ -202,8 +202,8 @@ export default function Skills({ categories }: SkillsProps) {
           style={{
             zIndex: 1,
             background: isDark
-              ? 'radial-gradient(ellipse 80% 60% at 50% 20%, rgba(80,120,180,0.2) 0%, transparent 55%), linear-gradient(180deg, rgba(4,8,16,0.6) 0%, rgba(4,8,16,0.28) 45%, rgba(4,8,16,0.7) 100%)'
-              : 'linear-gradient(180deg, rgba(255,255,255,0.1) 0%, transparent 40%, rgba(0,0,0,0.05) 100%)',
+              ? 'radial-gradient(ellipse 80% 60% at 50% 15%, rgba(120,170,255,0.22) 0%, transparent 55%), linear-gradient(180deg, rgba(4,8,16,0.35) 0%, rgba(4,8,16,0.12) 45%, rgba(4,8,16,0.45) 100%)'
+              : 'linear-gradient(180deg, rgba(255,255,255,0.08) 0%, transparent 40%, rgba(0,0,0,0.04) 100%)',
             transition: `background ${TRANSITION_MS}ms ${EASE}`,
           }}
           aria-hidden
@@ -296,7 +296,7 @@ export default function Skills({ categories }: SkillsProps) {
           style={{
             zIndex: 3,
             filter: isDark
-              ? 'brightness(0.7) saturate(0.8) contrast(1.05)'
+              ? 'brightness(0.88) saturate(1.05) contrast(1.04)'
               : 'none',
             transition: `filter ${TRANSITION_MS}ms ${EASE}`,
           }}
