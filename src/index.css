@@ -626,11 +626,11 @@
   .footer-quote-sheen {
     background: linear-gradient(
       105deg,
-      rgba(232, 226, 214, 0.45) 0%,
-      rgba(232, 226, 214, 0.92) 42%,
-      rgba(198, 167, 94, 0.95) 50%,
-      rgba(232, 226, 214, 0.92) 58%,
-      rgba(232, 226, 214, 0.45) 100%
+      rgba(232, 226, 214, 0.75) 0%,
+      rgba(232, 226, 214, 0.98) 42%,
+      rgba(198, 167, 94, 1) 50%,
+      rgba(232, 226, 214, 0.98) 58%,
+      rgba(232, 226, 214, 0.75) 100%
     );
     -webkit-background-clip: text;
     background-clip: text;

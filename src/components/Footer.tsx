@@ -11,7 +11,6 @@ import { pageContainerClass } from './ui/Container';
 import CloudField from './motion/CloudField';
 import FooterStormWeather from './motion/FooterStormWeather';
 import { useTheme } from '../contexts/ThemeContext';
-import WowSectionEntrance from './motion/WowSectionEntrance';
 
 const EMAIL = 'mdridoyhasankamrul@gmail.com';
 const GMAIL_COMPOSE = `https://mail.google.com/mail/?view=cm&fs=1&to=${EMAIL}`;
@@ -142,29 +141,21 @@ export default function Footer() {
         }}
       />
 
-      <WowSectionEntrance
-        variant='curtainBloom'
-        sectionRef={ref}
-        className={`${pageContainerClass} relative z-[1] pt-16 sm:pt-20`}
-      >
-        <div className='grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr]'>
+      <div className={`${pageContainerClass} relative z-[1] pt-16 sm:pt-20`}>
+        <div className='grid items-start gap-10 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr]'>
           <div>
-            <div className='flex items-center gap-2.5'>
-              <span className='-ml-2.5 grid h-14 w-14 flex-shrink-0 place-items-center sm:-ml-3 sm:h-16 sm:w-16'>
+            <div className='flex items-center'>
+              <span className='-ml-2 grid h-16 w-16 flex-shrink-0 place-items-center sm:-ml-3 sm:h-20 sm:w-20'>
                 <img
                   src='/logo-dark.png'
-                  alt=''
-                  aria-hidden='true'
+                  alt={DISPLAY_NAME}
                   className='h-full w-full object-contain object-left'
-                  width={64}
-                  height={64}
+                  width={80}
+                  height={80}
                 />
               </span>
-              <span className='font-serif text-lg font-bold tracking-wide text-bone'>
-                {DISPLAY_NAME}
-              </span>
             </div>
-            <p className='mt-4 max-w-sm text-sm leading-relaxed text-bone/55'>
+            <p className='mt-4 max-w-sm text-sm leading-relaxed text-bone/80'>
               Frontend Developer specializing in React.js, Next.js, TypeScript,
               and JavaScript. Building responsive, production-ready interfaces —
               open to remote and contract work worldwide.
@@ -175,7 +166,7 @@ export default function Footer() {
                 target='_blank'
                 rel='noopener noreferrer'
                 aria-label='LinkedIn'
-                className='grid h-10 w-10 place-items-center rounded-xl border border-bone/12 text-bone/70 transition-all duration-300 hover:-translate-y-0.5 hover:border-crimson hover:text-crimson-light'
+                className='grid h-10 w-10 place-items-center rounded-xl border border-bone/25 text-bone/90 transition-all duration-300 hover:-translate-y-0.5 hover:border-crimson hover:text-crimson-light'
               >
                 <LinkedinMark />
               </a>
@@ -184,7 +175,7 @@ export default function Footer() {
                 target='_blank'
                 rel='noopener noreferrer'
                 aria-label='GitHub'
-                className='grid h-10 w-10 place-items-center rounded-xl border border-bone/12 text-bone/70 transition-all duration-300 hover:-translate-y-0.5 hover:border-crimson hover:text-crimson-light'
+                className='grid h-10 w-10 place-items-center rounded-xl border border-bone/25 text-bone/90 transition-all duration-300 hover:-translate-y-0.5 hover:border-crimson hover:text-crimson-light'
               >
                 <GithubMark />
               </a>
@@ -193,7 +184,7 @@ export default function Footer() {
                 target='_blank'
                 rel='noopener noreferrer'
                 aria-label='Compose email in Gmail'
-                className='grid h-10 w-10 place-items-center rounded-xl border border-bone/12 text-bone/70 transition-all duration-300 hover:-translate-y-0.5 hover:border-crimson hover:text-crimson-light'
+                className='grid h-10 w-10 place-items-center rounded-xl border border-bone/25 text-bone/90 transition-all duration-300 hover:-translate-y-0.5 hover:border-crimson hover:text-crimson-light'
               >
                 <Mail className='h-4 w-4' />
               </a>
@@ -201,7 +192,7 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className='font-mono text-[11px] uppercase tracking-[0.2em] text-bone/35'>
+            <h4 className='font-mono text-[11px] uppercase leading-none tracking-[0.2em] text-bone/75'>
               Navigate
             </h4>
             <ul className='mt-4 space-y-2.5'>
@@ -209,7 +200,7 @@ export default function Footer() {
                 <li key={n.href}>
                   <a
                     href={n.href}
-                    className='group inline-flex items-center gap-1 text-sm text-bone/60 transition-colors hover:text-bone'
+                    className='group inline-flex items-center gap-1 text-sm text-bone/85 transition-colors hover:text-bone'
                   >
                     <span className='relative'>
                       {n.label}
@@ -222,19 +213,19 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className='font-mono text-[11px] uppercase tracking-[0.2em] text-bone/35'>
+            <h4 className='font-mono text-[11px] uppercase leading-none tracking-[0.2em] text-bone/75'>
               Get in touch
             </h4>
             <a
               href={GMAIL_COMPOSE}
               target='_blank'
               rel='noopener noreferrer'
-              className='group mt-4 inline-flex items-center gap-1.5 font-mono text-sm text-bone/80 transition-colors hover:text-crimson-light'
+              className='group mt-4 inline-flex items-center gap-1.5 font-mono text-sm text-bone transition-colors hover:text-crimson-light'
             >
               {EMAIL}
               <ArrowUpRight className='h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5' />
             </a>
-            <div className='relative mt-4 font-mono text-xs text-bone/45'>
+            <div className='relative mt-4 font-mono text-xs text-bone/70'>
               <span className='absolute -left-3 top-1/2 flex h-1.5 w-1.5 -translate-y-1/2'>
                 <span className='absolute inline-flex h-full w-full animate-ping rounded-full bg-crimson opacity-75' />
                 <span className='relative inline-flex h-1.5 w-1.5 rounded-full bg-crimson' />
@@ -244,7 +235,6 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Oversized brand wordmark — rises from below as the footer enters view */}
         <motion.div
           initial={{ opacity: 0, y: 120 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -262,8 +252,8 @@ export default function Footer() {
               className='relative block -translate-x-[1.5vw] whitespace-nowrap text-center font-serif text-[13vw] font-bold leading-[0.85] tracking-[-0.07em] sm:text-[14vw]'
               style={{
                 backgroundImage: isDay
-                  ? 'linear-gradient(to bottom, rgba(232, 226, 214, 0.4), rgba(232, 226, 214, 0.06))'
-                  : 'linear-gradient(to bottom, rgba(190, 210, 235, 0.45), rgba(120, 150, 190, 0.1))',
+                  ? 'linear-gradient(to bottom, rgba(232, 226, 214, 0.72), rgba(232, 226, 214, 0.18))'
+                  : 'linear-gradient(to bottom, rgba(210, 225, 245, 0.78), rgba(150, 175, 210, 0.22))',
                 WebkitBackgroundClip: 'text',
                 backgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
@@ -277,29 +267,29 @@ export default function Footer() {
 
         <div className='relative mt-8 pb-20 pt-8 sm:pb-8'>
           <span
-            className='footer-gold-line absolute inset-x-0 top-0 h-px w-full opacity-40'
+            className='footer-gold-line absolute inset-x-0 top-0 h-px w-full opacity-50'
             aria-hidden='true'
           />
 
           <blockquote className='mx-auto flex max-w-2xl items-center justify-center gap-4'>
             <span
-              className='footer-gold-line hidden h-px min-w-0 flex-1 opacity-60 sm:block'
+              className='footer-gold-line hidden h-px min-w-0 flex-1 opacity-70 sm:block'
               aria-hidden='true'
             />
-            <p className='footer-quote-sheen text-center font-serif text-[12.5px] font-medium leading-relaxed tracking-[0.02em] sm:text-[13.5px]'>
+            <p className='footer-quote-sheen text-center font-serif text-[12.5px] font-medium leading-relaxed tracking-[0.02em] text-bone/90 sm:text-[13.5px]'>
               “{QUOTE}”
             </p>
             <span
-              className='footer-gold-line hidden h-px min-w-0 flex-1 opacity-60 sm:block'
+              className='footer-gold-line hidden h-px min-w-0 flex-1 opacity-70 sm:block'
               aria-hidden='true'
             />
           </blockquote>
 
-          <p className='mt-6 text-center font-mono text-[11px] text-bone/35 sm:text-xs'>
+          <p className='mt-6 text-center font-mono text-[11px] text-bone/65 sm:text-xs'>
             © {year} {DISPLAY_NAME}
           </p>
         </div>
-      </WowSectionEntrance>
+      </div>
     </footer>
   );
 }
