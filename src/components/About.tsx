@@ -2,8 +2,10 @@ import { motion } from 'framer-motion';
 import ScrambledText from './ScrambledText';
 import BadHandwriting from './BadHandwriting';
 import { Container } from './ui/Container';
-import { useTheme } from '../contexts/ThemeContext';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+
+const ABOUT_VIDEO_SRC =
+  'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260314_131748_f2ca2a28-fed7-44c8-b9a9-bd9acdd5ec31.mp4';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -45,8 +47,9 @@ const education = [
 ];
 
 export default function About() {
-  const { theme } = useTheme();
   const [fontSize, setFontSize] = useState(56);
+  const sectionRef = useRef<HTMLElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     const update = () => {
@@ -62,12 +65,53 @@ export default function About() {
     return () => window.removeEventListener('resize', update);
   }, []);
 
+  // Play video only while About is in view
+  useEffect(() => {
+    const section = sectionRef.current;
+    const video = videoRef.current;
+    if (!section || !video) return;
+
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry) return;
+        if (entry.isIntersecting) {
+          void video.play().catch(() => undefined);
+        } else {
+          video.pause();
+        }
+      },
+      { threshold: 0.12 }
+    );
+
+    io.observe(section);
+    return () => io.disconnect();
+  }, []);
+
   return (
     <section
+      ref={sectionRef}
       id='about'
-      className='py-16 sm:py-20 lg:py-24 bg-transparent relative transition-colors duration-300'
+      className='py-16 sm:py-20 lg:py-24 bg-transparent relative overflow-hidden transition-colors duration-300'
     >
-      <Container>
+      {/* Section-only cinematic video BG — UI unchanged */}
+      <div className='pointer-events-none absolute inset-0 z-0' aria-hidden>
+        <video
+          ref={videoRef}
+          className='absolute inset-0 h-full w-full object-cover'
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload='metadata'
+        >
+          <source src={ABOUT_VIDEO_SRC} type='video/mp4' />
+        </video>
+        {/* Darker cinematic wash so video reads deep, not washed-out */}
+        <div className='absolute inset-0 bg-[#041018]/72 dark:bg-[#02080e]/80' />
+        <div className='absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/55' />
+      </div>
+
+      <Container className='relative z-10'>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -78,7 +122,7 @@ export default function About() {
           <BadHandwriting
             text='About Me'
             fontSize={fontSize}
-            color={theme === 'dark' ? '#F3F4F6' : '#111827'}
+            color='#F3F4F6'
             letterSpacing={1}
             lineHeight={1.15}
             seed={42}
@@ -89,7 +133,6 @@ export default function About() {
         </motion.div>
 
         <div className='grid lg:grid-cols-3 gap-10 lg:gap-12 lg:items-start'>
-          {/* Left — Profile */}
           <motion.div
             className='lg:col-span-2 space-y-6'
             variants={containerVariants}
@@ -104,7 +147,7 @@ export default function About() {
             ].map((text, index) => (
               <motion.div key={index} variants={itemVariants}>
                 <ScrambledText
-                  className='text-lg text-gray-700 dark:text-gray-300 leading-relaxed'
+                  className='text-lg text-gray-200 leading-relaxed'
                   radius={120}
                   duration={800}
                   scrambleChars='.:!@#$%&*'
@@ -115,7 +158,6 @@ export default function About() {
             ))}
           </motion.div>
 
-          {/* Right — Contact only (balanced with bio) */}
           <motion.div
             className='space-y-6'
             variants={containerVariants}
@@ -124,59 +166,46 @@ export default function About() {
             viewport={{ once: true }}
           >
             <motion.div variants={itemVariants}>
-              <h3 className='text-lg font-bold text-gray-900 dark:text-white mb-2'>
-                Location
-              </h3>
-              <p className='text-base text-gray-600 dark:text-gray-300'>
-                Dhaka, Bangladesh
-              </p>
+              <h3 className='text-lg font-bold text-white mb-2'>Location</h3>
+              <p className='text-base text-gray-300'>Dhaka, Bangladesh</p>
             </motion.div>
 
             <motion.div variants={itemVariants}>
-              <h3 className='text-lg font-bold text-gray-900 dark:text-white mb-2'>
-                Email
-              </h3>
+              <h3 className='text-lg font-bold text-white mb-2'>Email</h3>
               <a
                 href='https://mail.google.com/mail/?view=cm&fs=1&to=mdridoyhasankamrul@gmail.com'
                 target='_blank'
                 rel='noopener noreferrer'
-                className='cursor-target text-base text-blue-600 hover:text-blue-700 transition-colors break-all'
+                className='cursor-target text-base text-blue-400 hover:text-blue-300 transition-colors break-all'
               >
                 mdridoyhasankamrul@gmail.com
               </a>
             </motion.div>
 
             <motion.div variants={itemVariants}>
-              <h3 className='text-lg font-bold text-gray-900 dark:text-white mb-2'>
-                Phone
-              </h3>
+              <h3 className='text-lg font-bold text-white mb-2'>Phone</h3>
               <a
                 href='tel:+8801680092066'
-                className='cursor-target text-base text-blue-600 hover:text-blue-700 transition-colors'
+                className='cursor-target text-base text-blue-400 hover:text-blue-300 transition-colors'
               >
                 +880 1680 092066
               </a>
             </motion.div>
 
             <motion.div variants={itemVariants}>
-              <h3 className='text-lg font-bold text-gray-900 dark:text-white mb-3'>
+              <h3 className='text-lg font-bold text-white mb-3'>
                 Certification
               </h3>
-              <div className='pl-4 border-l-4 border-blue-600 space-y-1'>
-                <p className='text-base font-medium text-gray-900 dark:text-white'>
-                  MERN Stack
-                </p>
-                <p className='text-sm text-gray-600 dark:text-gray-400'>
-                  Ostad · 2024
-                </p>
+              <div className='pl-4 border-l-4 border-blue-400 space-y-1'>
+                <p className='text-base font-medium text-white'>MERN Stack</p>
+                <p className='text-sm text-gray-400'>Ostad · 2024</p>
               </div>
             </motion.div>
           </motion.div>
         </div>
 
-        {/* Education — full-width row so the sidebar stays balanced */}
         <motion.div
-          className='mt-14 pt-10 border-t border-gray-200 dark:border-gray-700'
+          className='mt-14 pt-10 border-t border-white/15'
           variants={containerVariants}
           initial='hidden'
           whileInView='visible'
@@ -184,7 +213,7 @@ export default function About() {
         >
           <motion.h3
             variants={itemVariants}
-            className='text-lg font-bold text-gray-900 dark:text-white mb-6'
+            className='text-lg font-bold text-white mb-6'
           >
             Education
           </motion.h3>
@@ -193,19 +222,13 @@ export default function About() {
               <motion.div
                 key={item.title}
                 variants={itemVariants}
-                className='pl-4 border-l-4 border-blue-600 space-y-1'
+                className='pl-4 border-l-4 border-blue-400 space-y-1'
               >
                 <div className='flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1'>
-                  <p className='text-base font-medium text-gray-900 dark:text-white'>
-                    {item.title}
-                  </p>
-                  <p className='text-sm text-gray-500 dark:text-gray-400'>
-                    {item.year}
-                  </p>
+                  <p className='text-base font-medium text-white'>{item.title}</p>
+                  <p className='text-sm text-gray-400'>{item.year}</p>
                 </div>
-                <p className='text-sm text-gray-600 dark:text-gray-400'>
-                  {item.school}
-                </p>
+                <p className='text-sm text-gray-300'>{item.school}</p>
               </motion.div>
             ))}
           </div>

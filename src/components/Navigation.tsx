@@ -107,13 +107,42 @@ const Navigation = memo(() => {
     }
   };
 
+  const onAbout = activeSection === '#about';
+  const useDarkLogo = theme === 'dark' || onAbout;
+
+  const navSurfaceClass = (() => {
+    if (isOpen && onAbout) {
+      return 'bg-[#041018]/95 backdrop-blur-xl border-b border-white/10 shadow-lg shadow-black/40';
+    }
+    if (isOpen) {
+      return 'bg-gradient-to-b from-zinc-300/95 via-zinc-200/95 to-zinc-300/90 dark:from-zinc-800/95 dark:via-zinc-900/95 dark:to-zinc-800/90 backdrop-blur-lg shadow-lg';
+    }
+
+    switch (activeSection) {
+      case '#about':
+        return 'bg-[#041018]/88 backdrop-blur-xl border-b border-white/10 shadow-lg shadow-black/30';
+      case '#home':
+        return isScrolled
+          ? 'bg-white/80 dark:bg-gray-950/80 backdrop-blur-xl border-b border-black/5 dark:border-white/10 shadow-lg shadow-black/5'
+          : 'bg-transparent';
+      case '#experience':
+        return 'bg-white/85 dark:bg-gray-900/85 backdrop-blur-xl border-b border-gray-200/60 dark:border-white/10 shadow-md';
+      case '#projects':
+        return 'bg-slate-950/75 dark:bg-slate-950/80 backdrop-blur-xl border-b border-white/10 shadow-lg shadow-black/25';
+      case '#skills':
+        return 'bg-white/85 dark:bg-gray-900/85 backdrop-blur-xl border-b border-gray-200/60 dark:border-white/10 shadow-md';
+      case '#contact':
+        return 'bg-white/90 dark:bg-gray-950/90 backdrop-blur-xl border-b border-gray-200/70 dark:border-white/10 shadow-md';
+      default:
+        return isScrolled
+          ? 'bg-gradient-to-b from-zinc-300/95 via-zinc-200/95 to-zinc-300/90 dark:from-zinc-800/95 dark:via-zinc-900/95 dark:to-zinc-800/90 backdrop-blur-lg shadow-lg'
+          : 'bg-transparent';
+    }
+  })();
+
   return (
     <motion.nav
-      className={`fixed top-0 inset-x-0 z-50 transition-all duration-500 ${
-        isScrolled || isOpen
-          ? 'bg-gradient-to-b from-zinc-300/95 via-zinc-200/95 to-zinc-300/90 dark:from-zinc-800/95 dark:via-zinc-900/95 dark:to-zinc-800/90 backdrop-blur-lg shadow-lg shadow-zinc-500/10 dark:shadow-black/30'
-          : 'bg-transparent backdrop-blur-0'
-      }`}
+      className={`fixed top-0 inset-x-0 z-50 transition-all duration-500 ${navSurfaceClass}`}
       role='navigation'
       aria-label='Main navigation'
       initial={{ y: -100 }}
@@ -121,7 +150,13 @@ const Navigation = memo(() => {
       transition={{ duration: 0.6, type: 'spring', stiffness: 100 }}
     >
       {/* Gradient border bottom */}
-      <div className='absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-zinc-400 dark:via-zinc-600 to-transparent opacity-60' />
+      <div
+        className={`absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent to-transparent opacity-60 ${
+          onAbout
+            ? 'via-blue-400/50'
+            : 'via-zinc-400 dark:via-zinc-600'
+        }`}
+      />
 
       <Container>
         <div className='flex justify-between items-center h-20 sm:h-24 md:h-28 lg:h-28'>
@@ -135,7 +170,7 @@ const Navigation = memo(() => {
             whileTap={{ scale: 0.95 }}
           >
             <img
-              src={theme === 'dark' ? '/logo-dark.png' : '/logo.png'}
+              src={useDarkLogo ? '/logo-dark.png' : '/logo.png'}
               alt='KH Kamrul - Frontend Engineer'
               className='h-20 sm:h-20 md:h-24 lg:h-36 w-auto relative z-10 object-contain transition-opacity duration-300'
             />
@@ -172,16 +207,24 @@ const Navigation = memo(() => {
                     text={link.label}
                     forceShow={isActive}
                     textColor={
-                      isActive
-                        ? theme === 'dark'
-                          ? '#60A5FA'
-                          : '#2563EB'
-                        : theme === 'dark'
-                          ? '#D1D5DB'
-                          : '#374151'
+                      onAbout
+                        ? isActive
+                          ? '#93C5FD'
+                          : '#E5E7EB'
+                        : isActive
+                          ? theme === 'dark'
+                            ? '#60A5FA'
+                            : '#2563EB'
+                          : theme === 'dark'
+                            ? '#D1D5DB'
+                            : '#374151'
                     }
                     underlineColor={
-                      theme === 'dark' ? '#A78BFA' : '#3B82F6'
+                      onAbout
+                        ? '#60A5FA'
+                        : theme === 'dark'
+                          ? '#A78BFA'
+                          : '#3B82F6'
                     }
                     strokeWidth={2.5}
                     gap={1}
@@ -191,37 +234,53 @@ const Navigation = memo(() => {
             })}
 
             {/* Social icons and theme toggle in desktop nav */}
-            <div className='hidden lg:flex items-center gap-2 ml-6 pl-6 border-l border-gray-200 dark:border-gray-700'>
+            <div
+              className={`hidden lg:flex items-center gap-2 ml-6 pl-6 border-l ${
+                onAbout
+                  ? 'border-white/20'
+                  : 'border-gray-200 dark:border-gray-700'
+              }`}
+            >
               <ThemeToggle />
               <motion.a
                 href='https://github.com/Md-Ridoy-Hasan-Kamrul'
                 target='_blank'
                 rel='noopener noreferrer'
-                className='cursor-target p-2 text-gray-700 hover:text-white hover:bg-gray-900 dark:text-gray-300 dark:hover:bg-gray-700 rounded-full transition-all duration-300 group relative'
+                className={`cursor-target p-2 rounded-full transition-all duration-300 group relative ${
+                  onAbout
+                    ? 'text-gray-200 hover:text-white hover:bg-white/10'
+                    : 'text-gray-700 hover:text-white hover:bg-gray-900 dark:text-gray-300 dark:hover:bg-gray-700'
+                }`}
                 aria-label='GitHub Profile'
                 whileHover={{ scale: 1.1, rotate: 5 }}
                 whileTap={{ scale: 0.9 }}
               >
                 <Github className='h-5 w-5' />
-                <div className='absolute inset-0 bg-gray-900/10 rounded-full blur-lg opacity-0 group-hover:opacity-100 transition-opacity' />
               </motion.a>
               <motion.a
                 href='https://www.linkedin.com/in/md-ridoy-hasan-kamrul'
                 target='_blank'
                 rel='noopener noreferrer'
-                className='cursor-target p-2 text-gray-700 hover:text-white hover:bg-blue-600 dark:text-gray-300 dark:hover:bg-blue-600 rounded-full transition-all duration-300 group relative'
+                className={`cursor-target p-2 rounded-full transition-all duration-300 group relative ${
+                  onAbout
+                    ? 'text-gray-200 hover:text-white hover:bg-blue-600/80'
+                    : 'text-gray-700 hover:text-white hover:bg-blue-600 dark:text-gray-300 dark:hover:bg-blue-600'
+                }`}
                 aria-label='LinkedIn Profile'
                 whileHover={{ scale: 1.1, rotate: -5 }}
                 whileTap={{ scale: 0.9 }}
               >
                 <Linkedin className='h-5 w-5' />
-                <div className='absolute inset-0 bg-blue-600/10 rounded-full blur-lg opacity-0 group-hover:opacity-100 transition-opacity' />
               </motion.a>
             </div>
           </div>
 
           {/* Mobile hamburger — Framer HamburgerMenu morph */}
-          <div className='md:hidden relative flex items-center justify-center p-1 text-gray-800 dark:text-white'>
+          <div
+            className={`md:hidden relative flex items-center justify-center p-1 ${
+              onAbout ? 'text-white' : 'text-gray-800 dark:text-white'
+            }`}
+          >
             <HamburgerMenu
               isOpen={isOpen}
               onToggle={setIsOpen}
@@ -238,7 +297,11 @@ const Navigation = memo(() => {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            className='md:hidden bg-gradient-to-b from-zinc-300/95 via-zinc-200/95 to-zinc-300/95 dark:from-zinc-800/95 dark:via-zinc-900/95 dark:to-zinc-800/95 backdrop-blur-lg border-t border-zinc-400/40 dark:border-zinc-700 shadow-2xl shadow-zinc-500/15 dark:shadow-black/40'
+            className={`md:hidden backdrop-blur-lg border-t shadow-2xl ${
+              onAbout
+                ? 'bg-[#041018]/98 border-white/10 shadow-black/40'
+                : 'bg-gradient-to-b from-zinc-300/95 via-zinc-200/95 to-zinc-300/95 dark:from-zinc-800/95 dark:via-zinc-900/95 dark:to-zinc-800/95 border-zinc-400/40 dark:border-zinc-700 shadow-zinc-500/15 dark:shadow-black/40'
+            }`}
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
@@ -255,7 +318,9 @@ const Navigation = memo(() => {
                     className={`cursor-target block px-6 py-3 font-medium rounded-xl transition-all duration-300 relative group ${
                       isActive
                         ? 'text-white bg-gradient-to-r from-blue-600 to-purple-600 shadow-lg shadow-blue-500/30'
-                        : 'text-zinc-800 dark:text-zinc-200 hover:bg-zinc-400/30 dark:hover:bg-zinc-700/50 hover:text-blue-700 dark:hover:text-blue-300'
+                        : onAbout
+                          ? 'text-gray-200 hover:bg-white/10 hover:text-white'
+                          : 'text-zinc-800 dark:text-zinc-200 hover:bg-zinc-400/30 dark:hover:bg-zinc-700/50 hover:text-blue-700 dark:hover:text-blue-300'
                     }`}
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
