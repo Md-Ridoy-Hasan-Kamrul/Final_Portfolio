@@ -9,7 +9,7 @@ import {
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useTheme } from '../contexts/ThemeContext';
-import { useHeavySectionMotion } from '../hooks/useHeavySectionMotion';
+import WowSectionEntrance from './motion/WowSectionEntrance';
 
 const IMAGES = [
   {
@@ -117,7 +117,6 @@ export default function Skills({ categories }: SkillsProps) {
   const { theme } = useTheme();
   const isDark = theme === 'dark';
   const sectionRef = useRef<HTMLElement>(null);
-  const heavyStyle = useHeavySectionMotion(sectionRef, 'flipDeck');
   const [activeIndex, setActiveIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
   const [isMobile, setIsMobile] = useState(() =>
@@ -198,9 +197,14 @@ export default function Skills({ categories }: SkillsProps) {
         perspective: 1200,
       }}
     >
-      <motion.div
+      <WowSectionEntrance
+        variant='prismTumble'
+        sectionRef={sectionRef}
         className='relative w-full overflow-hidden'
-        style={{ height: '100vh', ...heavyStyle }}
+      >
+      <div
+        className='relative w-full overflow-hidden'
+        style={{ height: '100vh' }}
       >
         {/* Theme wash */}
         <div
@@ -424,7 +428,8 @@ export default function Skills({ categories }: SkillsProps) {
           Discover it
           <ArrowRight className='h-5 w-5 sm:h-8 sm:w-8' strokeWidth={2.25} />
         </a>
-      </motion.div>
+      </div>
+      </WowSectionEntrance>
     </section>
   );
 }

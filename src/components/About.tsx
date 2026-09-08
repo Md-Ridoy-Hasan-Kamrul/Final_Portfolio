@@ -2,11 +2,11 @@ import {
   motion,
   useScroll,
   useTransform,
-  useMotionTemplate,
 } from 'framer-motion';
 import ScrambledText from './ScrambledText';
 import BadHandwriting from './BadHandwriting';
 import { Container } from './ui/Container';
+import WowSectionEntrance from './motion/WowSectionEntrance';
 import { useEffect, useRef, useState } from 'react';
 
 const ABOUT_VIDEO_SRC =
@@ -67,21 +67,6 @@ export default function About() {
     offset: ['start end', 'start 20%'],
   });
 
-  // Heavy arrival from below Home
-  const shellY = useTransform(scrollYProgress, [0, 1], [220, 0]);
-  const shellScale = useTransform(scrollYProgress, [0, 1], [0.82, 1]);
-  const shellOpacity = useTransform(
-    scrollYProgress,
-    [0, 0.25, 1],
-    [0, 0.35, 1]
-  );
-  const shellBlur = useTransform(scrollYProgress, [0, 0.7, 1], [20, 6, 0]);
-  const shellFilter = useMotionTemplate`blur(${shellBlur}px)`;
-  const clip = useTransform(
-    scrollYProgress,
-    [0, 0.55, 1],
-    ['inset(28% 0% 0% 0%)', 'inset(8% 0% 0% 0%)', 'inset(0% 0% 0% 0%)']
-  );
   const washOpacity = useTransform(scrollYProgress, [0, 0.4, 1], [0.9, 0.35, 0]);
 
   useEffect(() => {
@@ -147,15 +132,10 @@ export default function About() {
         aria-hidden
       />
 
-      <motion.div
+      <WowSectionEntrance
+        variant='riftSplit'
+        sectionRef={sectionRef}
         className='relative z-10'
-        style={{
-          y: shellY,
-          scale: shellScale,
-          opacity: shellOpacity,
-          filter: shellFilter,
-          clipPath: clip,
-        }}
       >
         <Container>
           <motion.div
@@ -309,7 +289,7 @@ export default function About() {
             </div>
           </motion.div>
         </Container>
-      </motion.div>
+      </WowSectionEntrance>
     </section>
   );
 }

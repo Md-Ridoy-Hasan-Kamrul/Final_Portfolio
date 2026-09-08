@@ -11,7 +11,7 @@ import { pageContainerClass } from './ui/Container';
 import CloudField from './motion/CloudField';
 import FooterStormWeather from './motion/FooterStormWeather';
 import { useTheme } from '../contexts/ThemeContext';
-import { useHeavySectionMotion } from '../hooks/useHeavySectionMotion';
+import WowSectionEntrance from './motion/WowSectionEntrance';
 
 const EMAIL = 'mdridoyhasankamrul@gmail.com';
 const GMAIL_COMPOSE = `https://mail.google.com/mail/?view=cm&fs=1&to=${EMAIL}`;
@@ -105,7 +105,6 @@ export default function Footer() {
   });
   // Continues rising slightly as you scroll through the footer
   const markY = useTransform(scrollYProgress, [0.15, 0.85], [48, 0]);
-  const heavyStyle = useHeavySectionMotion(ref, 'riseSoft');
 
   return (
     <footer
@@ -143,9 +142,10 @@ export default function Footer() {
         }}
       />
 
-      <motion.div
+      <WowSectionEntrance
+        variant='curtainBloom'
+        sectionRef={ref}
         className={`${pageContainerClass} relative z-[1] pt-16 sm:pt-20`}
-        style={heavyStyle}
       >
         <div className='grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr]'>
           <div>
@@ -299,7 +299,7 @@ export default function Footer() {
             © {year} {DISPLAY_NAME}
           </p>
         </div>
-      </motion.div>
+      </WowSectionEntrance>
     </footer>
   );
 }

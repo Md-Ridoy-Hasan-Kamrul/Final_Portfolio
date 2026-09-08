@@ -4,7 +4,7 @@ import { Cover } from './ui/cover';
 import { Container } from './ui/Container';
 import DepthBlurCarousel from './DepthBlurCarousel';
 import { useTheme } from '../contexts/ThemeContext';
-import { useHeavySectionMotion } from '../hooks/useHeavySectionMotion';
+import WowSectionEntrance from './motion/WowSectionEntrance';
 
 const PROJECTS_VIDEO_SRC =
   'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260901_122529_931c22c8-8d2d-47c0-ad51-b97f56a91e42.mp4';
@@ -210,7 +210,6 @@ export default function Projects() {
   const isNight = theme === 'dark';
   const sectionRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const heavyStyle = useHeavySectionMotion(sectionRef, 'zoomPunch');
   const [resolvedSrc, setResolvedSrc] = useState<Record<string, string>>(() =>
     Object.fromEntries(projects.map((p) => [p.image, p.fallback]))
   );
@@ -308,7 +307,11 @@ export default function Projects() {
         </video>
       </div>
 
-      <motion.div className='projects-inner' style={heavyStyle}>
+      <WowSectionEntrance
+        variant='irisPunch'
+        sectionRef={sectionRef}
+        className='projects-inner'
+      >
         {/* Night moon — sits in the left gutter, not beside the title */}
         <span className='projects-moon' aria-hidden='true' />
 
@@ -358,7 +361,7 @@ export default function Projects() {
             className='w-full'
           />
         </div>
-      </motion.div>
+      </WowSectionEntrance>
     </section>
   );
 }

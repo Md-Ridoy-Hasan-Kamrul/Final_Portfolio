@@ -1,8 +1,7 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { Mail, Phone, MapPin, Github, Linkedin } from 'lucide-react';
-import { motion } from 'framer-motion';
 import { Container } from './ui/Container';
-import { useHeavySectionMotion } from '../hooks/useHeavySectionMotion';
+import WowSectionEntrance from './motion/WowSectionEntrance';
 
 const APOGEE_VIDEO_SRC =
   'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260813_092641_de52eb87-daf2-41db-92cb-7a56eae012a5.mp4';
@@ -109,7 +108,6 @@ export default function Contact() {
   const sectionRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [inView, setInView] = useState(false);
-  const heavyStyle = useHeavySectionMotion(sectionRef, 'burstCenter');
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -169,7 +167,7 @@ export default function Contact() {
       />
 
       <Container className='relative z-10'>
-        <motion.div style={heavyStyle}>
+        <WowSectionEntrance variant='vortexLock' sectionRef={sectionRef}>
         <div className='flex flex-col gap-10 lg:flex-row lg:items-center lg:justify-between lg:gap-12'>
           <div className='max-w-[593px]'>
             <Animate delay={300} direction='up'>
@@ -260,7 +258,7 @@ export default function Contact() {
             <AvailabilityCard />
           </div>
         </div>
-        </motion.div>
+        </WowSectionEntrance>
       </Container>
     </section>
   );
