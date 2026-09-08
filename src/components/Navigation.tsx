@@ -16,6 +16,68 @@ const navLinks = [
   { href: '#contact', label: 'Contact' },
 ];
 
+/** Motion Corner Menu–style field open (panel from top-right; fields cascade in) */
+const cornerMenuPanel = {
+  closed: {
+    opacity: 0,
+    scaleY: 0.72,
+    scaleX: 0.92,
+    transformOrigin: 'top right',
+  },
+  open: {
+    opacity: 1,
+    scaleY: 1,
+    scaleX: 1,
+    transformOrigin: 'top right',
+    transition: {
+      type: 'spring' as const,
+      stiffness: 320,
+      damping: 28,
+      mass: 0.85,
+      staggerChildren: 0.07,
+      delayChildren: 0.06,
+    },
+  },
+  exit: {
+    opacity: 0,
+    scaleY: 0.85,
+    scaleX: 0.96,
+    transformOrigin: 'top right',
+    transition: { duration: 0.22, ease: [0.4, 0, 1, 1] as const },
+  },
+};
+
+const cornerMenuField = {
+  closed: {
+    opacity: 0,
+    x: 48,
+    y: -18,
+    scale: 0.9,
+    filter: 'blur(6px)',
+  },
+  open: {
+    opacity: 1,
+    x: 0,
+    y: 0,
+    scale: 1,
+    filter: 'blur(0px)',
+    transition: {
+      type: 'spring' as const,
+      stiffness: 420,
+      damping: 26,
+      mass: 0.7,
+    },
+  },
+  exit: {
+    opacity: 0,
+    x: 28,
+    y: -10,
+    scale: 0.96,
+    filter: 'blur(4px)',
+    transition: { duration: 0.15 },
+  },
+};
+
 const Navigation = memo(() => {
   const { theme } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
@@ -330,50 +392,54 @@ const Navigation = memo(() => {
         </div>
       </Container>
 
-      {/* Mobile Menu with animations */}
+      {/* Mobile dropdown — Motion Corner Menu field open; hamburger icon unchanged */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            className={`md:hidden backdrop-blur-lg border-t shadow-2xl ${
+            className={`md:hidden overflow-hidden backdrop-blur-lg border-t shadow-2xl ${
               onDarkNav
                 ? 'bg-[#041018]/98 border-white/10 shadow-black/40'
                 : onProjects
                   ? 'bg-[#EAE3DE]/98 border-black/10 shadow-black/10'
                   : 'bg-gradient-to-b from-zinc-300/95 via-zinc-200/95 to-zinc-300/95 dark:from-zinc-800/95 dark:via-zinc-900/95 dark:to-zinc-800/95 border-zinc-400/40 dark:border-zinc-700 shadow-zinc-500/15 dark:shadow-black/40'
             }`}
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3, ease: 'easeInOut' }}
+            variants={cornerMenuPanel}
+            initial='closed'
+            animate='open'
+            exit='exit'
           >
             <Container className='space-y-2 py-6'>
-              {navLinks.map((link, index) => {
+              {navLinks.map((link) => {
                 const isActive = activeSection === link.href;
                 return (
                   <motion.a
                     key={link.href}
                     href={link.href}
                     onClick={(e) => handleLinkClick(e, link.href)}
-                    className={`cursor-target block px-6 py-3 font-medium rounded-xl transition-all duration-300 relative group ${
+                    variants={cornerMenuField}
+                    className={`cursor-target block px-6 py-3 font-medium rounded-xl transition-colors duration-300 relative group overflow-hidden ${
                       isActive
-                        ? 'text-white bg-gradient-to-r from-blue-600 to-purple-600 shadow-lg shadow-blue-500/30'
+                        ? 'nav-active-beach text-white shadow-lg shadow-teal-900/25'
                         : onDarkNav
                           ? 'text-gray-200 hover:bg-white/10 hover:text-white'
                           : onProjects
                             ? 'text-black hover:bg-black/5 hover:text-[#175A67]'
                             : 'text-zinc-800 dark:text-zinc-200 hover:bg-zinc-400/30 dark:hover:bg-zinc-700/50 hover:text-blue-700 dark:hover:text-blue-300'
                     }`}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -20 }}
-                    transition={{ delay: index * 0.05, duration: 0.3 }}
-                    whileHover={{ scale: 1.02, x: 5 }}
+                    whileHover={{ scale: 1.02, x: 4 }}
                     whileTap={{ scale: 0.98 }}
                   >
+                    {isActive && (
+                      <span className='nav-active-wave' aria-hidden='true'>
+                        <span className='nav-active-wave__layer nav-active-wave__layer--1' />
+                        <span className='nav-active-wave__layer nav-active-wave__layer--2' />
+                        <span className='nav-active-wave__layer nav-active-wave__layer--3' />
+                      </span>
+                    )}
                     <span className='relative z-10 flex items-center'>
                       {isActive && (
                         <motion.span
-                          className='mr-2 w-2 h-2 bg-white rounded-full'
+                          className='mr-2 h-2 w-2 rounded-full bg-white'
                           initial={{ scale: 0 }}
                           animate={{ scale: 1 }}
                           transition={{ type: 'spring', stiffness: 500 }}
@@ -382,25 +448,22 @@ const Navigation = memo(() => {
                       {link.label}
                     </span>
                     {!isActive && (
-                      <div className='absolute left-0 top-1/2 w-1 h-0 group-hover:h-1/2 transform -translate-y-1/2 bg-gradient-to-b from-blue-600 to-purple-600 rounded-r transition-all duration-300' />
+                      <div className='absolute left-0 top-1/2 h-0 w-1 -translate-y-1/2 rounded-r bg-gradient-to-b from-teal-500 to-cyan-600 transition-all duration-300 group-hover:h-1/2' />
                     )}
                   </motion.a>
                 );
               })}
 
               <motion.div
-                className='flex justify-center gap-4 pt-6 mt-6 border-t border-zinc-400/50 dark:border-zinc-700'
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 20 }}
-                transition={{ delay: navLinks.length * 0.05, duration: 0.3 }}
+                className='mt-6 flex justify-center gap-4 border-t border-zinc-400/50 pt-6 dark:border-zinc-700'
+                variants={cornerMenuField}
               >
                 <ThemeToggle />
                 <motion.a
                   href='https://github.com/Md-Ridoy-Hasan-Kamrul'
                   target='_blank'
                   rel='noopener noreferrer'
-                  className='cursor-target p-3 text-white bg-gray-900 dark:bg-gray-800 rounded-full shadow-lg hover:shadow-xl transition-all duration-300'
+                  className='cursor-target rounded-full bg-gray-900 p-3 text-white shadow-lg transition-all duration-300 hover:shadow-xl dark:bg-gray-800'
                   aria-label='GitHub Profile'
                   whileHover={{ scale: 1.1, rotate: 5 }}
                   whileTap={{ scale: 0.9 }}
@@ -411,7 +474,7 @@ const Navigation = memo(() => {
                   href='https://www.linkedin.com/in/md-ridoy-hasan-kamrul'
                   target='_blank'
                   rel='noopener noreferrer'
-                  className='cursor-target p-3 text-white bg-blue-600 rounded-full shadow-lg hover:shadow-xl transition-all duration-300'
+                  className='cursor-target rounded-full bg-blue-600 p-3 text-white shadow-lg transition-all duration-300 hover:shadow-xl'
                   aria-label='LinkedIn Profile'
                   whileHover={{ scale: 1.1, rotate: -5 }}
                   whileTap={{ scale: 0.9 }}
