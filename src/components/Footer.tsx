@@ -114,12 +114,12 @@ export default function Footer() {
         sy.set(-SPOT);
       }}
       className={`footer-panel relative isolate z-10 -mt-8 overflow-hidden rounded-t-[2rem] text-bone sm:rounded-t-[3rem] ${
-        isDay ? 'footer-panel--day' : ''
+        isDay ? '' : 'footer-panel--storm'
       }`}
     >
-      {/* Dark: soft clouds. Day: megla sky + realistic rain + lightning */}
-      {!isDay && <CloudField className='opacity-70' />}
-      {isDay && <FooterStormWeather />}
+      {/* Day: soft clouds. Dark: megla sky + rain + lightning */}
+      {isDay && <CloudField className='opacity-70' />}
+      {!isDay && <FooterStormWeather />}
 
       <span
         className='footer-gold-line absolute inset-x-0 top-0 z-10 h-px w-full'
@@ -135,8 +135,8 @@ export default function Footer() {
           x: springX,
           y: springY,
           background: isDay
-            ? 'radial-gradient(circle, #8eb4ff 0%, transparent 70%)'
-            : 'radial-gradient(circle, #DF3640 0%, transparent 70%)',
+            ? 'radial-gradient(circle, #DF3640 0%, transparent 70%)'
+            : 'radial-gradient(circle, #8eb4ff 0%, transparent 70%)',
           filter: 'blur(30px)',
         }}
       />
@@ -257,8 +257,8 @@ export default function Footer() {
               className='relative block -translate-x-[1.5vw] whitespace-nowrap text-center font-serif text-[13vw] font-bold leading-[0.85] tracking-[-0.07em] sm:text-[14vw]'
               style={{
                 backgroundImage: isDay
-                  ? 'linear-gradient(to bottom, rgba(190, 210, 235, 0.45), rgba(120, 150, 190, 0.1))'
-                  : 'linear-gradient(to bottom, rgba(232, 226, 214, 0.4), rgba(232, 226, 214, 0.06))',
+                  ? 'linear-gradient(to bottom, rgba(232, 226, 214, 0.4), rgba(232, 226, 214, 0.06))'
+                  : 'linear-gradient(to bottom, rgba(190, 210, 235, 0.45), rgba(120, 150, 190, 0.1))',
                 WebkitBackgroundClip: 'text',
                 backgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',

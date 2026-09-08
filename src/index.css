@@ -286,8 +286,8 @@
     color: #e8e2d6;
   }
 
-  /* Day mode: megla sky + realistic rain + lightning */
-  .footer-panel--day {
+  /* Dark mode: megla sky + rain + lightning */
+  .footer-panel--storm {
     background:
       radial-gradient(
         80% 50% at 20% 0%,
