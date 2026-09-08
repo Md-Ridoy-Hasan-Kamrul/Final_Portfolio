@@ -1,4 +1,4 @@
-import { useEffect, useState, startTransition } from 'react';
+import { useEffect, useState, startTransition, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { Cover } from './ui/cover';
 import { Container } from './ui/Container';
@@ -116,10 +116,104 @@ const projects: Project[] = [
   },
 ];
 
+/** Layout tuned for Mobile S 320 / M 375 / L 425 + tablet/desktop */
+function getCarouselLayout(width: number) {
+  // Mobile S (≤320)
+  if (width <= 320) {
+    return {
+      frameClass: 'h-[380px]',
+      itemWidth: 250,
+      itemHeight: 340,
+      sideItemWidth: 150,
+      sideItemHeight: 280,
+      gap: 18,
+      maxRotation: 42,
+      perspective: 700,
+      borderRadius: 14,
+      blurSpread: 10,
+      blurStrength: 12,
+    };
+  }
+  // Mobile M (≤375)
+  if (width <= 375) {
+    return {
+      frameClass: 'h-[400px]',
+      itemWidth: 290,
+      itemHeight: 360,
+      sideItemWidth: 170,
+      sideItemHeight: 300,
+      gap: 22,
+      maxRotation: 48,
+      perspective: 750,
+      borderRadius: 15,
+      blurSpread: 12,
+      blurStrength: 14,
+    };
+  }
+  // Mobile L (≤425)
+  if (width <= 425) {
+    return {
+      frameClass: 'h-[420px]',
+      itemWidth: 330,
+      itemHeight: 375,
+      sideItemWidth: 190,
+      sideItemHeight: 315,
+      gap: 26,
+      maxRotation: 54,
+      perspective: 800,
+      borderRadius: 16,
+      blurSpread: 14,
+      blurStrength: 15,
+    };
+  }
+  // Small tablet
+  if (width < 768) {
+    return {
+      frameClass: 'h-[460px]',
+      itemWidth: 400,
+      itemHeight: 400,
+      sideItemWidth: 220,
+      sideItemHeight: 340,
+      gap: 32,
+      maxRotation: 60,
+      perspective: 850,
+      borderRadius: 16,
+      blurSpread: 15,
+      blurStrength: 16,
+    };
+  }
+  // Desktop
+  return {
+    frameClass: 'h-[500px] lg:h-[540px]',
+    itemWidth: 520,
+    itemHeight: 420,
+    sideItemWidth: 280,
+    sideItemHeight: 360,
+    gap: 40,
+    maxRotation: 68,
+    perspective: 900,
+    borderRadius: 18,
+    blurSpread: 16,
+    blurStrength: 18,
+  };
+}
+
 export default function Projects() {
   const [resolvedSrc, setResolvedSrc] = useState<Record<string, string>>(() =>
     Object.fromEntries(projects.map((p) => [p.image, p.fallback]))
   );
+  const [viewportW, setViewportW] = useState(() =>
+    typeof window !== 'undefined' ? window.innerWidth : 1024
+  );
+
+  useEffect(() => {
+    const onResize = () => {
+      startTransition(() => setViewportW(window.innerWidth));
+    };
+    onResize();
+    window.addEventListener('resize', onResize, { passive: true });
+    return () => window.removeEventListener('resize', onResize);
+  }, []);
 
   useEffect(() => {
     projects.forEach((project) => {
@@ -140,6 +234,8 @@ export default function Projects() {
       img.src = project.image;
     });
   }, []);
+
+  const layout = useMemo(() => getCarouselLayout(viewportW), [viewportW]);
 
   const carouselSlides = projects.map((p) => ({
     src: resolvedSrc[p.image] ?? p.fallback,
@@ -163,30 +259,35 @@ export default function Projects() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className='text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-4'>
+          <h2 className='text-2xl min-[375px]:text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4'>
             Featured <Cover>Projects</Cover>
           </h2>
-          <p className='text-base sm:text-lg text-gray-600 dark:text-gray-300 mb-8 sm:mb-10 max-w-2xl'>
+          <p className='text-sm min-[375px]:text-base sm:text-lg text-gray-600 dark:text-gray-300 mb-6 sm:mb-10 max-w-2xl'>
             Drag or scroll to explore. Click a card to open the live site.
           </p>
         </motion.div>
-
-        <div className='relative w-full h-[440px] sm:h-[500px] lg:h-[540px]'>
-          <DepthBlurCarousel
-            images={carouselSlides}
-            itemWidth={520}
-            itemHeight={420}
-            sideItemWidth={280}
-            sideItemHeight={360}
-            gap={40}
-            maxRotation={68}
-            perspective={900}
-            borderRadius={18}
-            blurSpread={16}
-            blurStrength={18}
-          />
-        </div>
       </Container>
+
+      {/* Full-bleed on mobile so the card isn’t squeezed by container padding */}
+      <div
+        className={`relative w-full max-w-7xl mx-auto px-0 sm:px-6 lg:px-8 ${layout.frameClass}`}
+      >
+        <DepthBlurCarousel
+          key={`${layout.itemWidth}-${layout.itemHeight}`}
+          images={carouselSlides}
+          itemWidth={layout.itemWidth}
+          itemHeight={layout.itemHeight}
+          sideItemWidth={layout.sideItemWidth}
+          sideItemHeight={layout.sideItemHeight}
+          gap={layout.gap}
+          maxRotation={layout.maxRotation}
+          perspective={layout.perspective}
+          borderRadius={layout.borderRadius}
+          blurSpread={layout.blurSpread}
+          blurStrength={layout.blurStrength}
+          className='w-full'
+        />
+      </div>
     </section>
   );
 }

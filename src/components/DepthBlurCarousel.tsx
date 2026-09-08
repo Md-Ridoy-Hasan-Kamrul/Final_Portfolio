@@ -174,8 +174,8 @@ export default function DepthBlurCarousel({
       style={{
         width: '100%',
         height: '100%',
-        minWidth: 280,
-        minHeight: 360,
+        minWidth: 0,
+        minHeight: 0,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -412,7 +412,12 @@ function PremiumSmearCard({
               flex: '0 0 auto',
               display: 'flex',
               flexDirection: 'column',
-              padding: '0.75rem 1rem 0.85rem',
+              padding:
+                itemWidth <= 290
+                  ? '0.55rem 0.7rem 0.65rem'
+                  : itemWidth <= 340
+                    ? '0.65rem 0.85rem 0.75rem'
+                    : '0.75rem 1rem 0.85rem',
               background: '#0b1220',
               color: '#fff',
               opacity: contentOpacity,
@@ -426,7 +431,7 @@ function PremiumSmearCard({
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'space-between',
-                    gap: 8,
+                    gap: 6,
                     marginBottom: 6,
                     flexWrap: 'wrap',
                   }}
@@ -434,12 +439,12 @@ function PremiumSmearCard({
                   {category && (
                     <span
                       style={{
-                        fontSize: 10,
+                        fontSize: itemWidth <= 290 ? 9 : 10,
                         fontWeight: 700,
                         letterSpacing: '0.08em',
                         textTransform: 'uppercase',
                         color: '#fff',
-                        padding: '5px 10px',
+                        padding: itemWidth <= 290 ? '4px 8px' : '5px 10px',
                         borderRadius: 999,
                         background:
                           'linear-gradient(90deg, #2563eb 0%, #9333ea 100%)',
@@ -453,8 +458,8 @@ function PremiumSmearCard({
                       style={{
                         display: 'inline-flex',
                         alignItems: 'center',
-                        gap: 5,
-                        fontSize: 11,
+                        gap: 4,
+                        fontSize: itemWidth <= 290 ? 10 : 11,
                         fontWeight: 600,
                         color: '#93c5fd',
                         whiteSpace: 'nowrap',
@@ -462,8 +467,8 @@ function PremiumSmearCard({
                     >
                       View live site
                       <svg
-                        width='13'
-                        height='13'
+                        width='12'
+                        height='12'
                         viewBox='0 0 24 24'
                         fill='none'
                         stroke='currentColor'
@@ -484,7 +489,12 @@ function PremiumSmearCard({
                   <h3
                     style={{
                       margin: 0,
-                      fontSize: 'clamp(1rem, 1.9vw, 1.3rem)',
+                      fontSize:
+                        itemWidth <= 290
+                          ? '0.95rem'
+                          : itemWidth <= 340
+                            ? '1.05rem'
+                            : 'clamp(1rem, 1.9vw, 1.3rem)',
                       fontWeight: 800,
                       lineHeight: 1.2,
                       letterSpacing: '-0.02em',
@@ -497,13 +507,18 @@ function PremiumSmearCard({
                 {description && (
                   <p
                     style={{
-                      margin: '0.3rem 0 0',
-                      fontSize: 'clamp(0.72rem, 1.15vw, 0.85rem)',
+                      margin: '0.25rem 0 0',
+                      fontSize:
+                        itemWidth <= 290
+                          ? '0.7rem'
+                          : itemWidth <= 340
+                            ? '0.75rem'
+                            : 'clamp(0.72rem, 1.15vw, 0.85rem)',
                       lineHeight: 1.35,
                       color: 'rgba(255,255,255,0.78)',
                       fontWeight: 500,
                       display: '-webkit-box',
-                      WebkitLineClamp: 2,
+                      WebkitLineClamp: itemWidth <= 290 ? 2 : 2,
                       WebkitBoxOrient: 'vertical',
                       overflow: 'hidden',
                     }}
@@ -515,7 +530,7 @@ function PremiumSmearCard({
                 {!!highlights?.length && (
                   <ul
                     style={{
-                      margin: '0.45rem 0 0',
+                      margin: '0.4rem 0 0',
                       padding: 0,
                       listStyle: 'none',
                       display: 'flex',
@@ -528,8 +543,13 @@ function PremiumSmearCard({
                         key={line}
                         style={{
                           display: 'flex',
-                          gap: 7,
-                          fontSize: 'clamp(0.66rem, 1.05vw, 0.78rem)',
+                          gap: 6,
+                          fontSize:
+                            itemWidth <= 290
+                              ? '0.62rem'
+                              : itemWidth <= 340
+                                ? '0.68rem'
+                                : 'clamp(0.66rem, 1.05vw, 0.78rem)',
                           lineHeight: 1.35,
                           color: 'rgba(255,255,255,0.72)',
                         }}
@@ -538,7 +558,7 @@ function PremiumSmearCard({
                         <span
                           style={{
                             display: '-webkit-box',
-                            WebkitLineClamp: 2,
+                            WebkitLineClamp: itemWidth <= 320 ? 2 : 2,
                             WebkitBoxOrient: 'vertical',
                             overflow: 'hidden',
                           }}

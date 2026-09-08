@@ -110,8 +110,8 @@ const Navigation = memo(() => {
   return (
     <motion.nav
       className={`fixed top-0 inset-x-0 z-50 transition-all duration-500 ${
-        isScrolled
-          ? 'bg-white/95 dark:bg-gray-900/95 backdrop-blur-lg shadow-lg shadow-blue-500/5 dark:shadow-purple-500/5'
+        isScrolled || isOpen
+          ? 'bg-gradient-to-b from-zinc-300/95 via-zinc-200/95 to-zinc-300/90 dark:from-zinc-800/95 dark:via-zinc-900/95 dark:to-zinc-800/90 backdrop-blur-lg shadow-lg shadow-zinc-500/10 dark:shadow-black/30'
           : 'bg-transparent backdrop-blur-0'
       }`}
       role='navigation'
@@ -121,7 +121,7 @@ const Navigation = memo(() => {
       transition={{ duration: 0.6, type: 'spring', stiffness: 100 }}
     >
       {/* Gradient border bottom */}
-      <div className='absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-blue-500 to-transparent opacity-50' />
+      <div className='absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-zinc-400 dark:via-zinc-600 to-transparent opacity-60' />
 
       <Container>
         <div className='flex justify-between items-center h-20 sm:h-24 md:h-28 lg:h-28'>
@@ -238,7 +238,7 @@ const Navigation = memo(() => {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            className='md:hidden bg-white/95 dark:bg-gray-900/95 backdrop-blur-lg border-t border-gray-200 dark:border-gray-700 shadow-2xl shadow-blue-500/10 dark:shadow-purple-500/10'
+            className='md:hidden bg-gradient-to-b from-zinc-300/95 via-zinc-200/95 to-zinc-300/95 dark:from-zinc-800/95 dark:via-zinc-900/95 dark:to-zinc-800/95 backdrop-blur-lg border-t border-zinc-400/40 dark:border-zinc-700 shadow-2xl shadow-zinc-500/15 dark:shadow-black/40'
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
@@ -255,7 +255,7 @@ const Navigation = memo(() => {
                     className={`cursor-target block px-6 py-3 font-medium rounded-xl transition-all duration-300 relative group ${
                       isActive
                         ? 'text-white bg-gradient-to-r from-blue-600 to-purple-600 shadow-lg shadow-blue-500/30'
-                        : 'text-gray-700 dark:text-gray-300 hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 dark:hover:from-blue-900/20 dark:hover:to-purple-900/20 hover:text-blue-600 dark:hover:text-blue-400'
+                        : 'text-zinc-800 dark:text-zinc-200 hover:bg-zinc-400/30 dark:hover:bg-zinc-700/50 hover:text-blue-700 dark:hover:text-blue-300'
                     }`}
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
@@ -275,7 +275,6 @@ const Navigation = memo(() => {
                       )}
                       {link.label}
                     </span>
-                    {/* Hover gradient line */}
                     {!isActive && (
                       <div className='absolute left-0 top-1/2 w-1 h-0 group-hover:h-1/2 transform -translate-y-1/2 bg-gradient-to-b from-blue-600 to-purple-600 rounded-r transition-all duration-300' />
                     )}
@@ -283,9 +282,8 @@ const Navigation = memo(() => {
                 );
               })}
 
-              {/* Social links and theme toggle in mobile menu */}
               <motion.div
-                className='flex justify-center gap-4 pt-6 mt-6 border-t border-gray-200 dark:border-gray-700'
+                className='flex justify-center gap-4 pt-6 mt-6 border-t border-zinc-400/50 dark:border-zinc-700'
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 20 }}
