@@ -385,12 +385,12 @@ function PremiumSmearCard({
           background: '#0b1220',
         }}
       >
-        {/* Theme screenshot / gradient — no text on top of busy hero */}
+        {/* Theme screenshot — fills leftover height */}
         <div
           style={{
             position: 'relative',
-            flex: '0 0 46%',
-            minHeight: 0,
+            flex: '1 1 auto',
+            minHeight: 140,
             ...mediaStyle,
           }}
         >
@@ -400,20 +400,19 @@ function PremiumSmearCard({
               position: 'absolute',
               inset: 0,
               background:
-                'linear-gradient(180deg, rgba(11,18,32,0.15) 0%, rgba(11,18,32,0.55) 70%, #0b1220 100%)',
+                'linear-gradient(180deg, rgba(11,18,32,0.08) 0%, rgba(11,18,32,0.35) 75%, #0b1220 100%)',
             }}
           />
         </div>
 
-        {/* Solid info panel — readable, no clash with site UI */}
+        {/* Info panel hugs content — no empty bottom gap */}
         {hasCopy && (
           <motion.div
             style={{
-              flex: 1,
-              minHeight: 0,
+              flex: '0 0 auto',
               display: 'flex',
               flexDirection: 'column',
-              padding: '0.85rem 1.1rem 1.05rem',
+              padding: '0.75rem 1rem 0.85rem',
               background: '#0b1220',
               color: '#fff',
               opacity: contentOpacity,
@@ -428,7 +427,7 @@ function PremiumSmearCard({
                     alignItems: 'center',
                     justifyContent: 'space-between',
                     gap: 8,
-                    marginBottom: 8,
+                    marginBottom: 6,
                     flexWrap: 'wrap',
                   }}
                 >
@@ -485,7 +484,7 @@ function PremiumSmearCard({
                   <h3
                     style={{
                       margin: 0,
-                      fontSize: 'clamp(1rem, 1.9vw, 1.35rem)',
+                      fontSize: 'clamp(1rem, 1.9vw, 1.3rem)',
                       fontWeight: 800,
                       lineHeight: 1.2,
                       letterSpacing: '-0.02em',
@@ -498,9 +497,9 @@ function PremiumSmearCard({
                 {description && (
                   <p
                     style={{
-                      margin: '0.35rem 0 0',
-                      fontSize: 'clamp(0.75rem, 1.2vw, 0.88rem)',
-                      lineHeight: 1.4,
+                      margin: '0.3rem 0 0',
+                      fontSize: 'clamp(0.72rem, 1.15vw, 0.85rem)',
+                      lineHeight: 1.35,
                       color: 'rgba(255,255,255,0.78)',
                       fontWeight: 500,
                       display: '-webkit-box',
@@ -516,15 +515,12 @@ function PremiumSmearCard({
                 {!!highlights?.length && (
                   <ul
                     style={{
-                      margin: '0.55rem 0 0',
+                      margin: '0.45rem 0 0',
                       padding: 0,
                       listStyle: 'none',
                       display: 'flex',
                       flexDirection: 'column',
-                      gap: 4,
-                      overflow: 'hidden',
-                      flex: 1,
-                      minHeight: 0,
+                      gap: 3,
                     }}
                   >
                     {highlights.map((line) => (
@@ -533,7 +529,7 @@ function PremiumSmearCard({
                         style={{
                           display: 'flex',
                           gap: 7,
-                          fontSize: 'clamp(0.68rem, 1.1vw, 0.8rem)',
+                          fontSize: 'clamp(0.66rem, 1.05vw, 0.78rem)',
                           lineHeight: 1.35,
                           color: 'rgba(255,255,255,0.72)',
                         }}

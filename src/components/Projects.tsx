@@ -171,13 +171,13 @@ export default function Projects() {
           </p>
         </motion.div>
 
-        <div className='relative w-full h-[500px] sm:h-[560px] lg:h-[600px]'>
+        <div className='relative w-full h-[440px] sm:h-[500px] lg:h-[540px]'>
           <DepthBlurCarousel
             images={carouselSlides}
-            itemWidth={540}
-            itemHeight={460}
-            sideItemWidth={290}
-            sideItemHeight={390}
+            itemWidth={520}
+            itemHeight={420}
+            sideItemWidth={280}
+            sideItemHeight={360}
             gap={40}
             maxRotation={68}
             perspective={900}
