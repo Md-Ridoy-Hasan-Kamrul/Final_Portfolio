@@ -9,11 +9,11 @@ function buildDrops(count: number) {
     drops.push({
       id: i,
       left: `${(i * 37.7 + r * 11) % 100}%`,
-      delay: `${-((r * 2.8) % 2.8).toFixed(2)}s`,
-      duration: `${(0.7 + r * 1.1).toFixed(2)}s`,
-      height: `${18 + Math.floor(r * 36)}px`,
+      delay: `${-((r * 4.5) % 4.5).toFixed(2)}s`,
+      duration: `${(1.8 + r * 2.4).toFixed(2)}s`,
+      height: `${8 + Math.floor(r * 14)}px`,
       opacity: 0.28 + r * 0.55,
-      thickness: r > 0.65 ? 1.6 : 1.1,
+      thickness: r > 0.65 ? 1.2 : 0.85,
       drift: `${(-10 - r * 18).toFixed(1)}px`,
     });
   }
