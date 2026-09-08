@@ -80,7 +80,7 @@ export default function About() {
           video.pause();
         }
       },
-      { threshold: 0.12 }
+      { threshold: 0.12 },
     );
 
     io.observe(section);
@@ -193,13 +193,19 @@ export default function About() {
             </motion.div>
 
             <motion.div variants={itemVariants}>
-              <h3 className='text-lg font-bold text-white mb-3'>
+              <h3 className='mb-3 text-lg font-bold text-white'>
                 Certification
               </h3>
-              <div className='pl-4 border-l-4 border-blue-400 space-y-1'>
-                <p className='text-base font-medium text-white'>MERN Stack</p>
-                <p className='text-sm text-gray-400'>Ostad · 2024</p>
-              </div>
+              <motion.div
+                className='glass-field rounded-2xl px-5 py-4'
+                whileHover={{ y: -4, scale: 1.02 }}
+                transition={{ type: 'spring', stiffness: 320, damping: 22 }}
+              >
+                <p className='text-base font-semibold text-white'>
+                  MERN Stack
+                </p>
+                <p className='mt-1 text-sm text-white/80'>Ostad · 2024</p>
+              </motion.div>
             </motion.div>
           </motion.div>
         </div>
@@ -213,22 +219,36 @@ export default function About() {
         >
           <motion.h3
             variants={itemVariants}
-            className='text-lg font-bold text-white mb-6'
+            className='mb-6 text-lg font-bold text-white sm:text-xl'
+            style={{ fontFamily: "'Instrument Serif', serif" }}
           >
             Education
           </motion.h3>
-          <div className='grid gap-6 sm:grid-cols-2 lg:grid-cols-3'>
-            {education.map((item) => (
+          <div className='grid gap-5 sm:grid-cols-2 lg:grid-cols-3'>
+            {education.map((item, index) => (
               <motion.div
                 key={item.title}
                 variants={itemVariants}
-                className='pl-4 border-l-4 border-blue-400 space-y-1'
+                className='glass-field h-full rounded-2xl px-5 py-5'
+                whileHover={{ y: -6, scale: 1.02 }}
+                transition={{
+                  type: 'spring',
+                  stiffness: 300,
+                  damping: 20,
+                  delay: index * 0.02,
+                }}
               >
-                <div className='flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1'>
-                  <p className='text-base font-medium text-white'>{item.title}</p>
-                  <p className='text-sm text-gray-400'>{item.year}</p>
+                <div className='mb-2 flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1'>
+                  <p className='text-base font-semibold text-white'>
+                    {item.title}
+                  </p>
+                  <p className='text-sm font-medium text-white/75'>
+                    {item.year}
+                  </p>
                 </div>
-                <p className='text-sm text-gray-300'>{item.school}</p>
+                <p className='text-sm leading-relaxed text-white/85'>
+                  {item.school}
+                </p>
               </motion.div>
             ))}
           </div>

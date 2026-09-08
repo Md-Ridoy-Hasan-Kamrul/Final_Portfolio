@@ -10,6 +10,25 @@
 }
 
 @layer components {
+  /* Light frosted glass field cards — BG clearly shows through */
+  .glass-field {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    box-shadow:
+      0 2px 16px rgba(0, 0, 0, 0.06),
+      inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  }
+
+  .dark .glass-field {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow:
+      0 2px 16px rgba(0, 0, 0, 0.15),
+      inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  }
+
   /* Exact dark-panel tone from the reference footer */
   .footer-panel {
     background:
