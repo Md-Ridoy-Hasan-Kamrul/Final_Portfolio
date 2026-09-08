@@ -141,7 +141,9 @@ const Navigation = memo(() => {
           ? 'bg-white/80 dark:bg-gray-950/80 backdrop-blur-xl border-b border-black/5 dark:border-white/10 shadow-lg shadow-black/5'
           : 'bg-transparent';
       case '#skills':
-        return 'bg-black/25 backdrop-blur-xl border-b border-white/15 shadow-lg shadow-black/20';
+        return theme === 'dark'
+          ? 'bg-[#070b14]/88 backdrop-blur-xl border-b border-sky-200/15 shadow-lg shadow-black/40'
+          : 'bg-black/20 backdrop-blur-xl border-b border-white/20 shadow-lg shadow-black/15';
       case '#contact':
         return 'bg-white/90 dark:bg-gray-950/90 backdrop-blur-xl border-b border-gray-200/70 dark:border-white/10 shadow-md';
       default:

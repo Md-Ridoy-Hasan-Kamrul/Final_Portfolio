@@ -43,7 +43,7 @@ const GRAIN_SVG = encodeURIComponent(
       <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" stitchTiles="stitch"/>
     </filter>
     <rect width="100%" height="100%" filter="url(#n)" opacity="0.08"/>
-  </svg>`
+  </svg>`,
 );
 
 const EASE = 'cubic-bezier(0.4, 0, 0.2, 1)';
@@ -117,7 +117,7 @@ export default function Skills({ categories }: SkillsProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
   const [isMobile, setIsMobile] = useState(() =>
-    typeof window !== 'undefined' ? window.innerWidth < 640 : false
+    typeof window !== 'undefined' ? window.innerWidth < 640 : false,
   );
 
   const categoryCount = categories.length;
@@ -146,11 +146,11 @@ export default function Skills({ categories }: SkillsProps) {
       setActiveIndex((prev) =>
         dir === 'next'
           ? (prev + 1) % categoryCount
-          : (prev + categoryCount - 1) % categoryCount
+          : (prev + categoryCount - 1) % categoryCount,
       );
       window.setTimeout(() => setIsAnimating(false), TRANSITION_MS);
     },
-    [isAnimating, categoryCount]
+    [isAnimating, categoryCount],
   );
 
   const roles = useMemo(() => {
@@ -180,7 +180,10 @@ export default function Skills({ categories }: SkillsProps) {
         fontFamily: 'Inter, sans-serif',
       }}
     >
-      <div className='relative w-full overflow-hidden' style={{ height: '100vh' }}>
+      <div
+        className='relative w-full overflow-hidden'
+        style={{ height: '100vh' }}
+      >
         {/* Grain */}
         <div
           className='pointer-events-none absolute inset-0'
@@ -245,7 +248,7 @@ export default function Skills({ categories }: SkillsProps) {
             Skills & Expertise
           </h2>
           <p className='mt-2 max-w-md text-sm text-white/85 sm:text-base'>
-            One focus area at a time — swipe through with the arrows.
+            One focus area at a time swipe through with the arrows.
           </p>
         </div>
 
@@ -269,9 +272,7 @@ export default function Skills({ categories }: SkillsProps) {
         </div>
 
         {/* Active skill field + nav */}
-        <div
-          className='absolute bottom-6 left-4 z-[60] max-w-[320px] sm:bottom-20 sm:left-24 sm:max-w-md'
-        >
+        <div className='absolute bottom-6 left-4 z-[60] max-w-[320px] sm:bottom-20 sm:left-24 sm:max-w-md'>
           <AnimatePresence mode='wait'>
             <motion.div
               key={activeCategory?.title ?? activeIndex}
@@ -356,10 +357,7 @@ export default function Skills({ categories }: SkillsProps) {
           }}
         >
           Discover it
-          <ArrowRight
-            className='h-5 w-5 sm:h-8 sm:w-8'
-            strokeWidth={2.25}
-          />
+          <ArrowRight className='h-5 w-5 sm:h-8 sm:w-8' strokeWidth={2.25} />
         </a>
 
         {/* Soft top wash for readability in both themes */}
