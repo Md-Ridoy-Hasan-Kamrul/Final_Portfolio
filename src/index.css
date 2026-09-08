@@ -415,3 +415,81 @@
   border: 1px solid rgba(255, 255, 255, 0.06);
 }
 
+/* VANGUARD-style Experience entrance */
+@layer utilities {
+  .font-podium {
+    font-family: 'FSP DEMO - PODIUM Sharp 4.11', Impact, sans-serif;
+  }
+
+  @keyframes vanguard-fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes vanguard-fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes vanguard-scale-in {
+    from {
+      opacity: 0;
+      transform: scale(0.9);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  .experience-vanguard.is-inview .animate-fade-up {
+    animation: vanguard-fade-up 0.8s ease-out forwards;
+    opacity: 0;
+  }
+
+  .experience-vanguard.is-inview .animate-fade-up-delay-1 {
+    animation: vanguard-fade-up 0.8s ease-out 0.2s forwards;
+    opacity: 0;
+  }
+
+  .experience-vanguard.is-inview .animate-fade-up-delay-2 {
+    animation: vanguard-fade-up 0.8s ease-out 0.4s forwards;
+    opacity: 0;
+  }
+
+  .experience-vanguard.is-inview .animate-fade-up-delay-3 {
+    animation: vanguard-fade-up 0.8s ease-out 0.6s forwards;
+    opacity: 0;
+  }
+
+  .experience-vanguard.is-inview .animate-fade-up-delay-4 {
+    animation: vanguard-fade-up 0.8s ease-out 0.8s forwards;
+    opacity: 0;
+  }
+
+  .experience-vanguard.is-inview .animate-fade-in {
+    animation: vanguard-fade-in 0.8s ease-out forwards;
+    opacity: 0;
+  }
+
+  .experience-vanguard.is-inview .animate-fade-in-delay {
+    animation: vanguard-fade-in 0.8s ease-out 0.2s forwards;
+    opacity: 0;
+  }
+
+  .experience-vanguard.is-inview .animate-scale-in {
+    animation: vanguard-scale-in 0.8s ease-out 0.3s forwards;
+    opacity: 0;
+  }
+}
+

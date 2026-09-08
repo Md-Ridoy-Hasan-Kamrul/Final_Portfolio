@@ -4,6 +4,10 @@ export default {
   darkMode: 'class',
   theme: {
     extend: {
+      fontFamily: {
+        podium: ['"FSP DEMO - PODIUM Sharp 4.11"', 'Impact', 'sans-serif'],
+        inter: ['Inter', 'system-ui', 'sans-serif'],
+      },
       colors: {
         bone: {
           DEFAULT: '#E8E2D6',
