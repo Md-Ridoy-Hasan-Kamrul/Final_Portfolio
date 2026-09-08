@@ -194,25 +194,38 @@ export default function Skills({ categories }: SkillsProps) {
           aria-hidden
         />
 
-        {/* Giant ghost text */}
+        {/* Giant ghost text — matches active skill field (1–5) */}
         <div
-          className='pointer-events-none absolute inset-x-0 flex select-none items-center justify-center'
+          className='pointer-events-none absolute inset-x-0 flex select-none items-center justify-center px-2'
           style={{ zIndex: 2, top: '18%' }}
           aria-hidden
         >
-          <span
-            className='uppercase whitespace-nowrap text-white'
-            style={{
-              fontFamily: 'Anton, sans-serif',
-              fontSize: 'clamp(90px, 28vw, 380px)',
-              fontWeight: 900,
-              lineHeight: 1,
-              letterSpacing: '-0.02em',
-              opacity: isDark ? 0.85 : 1,
-            }}
-          >
-            KAMRUL
-          </span>
+          <AnimatePresence mode='wait'>
+            <motion.span
+              key={activeCategory?.title ?? activeIndex}
+              initial={{ opacity: 0, y: 28 }}
+              animate={{ opacity: isDark ? 0.85 : 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
+              className='uppercase text-white text-center'
+              style={{
+                fontFamily: 'Anton, sans-serif',
+                fontSize:
+                  (activeCategory?.title.length ?? 0) > 18
+                    ? 'clamp(36px, 9vw, 140px)'
+                    : (activeCategory?.title.length ?? 0) > 12
+                      ? 'clamp(48px, 12vw, 200px)'
+                      : 'clamp(64px, 18vw, 280px)',
+                fontWeight: 900,
+                lineHeight: 1,
+                letterSpacing: '-0.02em',
+                whiteSpace: 'nowrap',
+                maxWidth: '100%',
+              }}
+            >
+              {activeCategory?.title ?? 'Frontend'}
+            </motion.span>
+          </AnimatePresence>
         </div>
 
         {/* Brand */}
