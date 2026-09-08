@@ -43,7 +43,7 @@ const GRAIN_SVG = encodeURIComponent(
       <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" stitchTiles="stitch"/>
     </filter>
     <rect width="100%" height="100%" filter="url(#n)" opacity="0.08"/>
-  </svg>`,
+  </svg>`
 );
 
 const EASE = 'cubic-bezier(0.4, 0, 0.2, 1)';
@@ -117,7 +117,7 @@ export default function Skills({ categories }: SkillsProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
   const [isMobile, setIsMobile] = useState(() =>
-    typeof window !== 'undefined' ? window.innerWidth < 640 : false,
+    typeof window !== 'undefined' ? window.innerWidth < 640 : false
   );
 
   const categoryCount = categories.length;
@@ -146,11 +146,11 @@ export default function Skills({ categories }: SkillsProps) {
       setActiveIndex((prev) =>
         dir === 'next'
           ? (prev + 1) % categoryCount
-          : (prev + categoryCount - 1) % categoryCount,
+          : (prev + categoryCount - 1) % categoryCount
       );
       window.setTimeout(() => setIsAnimating(false), TRANSITION_MS);
     },
-    [isAnimating, categoryCount],
+    [isAnimating, categoryCount]
   );
 
   const roles = useMemo(() => {
@@ -170,12 +170,24 @@ export default function Skills({ categories }: SkillsProps) {
     return 'back';
   };
 
+  const sectionBg = isDark
+    ? `color-mix(in srgb, ${activeImage.bg} 28%, #070b14 72%)`
+    : activeImage.bg;
+
+  const titleLen = activeCategory?.title.length ?? 0;
+  const ghostSize =
+    titleLen > 18
+      ? 'clamp(36px, 9vw, 140px)'
+      : titleLen > 12
+        ? 'clamp(48px, 12vw, 200px)'
+        : 'clamp(64px, 18vw, 280px)';
+
   return (
     <section
       id='skills'
       className='relative w-full overflow-hidden'
       style={{
-        backgroundColor: activeImage.bg,
+        backgroundColor: sectionBg,
         transition: `background-color ${TRANSITION_MS}ms ${EASE}`,
         fontFamily: 'Inter, sans-serif',
       }}
@@ -184,12 +196,25 @@ export default function Skills({ categories }: SkillsProps) {
         className='relative w-full overflow-hidden'
         style={{ height: '100vh' }}
       >
+        {/* Theme wash */}
+        <div
+          className='pointer-events-none absolute inset-0'
+          style={{
+            zIndex: 1,
+            background: isDark
+              ? 'radial-gradient(ellipse 80% 60% at 50% 20%, rgba(80,120,180,0.2) 0%, transparent 55%), linear-gradient(180deg, rgba(4,8,16,0.6) 0%, rgba(4,8,16,0.28) 45%, rgba(4,8,16,0.7) 100%)'
+              : 'linear-gradient(180deg, rgba(255,255,255,0.1) 0%, transparent 40%, rgba(0,0,0,0.05) 100%)',
+            transition: `background ${TRANSITION_MS}ms ${EASE}`,
+          }}
+          aria-hidden
+        />
+
         {/* Grain */}
         <div
           className='pointer-events-none absolute inset-0'
           style={{
             zIndex: 50,
-            opacity: 0.4,
+            opacity: isDark ? 0.55 : 0.32,
             backgroundImage: `url("data:image/svg+xml,${GRAIN_SVG}")`,
             backgroundSize: '200px 200px',
             backgroundRepeat: 'repeat',
@@ -197,7 +222,7 @@ export default function Skills({ categories }: SkillsProps) {
           aria-hidden
         />
 
-        {/* Giant ghost text — matches active skill field (1–5) */}
+        {/* Giant field name */}
         <div
           className='pointer-events-none absolute inset-x-0 flex select-none items-center justify-center px-2'
           style={{ zIndex: 2, top: '18%' }}
@@ -205,25 +230,24 @@ export default function Skills({ categories }: SkillsProps) {
         >
           <AnimatePresence mode='wait'>
             <motion.span
-              key={activeCategory?.title ?? activeIndex}
+              key={`${activeCategory?.title ?? activeIndex}-${isDark ? 'd' : 'l'}`}
               initial={{ opacity: 0, y: 28 }}
-              animate={{ opacity: isDark ? 0.85 : 1, y: 0 }}
+              animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
-              className='uppercase text-white text-center'
+              className='text-center uppercase'
               style={{
                 fontFamily: 'Anton, sans-serif',
-                fontSize:
-                  (activeCategory?.title.length ?? 0) > 18
-                    ? 'clamp(36px, 9vw, 140px)'
-                    : (activeCategory?.title.length ?? 0) > 12
-                      ? 'clamp(48px, 12vw, 200px)'
-                      : 'clamp(64px, 18vw, 280px)',
+                fontSize: ghostSize,
                 fontWeight: 900,
                 lineHeight: 1,
                 letterSpacing: '-0.02em',
                 whiteSpace: 'nowrap',
                 maxWidth: '100%',
+                color: isDark ? '#D7E8FF' : '#FFFFFF',
+                textShadow: isDark
+                  ? '0 0 28px rgba(140,190,255,0.55), 0 0 60px rgba(80,140,220,0.35)'
+                  : '0 2px 24px rgba(0,0,0,0.18)',
               }}
             >
               {activeCategory?.title ?? 'Frontend'}
@@ -231,29 +255,52 @@ export default function Skills({ categories }: SkillsProps) {
           </AnimatePresence>
         </div>
 
-        {/* Brand */}
         <p
-          className='absolute left-4 top-6 z-[60] text-xs font-semibold uppercase text-white sm:left-8'
-          style={{ letterSpacing: '0.18em', opacity: 0.9 }}
+          className='absolute left-4 top-6 z-[60] text-xs font-semibold uppercase sm:left-8'
+          style={{
+            letterSpacing: '0.18em',
+            opacity: 0.9,
+            color: isDark ? '#C8DCFF' : '#FFFFFF',
+          }}
         >
           Skills
         </p>
 
-        {/* Section title */}
         <div className='absolute left-4 right-4 top-14 z-[60] sm:left-8 sm:right-auto sm:top-16 md:left-24'>
           <h2
-            className='text-2xl font-bold text-white drop-shadow-md sm:text-4xl lg:text-5xl'
-            style={{ fontFamily: 'Inter, sans-serif' }}
+            className='text-2xl font-bold sm:text-4xl lg:text-5xl'
+            style={{
+              fontFamily: 'Inter, sans-serif',
+              color: isDark ? '#F0F6FF' : '#FFFFFF',
+              textShadow: isDark
+                ? '0 0 20px rgba(150,200,255,0.35)'
+                : '0 2px 12px rgba(0,0,0,0.2)',
+            }}
           >
             Skills & Expertise
           </h2>
-          <p className='mt-2 max-w-md text-sm text-white/85 sm:text-base'>
-            One focus area at a time swipe through with the arrows.
+          <p
+            className='mt-2 max-w-md text-sm sm:text-base'
+            style={{
+              color: isDark
+                ? 'rgba(200,220,255,0.75)'
+                : 'rgba(255,255,255,0.85)',
+            }}
+          >
+            One focus area at a time — swipe through with the arrows.
           </p>
         </div>
 
-        {/* Carousel figures */}
-        <div className='absolute inset-0' style={{ zIndex: 3 }}>
+        <div
+          className='absolute inset-0'
+          style={{
+            zIndex: 3,
+            filter: isDark
+              ? 'brightness(0.7) saturate(0.8) contrast(1.05)'
+              : 'none',
+            transition: `filter ${TRANSITION_MS}ms ${EASE}`,
+          }}
+        >
           {IMAGES.map((img, i) => (
             <div key={img.src} style={roleStyle(getRole(i), isMobile)}>
               <img
@@ -271,31 +318,33 @@ export default function Skills({ categories }: SkillsProps) {
           ))}
         </div>
 
-        {/* Active skill field + nav */}
         <div className='absolute bottom-6 left-4 z-[60] max-w-[320px] sm:bottom-20 sm:left-24 sm:max-w-md'>
           <AnimatePresence mode='wait'>
             <motion.div
-              key={activeCategory?.title ?? activeIndex}
+              key={`${activeCategory?.title ?? activeIndex}-${isDark ? 'd' : 'l'}`}
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -12 }}
               transition={{ duration: 0.35 }}
-              className={`mb-4 rounded-2xl border p-4 shadow-xl backdrop-blur-md sm:mb-5 sm:p-5 ${
+              className={`mb-4 rounded-2xl border p-4 backdrop-blur-md sm:mb-5 sm:p-5 ${
                 isDark
-                  ? 'border-white/20 bg-black/45 text-white'
-                  : 'border-white/50 bg-white/85 text-gray-900'
+                  ? 'border-sky-300/25 text-white'
+                  : 'border-white/60 text-gray-900'
               }`}
               style={{
                 backgroundColor: isDark
-                  ? 'rgba(10, 12, 18, 0.55)'
-                  : `color-mix(in srgb, ${activeImage.panel} 35%, white)`,
+                  ? 'rgba(8, 12, 22, 0.82)'
+                  : `color-mix(in srgb, ${activeImage.panel} 28%, white 72%)`,
+                boxShadow: isDark
+                  ? '0 12px 40px rgba(0,0,0,0.5), 0 0 0 1px rgba(140,190,255,0.12), inset 0 1px 0 rgba(255,255,255,0.08)'
+                  : '0 12px 36px rgba(0,0,0,0.12)',
               }}
             >
               <p
                 className={`mb-2 text-base font-bold uppercase tracking-widest sm:mb-3 sm:text-[22px] ${
-                  isDark ? 'text-white' : 'text-gray-900'
+                  isDark ? 'text-sky-100' : 'text-gray-900'
                 }`}
-                style={{ letterSpacing: '0.02em', opacity: 0.95 }}
+                style={{ letterSpacing: '0.02em' }}
               >
                 {activeCategory?.title}
               </p>
@@ -305,8 +354,8 @@ export default function Skills({ categories }: SkillsProps) {
                     key={skill}
                     className={`rounded-full px-2.5 py-1 text-xs font-medium sm:text-sm ${
                       isDark
-                        ? 'bg-white/15 text-white'
-                        : 'bg-black/10 text-gray-800'
+                        ? 'bg-sky-400/15 text-sky-50 ring-1 ring-sky-300/25'
+                        : 'bg-black/8 text-gray-800'
                     }`}
                   >
                     {skill}
@@ -315,7 +364,7 @@ export default function Skills({ categories }: SkillsProps) {
               </div>
               <p
                 className={`mt-3 text-[11px] uppercase tracking-wider sm:text-xs ${
-                  isDark ? 'text-white/60' : 'text-gray-600'
+                  isDark ? 'text-sky-200/55' : 'text-gray-600'
                 }`}
               >
                 {activeIndex + 1} / {categoryCount}
@@ -328,7 +377,11 @@ export default function Skills({ categories }: SkillsProps) {
               type='button'
               aria-label='Previous skill'
               onClick={() => navigate('prev')}
-              className='flex h-12 w-12 items-center justify-center rounded-full border-2 border-white bg-transparent text-white transition-[transform,background-color] duration-150 hover:scale-105 hover:bg-white/12 active:scale-95 sm:h-16 sm:w-16'
+              className={`flex h-12 w-12 items-center justify-center rounded-full border-2 transition-[transform,background-color,border-color,color] duration-150 hover:scale-105 active:scale-95 sm:h-16 sm:w-16 ${
+                isDark
+                  ? 'border-sky-200/70 bg-black/45 text-sky-100 hover:bg-sky-400/20'
+                  : 'border-white bg-transparent text-white hover:bg-white/12'
+              }`}
             >
               <ArrowLeft size={26} strokeWidth={2.25} />
             </button>
@@ -336,17 +389,20 @@ export default function Skills({ categories }: SkillsProps) {
               type='button'
               aria-label='Next skill'
               onClick={() => navigate('next')}
-              className='flex h-12 w-12 items-center justify-center rounded-full border-2 border-white bg-transparent text-white transition-[transform,background-color] duration-150 hover:scale-105 hover:bg-white/12 active:scale-95 sm:h-16 sm:w-16'
+              className={`flex h-12 w-12 items-center justify-center rounded-full border-2 transition-[transform,background-color,border-color,color] duration-150 hover:scale-105 active:scale-95 sm:h-16 sm:w-16 ${
+                isDark
+                  ? 'border-sky-200/70 bg-black/45 text-sky-100 hover:bg-sky-400/20'
+                  : 'border-white bg-transparent text-white hover:bg-white/12'
+              }`}
             >
               <ArrowRight size={26} strokeWidth={2.25} />
             </button>
           </div>
         </div>
 
-        {/* Bottom-right */}
         <a
           href='#projects'
-          className='absolute bottom-6 right-4 z-[60] flex items-center gap-2 text-white no-underline opacity-95 transition-opacity duration-200 hover:opacity-100 sm:bottom-20 sm:right-10'
+          className='absolute bottom-6 right-4 z-[60] flex items-center gap-2 no-underline transition-opacity duration-200 hover:opacity-100 sm:bottom-20 sm:right-10'
           style={{
             fontFamily: 'Anton, sans-serif',
             fontSize: 'clamp(20px, 4vw, 56px)',
@@ -354,23 +410,16 @@ export default function Skills({ categories }: SkillsProps) {
             letterSpacing: '-0.02em',
             lineHeight: 1,
             textTransform: 'uppercase',
+            color: isDark ? '#D7E8FF' : '#FFFFFF',
+            opacity: 0.95,
+            textShadow: isDark
+              ? '0 0 18px rgba(140,190,255,0.4)'
+              : 'none',
           }}
         >
           Discover it
           <ArrowRight className='h-5 w-5 sm:h-8 sm:w-8' strokeWidth={2.25} />
         </a>
-
-        {/* Soft top wash for readability in both themes */}
-        <div
-          className='pointer-events-none absolute inset-x-0 top-0 h-40'
-          style={{
-            zIndex: 4,
-            background: isDark
-              ? 'linear-gradient(to bottom, rgba(0,0,0,0.35), transparent)'
-              : 'linear-gradient(to bottom, rgba(0,0,0,0.12), transparent)',
-          }}
-          aria-hidden
-        />
       </div>
     </section>
   );
