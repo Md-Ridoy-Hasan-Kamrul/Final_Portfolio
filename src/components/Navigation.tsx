@@ -108,8 +108,11 @@ const Navigation = memo(() => {
   };
 
   const onProjects = activeSection === '#projects';
+  const onProjectsNight = onProjects && theme === 'dark';
   const onDarkNav =
-    activeSection === '#about' || activeSection === '#experience';
+    activeSection === '#about' ||
+    activeSection === '#experience' ||
+    onProjectsNight;
   const useDarkLogo = theme === 'dark' || onDarkNav;
 
   const navSurfaceClass = (() => {
@@ -128,7 +131,9 @@ const Navigation = memo(() => {
       case '#experience':
         return 'bg-[#041018]/88 backdrop-blur-xl border-b border-white/10 shadow-lg shadow-black/30';
       case '#projects':
-        return 'bg-white/55 backdrop-blur-xl border-b border-black/10 shadow-md shadow-black/5';
+        return theme === 'dark'
+          ? 'bg-[#070d16]/80 backdrop-blur-xl border-b border-white/10 shadow-lg shadow-black/30'
+          : 'bg-white/55 backdrop-blur-xl border-b border-black/10 shadow-md shadow-black/5';
       case '#home':
         return isScrolled
           ? 'bg-white/80 dark:bg-gray-950/80 backdrop-blur-xl border-b border-black/5 dark:border-white/10 shadow-lg shadow-black/5'
@@ -231,7 +236,7 @@ const Navigation = memo(() => {
                     }
                     underlineColor={
                       onDarkNav
-                        ? '#60A5FA'
+                        ? '#93C5FD'
                         : onProjects
                           ? '#175A67'
                           : theme === 'dark'

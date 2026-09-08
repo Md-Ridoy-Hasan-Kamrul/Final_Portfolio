@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Cover } from './ui/cover';
 import { Container } from './ui/Container';
 import DepthBlurCarousel from './DepthBlurCarousel';
+import { useTheme } from '../contexts/ThemeContext';
 
 const PROJECTS_VIDEO_SRC =
   'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260901_122529_931c22c8-8d2d-47c0-ad51-b97f56a91e42.mp4';
@@ -204,6 +205,8 @@ function getCarouselLayout(width: number) {
 }
 
 export default function Projects() {
+  const { theme } = useTheme();
+  const isNight = theme === 'dark';
   const sectionRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [resolvedSrc, setResolvedSrc] = useState<Record<string, string>>(() =>
@@ -304,6 +307,9 @@ export default function Projects() {
       </div>
 
       <div className='projects-inner'>
+        {/* Night moon — sits in the left gutter, not beside the title */}
+        <span className='projects-moon' aria-hidden='true' />
+
         <Container className='relative z-10'>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -311,10 +317,22 @@ export default function Projects() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className='mb-3 text-2xl font-bold text-[#175A67] min-[375px]:text-3xl sm:mb-4 sm:text-4xl lg:text-5xl'>
+            <h2
+              className={`mb-3 text-2xl font-bold min-[375px]:text-3xl sm:mb-4 sm:text-4xl lg:text-5xl ${
+                isNight
+                  ? 'text-[#E8F2FF] drop-shadow-[0_0_18px_rgba(180,220,255,0.45)]'
+                  : 'text-[#175A67]'
+              }`}
+            >
               Featured <Cover>Projects</Cover>
             </h2>
-            <p className='mb-6 max-w-2xl text-sm text-[#2A707C] min-[375px]:text-base sm:mb-10 sm:text-lg'>
+            <p
+              className={`mb-6 max-w-2xl text-sm min-[375px]:text-base sm:mb-10 sm:text-lg ${
+                isNight
+                  ? 'text-[#B7CEE0]/90 drop-shadow-[0_0_10px_rgba(160,200,240,0.25)]'
+                  : 'text-[#2A707C]'
+              }`}
+            >
               Drag or scroll to explore. Click a card to open the live site.
             </p>
           </motion.div>
