@@ -231,40 +231,46 @@ export default function DepthBlurCarousel({
         ))}
       </div>
 
-      <div
-        aria-hidden
-        style={{
-          position: 'absolute',
-          left: 0,
-          top: 0,
-          bottom: 0,
-          width: `${blurSpread}%`,
-          backdropFilter: `blur(${blurStrength}px)`,
-          WebkitBackdropFilter: `blur(${blurStrength}px)`,
-          maskImage: 'linear-gradient(to right, black 0%, transparent 100%)',
-          WebkitMaskImage:
-            'linear-gradient(to right, black 0%, transparent 100%)',
-          pointerEvents: 'none',
-          zIndex: 10000,
-        }}
-      />
-      <div
-        aria-hidden
-        style={{
-          position: 'absolute',
-          right: 0,
-          top: 0,
-          bottom: 0,
-          width: `${blurSpread}%`,
-          backdropFilter: `blur(${blurStrength}px)`,
-          WebkitBackdropFilter: `blur(${blurStrength}px)`,
-          maskImage: 'linear-gradient(to left, black 0%, transparent 100%)',
-          WebkitMaskImage:
-            'linear-gradient(to left, black 0%, transparent 100%)',
-          pointerEvents: 'none',
-          zIndex: 10000,
-        }}
-      />
+      {blurSpread > 0 && blurStrength > 0 && (
+        <>
+          <div
+            aria-hidden
+            style={{
+              position: 'absolute',
+              left: 0,
+              top: 0,
+              bottom: 0,
+              width: `${blurSpread}%`,
+              backdropFilter: `blur(${blurStrength}px)`,
+              WebkitBackdropFilter: `blur(${blurStrength}px)`,
+              maskImage:
+                'linear-gradient(to right, black 0%, transparent 100%)',
+              WebkitMaskImage:
+                'linear-gradient(to right, black 0%, transparent 100%)',
+              pointerEvents: 'none',
+              zIndex: 10000,
+            }}
+          />
+          <div
+            aria-hidden
+            style={{
+              position: 'absolute',
+              right: 0,
+              top: 0,
+              bottom: 0,
+              width: `${blurSpread}%`,
+              backdropFilter: `blur(${blurStrength}px)`,
+              WebkitBackdropFilter: `blur(${blurStrength}px)`,
+              maskImage:
+                'linear-gradient(to left, black 0%, transparent 100%)',
+              WebkitMaskImage:
+                'linear-gradient(to left, black 0%, transparent 100%)',
+              pointerEvents: 'none',
+              zIndex: 10000,
+            }}
+          />
+        </>
+      )}
     </div>
   );
 }

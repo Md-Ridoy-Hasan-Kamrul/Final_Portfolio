@@ -64,6 +64,120 @@
       0 1px 3px rgba(0, 0, 0, 0.8);
   }
 
+  /* Featured Projects — Heritage Grove landscape video BG */
+  .projects-section {
+    --ink: #175a67;
+    --cream: #eae3de;
+    position: relative;
+    isolation: isolate;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    min-height: 100svh;
+    overflow: hidden;
+    overflow-wrap: break-word;
+    background: var(--cream);
+  }
+
+  .projects-media {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    pointer-events: none;
+  }
+
+  .projects-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center bottom;
+    pointer-events: none;
+    animation: projects-fade-in 1.35s ease both;
+  }
+
+  .projects-inner {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 100vh;
+    min-height: 100svh;
+    padding-top: clamp(5rem, 12vh, 7rem);
+    padding-bottom: clamp(1.5rem, 4vh, 3rem);
+  }
+
+  @keyframes projects-fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  /* Phones + tablets: keep full viewport; video stays behind (cover) so section is h-screen */
+  @media (max-width: 1100px) {
+    .projects-section {
+      min-height: 100svh;
+      overflow: hidden;
+    }
+
+    .projects-media {
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      margin-top: 0;
+    }
+
+    .projects-media::after {
+      content: none;
+    }
+
+    .projects-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center bottom;
+      display: block;
+    }
+
+    .projects-inner {
+      min-height: 100svh;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .projects-bg {
+      display: none;
+      animation: none;
+    }
+
+    .projects-section {
+      background-color: #eae3de;
+      background-image: url('https://d2ol7oe51mr4n9.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/4f690bd1-881a-4192-82f2-d714d34c8fb9.png');
+      background-position: center bottom;
+      background-size: cover;
+      background-repeat: no-repeat;
+    }
+
+    .projects-media::after {
+      content: none;
+    }
+
+    @media (max-width: 1100px) {
+      .projects-section {
+        background-size: 100% auto;
+      }
+    }
+  }
+
   /* Exact dark-panel tone from the reference footer */
   .footer-panel {
     background:

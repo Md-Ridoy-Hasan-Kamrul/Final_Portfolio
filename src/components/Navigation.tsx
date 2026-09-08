@@ -108,11 +108,15 @@ const Navigation = memo(() => {
   };
 
   const onAbout = activeSection === '#about';
+  const onProjects = activeSection === '#projects';
   const useDarkLogo = theme === 'dark' || onAbout;
 
   const navSurfaceClass = (() => {
     if (isOpen && onAbout) {
       return 'bg-[#041018]/95 backdrop-blur-xl border-b border-white/10 shadow-lg shadow-black/40';
+    }
+    if (isOpen && onProjects) {
+      return 'bg-[#EAE3DE]/95 backdrop-blur-xl border-b border-black/10 shadow-lg';
     }
     if (isOpen) {
       return 'bg-gradient-to-b from-zinc-300/95 via-zinc-200/95 to-zinc-300/90 dark:from-zinc-800/95 dark:via-zinc-900/95 dark:to-zinc-800/90 backdrop-blur-lg shadow-lg';
@@ -121,14 +125,14 @@ const Navigation = memo(() => {
     switch (activeSection) {
       case '#about':
         return 'bg-[#041018]/88 backdrop-blur-xl border-b border-white/10 shadow-lg shadow-black/30';
+      case '#projects':
+        return 'bg-white/55 backdrop-blur-xl border-b border-black/10 shadow-md shadow-black/5';
       case '#home':
         return isScrolled
           ? 'bg-white/80 dark:bg-gray-950/80 backdrop-blur-xl border-b border-black/5 dark:border-white/10 shadow-lg shadow-black/5'
           : 'bg-transparent';
       case '#experience':
         return 'bg-white/85 dark:bg-gray-900/85 backdrop-blur-xl border-b border-gray-200/60 dark:border-white/10 shadow-md';
-      case '#projects':
-        return 'bg-slate-950/75 dark:bg-slate-950/80 backdrop-blur-xl border-b border-white/10 shadow-lg shadow-black/25';
       case '#skills':
         return 'bg-white/85 dark:bg-gray-900/85 backdrop-blur-xl border-b border-gray-200/60 dark:border-white/10 shadow-md';
       case '#contact':
@@ -154,7 +158,9 @@ const Navigation = memo(() => {
         className={`absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent to-transparent opacity-60 ${
           onAbout
             ? 'via-blue-400/50'
-            : 'via-zinc-400 dark:via-zinc-600'
+            : onProjects
+              ? 'via-[#175A67]/40'
+              : 'via-zinc-400 dark:via-zinc-600'
         }`}
       />
 
@@ -211,20 +217,26 @@ const Navigation = memo(() => {
                         ? isActive
                           ? '#93C5FD'
                           : '#E5E7EB'
-                        : isActive
-                          ? theme === 'dark'
-                            ? '#60A5FA'
-                            : '#2563EB'
-                          : theme === 'dark'
-                            ? '#D1D5DB'
-                            : '#374151'
+                        : onProjects
+                          ? isActive
+                            ? '#175A67'
+                            : '#111111'
+                          : isActive
+                            ? theme === 'dark'
+                              ? '#60A5FA'
+                              : '#2563EB'
+                            : theme === 'dark'
+                              ? '#D1D5DB'
+                              : '#374151'
                     }
                     underlineColor={
                       onAbout
                         ? '#60A5FA'
-                        : theme === 'dark'
-                          ? '#A78BFA'
-                          : '#3B82F6'
+                        : onProjects
+                          ? '#175A67'
+                          : theme === 'dark'
+                            ? '#A78BFA'
+                            : '#3B82F6'
                     }
                     strokeWidth={2.5}
                     gap={1}
@@ -238,7 +250,9 @@ const Navigation = memo(() => {
               className={`hidden lg:flex items-center gap-2 ml-6 pl-6 border-l ${
                 onAbout
                   ? 'border-white/20'
-                  : 'border-gray-200 dark:border-gray-700'
+                  : onProjects
+                    ? 'border-black/15'
+                    : 'border-gray-200 dark:border-gray-700'
               }`}
             >
               <ThemeToggle />
@@ -249,7 +263,9 @@ const Navigation = memo(() => {
                 className={`cursor-target p-2 rounded-full transition-all duration-300 group relative ${
                   onAbout
                     ? 'text-gray-200 hover:text-white hover:bg-white/10'
-                    : 'text-gray-700 hover:text-white hover:bg-gray-900 dark:text-gray-300 dark:hover:bg-gray-700'
+                    : onProjects
+                      ? 'text-black hover:text-white hover:bg-black'
+                      : 'text-gray-700 hover:text-white hover:bg-gray-900 dark:text-gray-300 dark:hover:bg-gray-700'
                 }`}
                 aria-label='GitHub Profile'
                 whileHover={{ scale: 1.1, rotate: 5 }}
@@ -264,7 +280,9 @@ const Navigation = memo(() => {
                 className={`cursor-target p-2 rounded-full transition-all duration-300 group relative ${
                   onAbout
                     ? 'text-gray-200 hover:text-white hover:bg-blue-600/80'
-                    : 'text-gray-700 hover:text-white hover:bg-blue-600 dark:text-gray-300 dark:hover:bg-blue-600'
+                    : onProjects
+                      ? 'text-black hover:text-white hover:bg-blue-600'
+                      : 'text-gray-700 hover:text-white hover:bg-blue-600 dark:text-gray-300 dark:hover:bg-blue-600'
                 }`}
                 aria-label='LinkedIn Profile'
                 whileHover={{ scale: 1.1, rotate: -5 }}
@@ -278,7 +296,11 @@ const Navigation = memo(() => {
           {/* Mobile hamburger — Framer HamburgerMenu morph */}
           <div
             className={`md:hidden relative flex items-center justify-center p-1 ${
-              onAbout ? 'text-white' : 'text-gray-800 dark:text-white'
+              onAbout
+                ? 'text-white'
+                : onProjects
+                  ? 'text-black'
+                  : 'text-gray-800 dark:text-white'
             }`}
           >
             <HamburgerMenu
@@ -300,7 +322,9 @@ const Navigation = memo(() => {
             className={`md:hidden backdrop-blur-lg border-t shadow-2xl ${
               onAbout
                 ? 'bg-[#041018]/98 border-white/10 shadow-black/40'
-                : 'bg-gradient-to-b from-zinc-300/95 via-zinc-200/95 to-zinc-300/95 dark:from-zinc-800/95 dark:via-zinc-900/95 dark:to-zinc-800/95 border-zinc-400/40 dark:border-zinc-700 shadow-zinc-500/15 dark:shadow-black/40'
+                : onProjects
+                  ? 'bg-[#EAE3DE]/98 border-black/10 shadow-black/10'
+                  : 'bg-gradient-to-b from-zinc-300/95 via-zinc-200/95 to-zinc-300/95 dark:from-zinc-800/95 dark:via-zinc-900/95 dark:to-zinc-800/95 border-zinc-400/40 dark:border-zinc-700 shadow-zinc-500/15 dark:shadow-black/40'
             }`}
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
@@ -320,7 +344,9 @@ const Navigation = memo(() => {
                         ? 'text-white bg-gradient-to-r from-blue-600 to-purple-600 shadow-lg shadow-blue-500/30'
                         : onAbout
                           ? 'text-gray-200 hover:bg-white/10 hover:text-white'
-                          : 'text-zinc-800 dark:text-zinc-200 hover:bg-zinc-400/30 dark:hover:bg-zinc-700/50 hover:text-blue-700 dark:hover:text-blue-300'
+                          : onProjects
+                            ? 'text-black hover:bg-black/5 hover:text-[#175A67]'
+                            : 'text-zinc-800 dark:text-zinc-200 hover:bg-zinc-400/30 dark:hover:bg-zinc-700/50 hover:text-blue-700 dark:hover:text-blue-300'
                     }`}
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}

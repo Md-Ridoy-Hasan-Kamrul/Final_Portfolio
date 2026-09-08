@@ -1,8 +1,13 @@
-import { useEffect, useState, startTransition, useMemo } from 'react';
+import { useEffect, useState, startTransition, useMemo, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Cover } from './ui/cover';
 import { Container } from './ui/Container';
 import DepthBlurCarousel from './DepthBlurCarousel';
+
+const PROJECTS_VIDEO_SRC =
+  'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260901_122529_931c22c8-8d2d-47c0-ad51-b97f56a91e42.mp4';
+const PROJECTS_VIDEO_POSTER =
+  'https://d2ol7oe51mr4n9.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/4f690bd1-881a-4192-82f2-d714d34c8fb9.png';
 
 interface Project {
   title: string;
@@ -130,8 +135,8 @@ function getCarouselLayout(width: number) {
       maxRotation: 42,
       perspective: 700,
       borderRadius: 14,
-      blurSpread: 10,
-      blurStrength: 12,
+      blurSpread: 0,
+      blurStrength: 0,
     };
   }
   // Mobile M (≤375)
@@ -146,8 +151,8 @@ function getCarouselLayout(width: number) {
       maxRotation: 48,
       perspective: 750,
       borderRadius: 15,
-      blurSpread: 12,
-      blurStrength: 14,
+      blurSpread: 0,
+      blurStrength: 0,
     };
   }
   // Mobile L (≤425)
@@ -162,8 +167,8 @@ function getCarouselLayout(width: number) {
       maxRotation: 54,
       perspective: 800,
       borderRadius: 16,
-      blurSpread: 14,
-      blurStrength: 15,
+      blurSpread: 0,
+      blurStrength: 0,
     };
   }
   // Small tablet
@@ -178,8 +183,8 @@ function getCarouselLayout(width: number) {
       maxRotation: 60,
       perspective: 850,
       borderRadius: 16,
-      blurSpread: 15,
-      blurStrength: 16,
+      blurSpread: 0,
+      blurStrength: 0,
     };
   }
   // Desktop
@@ -193,12 +198,14 @@ function getCarouselLayout(width: number) {
     maxRotation: 68,
     perspective: 900,
     borderRadius: 18,
-    blurSpread: 16,
-    blurStrength: 18,
+    blurSpread: 0,
+    blurStrength: 0,
   };
 }
 
 export default function Projects() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const [resolvedSrc, setResolvedSrc] = useState<Record<string, string>>(() =>
     Object.fromEntries(projects.map((p) => [p.image, p.fallback]))
   );
@@ -235,6 +242,33 @@ export default function Projects() {
     });
   }, []);
 
+  // Play video only while Featured Projects is in view
+  useEffect(() => {
+    const section = sectionRef.current;
+    const video = videoRef.current;
+    if (!section || !video) return;
+
+    const reduceMotion = window.matchMedia(
+      '(prefers-reduced-motion: reduce)'
+    ).matches;
+    if (reduceMotion) return;
+
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry) return;
+        if (entry.isIntersecting) {
+          void video.play().catch(() => undefined);
+        } else {
+          video.pause();
+        }
+      },
+      { threshold: 0.12 }
+    );
+
+    io.observe(section);
+    return () => io.disconnect();
+  }, []);
+
   const layout = useMemo(() => getCarouselLayout(viewportW), [viewportW]);
 
   const carouselSlides = projects.map((p) => ({
@@ -249,44 +283,61 @@ export default function Projects() {
 
   return (
     <section
+      ref={sectionRef}
       id='projects'
-      className='py-12 sm:py-16 lg:py-20 bg-transparent relative overflow-hidden transition-colors duration-300'
+      className='projects-section transition-colors duration-300'
     >
-      <Container className='relative z-10'>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+      {/* Heritage Grove landscape — full-bleed on desktop, no scrim */}
+      <div className='projects-media' aria-hidden='true'>
+        <video
+          ref={videoRef}
+          className='projects-bg'
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload='auto'
+          poster={PROJECTS_VIDEO_POSTER}
         >
-          <h2 className='text-2xl min-[375px]:text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4'>
-            Featured <Cover>Projects</Cover>
-          </h2>
-          <p className='text-sm min-[375px]:text-base sm:text-lg text-gray-600 dark:text-gray-300 mb-6 sm:mb-10 max-w-2xl'>
-            Drag or scroll to explore. Click a card to open the live site.
-          </p>
-        </motion.div>
-      </Container>
+          <source src={PROJECTS_VIDEO_SRC} type='video/mp4' />
+        </video>
+      </div>
 
-      {/* Full-bleed on mobile so the card isn’t squeezed by container padding */}
-      <div
-        className={`relative w-full max-w-7xl mx-auto px-0 sm:px-6 lg:px-8 ${layout.frameClass}`}
-      >
-        <DepthBlurCarousel
-          key={`${layout.itemWidth}-${layout.itemHeight}`}
-          images={carouselSlides}
-          itemWidth={layout.itemWidth}
-          itemHeight={layout.itemHeight}
-          sideItemWidth={layout.sideItemWidth}
-          sideItemHeight={layout.sideItemHeight}
-          gap={layout.gap}
-          maxRotation={layout.maxRotation}
-          perspective={layout.perspective}
-          borderRadius={layout.borderRadius}
-          blurSpread={layout.blurSpread}
-          blurStrength={layout.blurStrength}
-          className='w-full'
-        />
+      <div className='projects-inner'>
+        <Container className='relative z-10'>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <h2 className='mb-3 text-2xl font-bold text-[#175A67] min-[375px]:text-3xl sm:mb-4 sm:text-4xl lg:text-5xl'>
+              Featured <Cover>Projects</Cover>
+            </h2>
+            <p className='mb-6 max-w-2xl text-sm text-[#2A707C] min-[375px]:text-base sm:mb-10 sm:text-lg'>
+              Drag or scroll to explore. Click a card to open the live site.
+            </p>
+          </motion.div>
+        </Container>
+
+        {/* Full-bleed carousel across the viewport */}
+        <div className={`relative z-10 w-full ${layout.frameClass}`}>
+          <DepthBlurCarousel
+            key={`${layout.itemWidth}-${layout.itemHeight}`}
+            images={carouselSlides}
+            itemWidth={layout.itemWidth}
+            itemHeight={layout.itemHeight}
+            sideItemWidth={layout.sideItemWidth}
+            sideItemHeight={layout.sideItemHeight}
+            gap={layout.gap}
+            maxRotation={layout.maxRotation}
+            perspective={layout.perspective}
+            borderRadius={layout.borderRadius}
+            blurSpread={layout.blurSpread}
+            blurStrength={layout.blurStrength}
+            className='w-full'
+          />
+        </div>
       </div>
     </section>
   );
