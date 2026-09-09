@@ -6,6 +6,7 @@ import { useTheme } from '../contexts/ThemeContext';
 import { Container } from './ui/Container';
 import HamburgerMenu from './HamburgerMenu';
 import AnimatedSVGUnderline from './AnimatedSVGUnderline';
+import { scrollToHash } from '../utils/scrollToHash';
 
 const navLinks = [
   { href: '#home', label: 'Home' },
@@ -106,8 +107,8 @@ const Navigation = memo(() => {
           const element = document.getElementById(sections[i]);
           if (element) {
             const rect = element.getBoundingClientRect();
-            // Section is considered active if its top is in the upper third of viewport
-            if (rect.top <= 150 && rect.bottom >= 150) {
+            // Section is considered active if its top is near the nav band
+            if (rect.top <= 160 && rect.bottom >= 160) {
               currentSection = `#${sections[i]}`;
               break;
             }
@@ -133,39 +134,14 @@ const Navigation = memo(() => {
     const element = document.getElementById(targetId);
 
     if (element) {
-      // Close mobile menu first
       setIsOpen(false);
 
-      // Wait a tiny bit for menu to start closing, then scroll
-      setTimeout(() => {
-        // Get actual navbar height dynamically
-        const navHeight =
-          window.innerWidth >= 1024
-            ? 128
-            : window.innerWidth >= 768
-              ? 112
-              : window.innerWidth >= 640
-                ? 96
-                : 80;
-
-        // Get the element's position relative to the document
-        const elementTop = element.offsetTop;
-
-        // Calculate scroll position with navbar offset
-        const scrollPosition = elementTop - navHeight;
-
-        // Scroll to the calculated position
-        window.scrollTo({
-          top: scrollPosition,
-          behavior: 'smooth',
-        });
-
-        // Update active state
+      // Let mobile menu start closing, then scroll via shared helper
+      window.setTimeout(() => {
+        scrollToHash(href);
         setActiveSection(href);
-
-        // Update URL
         window.history.pushState({}, '', href);
-      }, 50);
+      }, 60);
     }
   };
 
