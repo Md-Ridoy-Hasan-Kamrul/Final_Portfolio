@@ -2,6 +2,7 @@
 import Lenis from 'lenis';
 import 'lenis/dist/lenis.css';
 import { ScrollTrigger, prefersReducedMotion, gsap } from '../lib/motion';
+import { scrollToHash } from '../utils/scrollToHash';
 
 type SmoothScrollProps = {
   children: React.ReactNode;
@@ -36,15 +37,14 @@ export default function SmoothScroll({ children }: SmoothScrollProps) {
 
     const onClick = (e: MouseEvent) => {
       const target = (e.target as HTMLElement | null)?.closest(
-        'a[href^="#"]',
+        'a[href^="#"]'
       ) as HTMLAnchorElement | null;
       if (!target) return;
       const href = target.getAttribute('href');
       if (!href || href === '#') return;
       if (target.closest('nav')) return;
       e.preventDefault();
-      const navHeight = window.innerWidth >= 768 ? 100 : 80;
-      scrollToHash(href, navHeight);
+      scrollToHash(href);
       window.history.pushState({}, '', href);
     };
     document.addEventListener('click', onClick);
@@ -62,20 +62,4 @@ export default function SmoothScroll({ children }: SmoothScrollProps) {
   return <>{children}</>;
 }
 
-export function scrollToHash(hash: string, offset = 96) {
-  const id = hash.replace('#', '');
-  const el = document.getElementById(id);
-  if (!el) return;
-
-  const lenis = (window as Window & { __lenis?: Lenis }).__lenis;
-  const top = el.getBoundingClientRect().top + window.scrollY - offset;
-
-  if (lenis) {
-    lenis.scrollTo(top, { duration: 1.15 });
-  } else {
-    window.scrollTo({
-      top,
-      behavior: prefersReducedMotion() ? 'auto' : 'smooth',
-    });
-  }
-}
+export { scrollToHash } from '../utils/scrollToHash';

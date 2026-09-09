@@ -6,6 +6,51 @@
   /* Keep fixed navbar and in-flow sections on the same horizontal axis */
   html {
     scrollbar-gutter: stable;
+    scroll-behavior: smooth;
+    scroll-padding-top: 5.5rem;
+  }
+
+  @media (min-width: 640px) {
+    html {
+      scroll-padding-top: 6.5rem;
+    }
+  }
+
+  @media (min-width: 768px) {
+    html {
+      scroll-padding-top: 7rem;
+    }
+  }
+
+  #home,
+  #about,
+  #experience,
+  #projects,
+  #skills,
+  #contact {
+    scroll-margin-top: 5.5rem;
+  }
+
+  @media (min-width: 640px) {
+    #home,
+    #about,
+    #experience,
+    #projects,
+    #skills,
+    #contact {
+      scroll-margin-top: 6.5rem;
+    }
+  }
+
+  @media (min-width: 768px) {
+    #home,
+    #about,
+    #experience,
+    #projects,
+    #skills,
+    #contact {
+      scroll-margin-top: 7rem;
+    }
   }
 }
 
