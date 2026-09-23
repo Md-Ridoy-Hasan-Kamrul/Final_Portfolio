@@ -153,7 +153,7 @@ export default function Hero() {
               <TactileButton
                 width={250}
                 height={64}
-                hue={190}
+                hue={0}
                 saturation={1.0}
                 brightness={1.0}
                 onClick={() => { scrollToHash('#projects'); window.history.pushState({}, '', '#projects'); }}
@@ -166,9 +166,9 @@ export default function Hero() {
               <TactileButton
                 width={250}
                 height={64}
-                hue={280}
-                saturation={0.85}
-                brightness={0.95}
+                hue={0}
+                saturation={1.0}
+                brightness={1.0}
                 onClick={() => { scrollToHash('#contact'); window.history.pushState({}, '', '#contact'); }}
                 ariaLabel='Get in touch'
                 className='cursor-target'

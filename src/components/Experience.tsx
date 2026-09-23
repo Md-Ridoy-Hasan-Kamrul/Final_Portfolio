@@ -8,6 +8,8 @@ import {
   MapPin,
 } from 'lucide-react';
 import WowSectionEntrance from './motion/WowSectionEntrance';
+import TactileButton from './ui/TactileButton';
+import { scrollToHash } from '../utils/scrollToHash';
 
 const EXPERIENCE_VIDEO_SRC =
   'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260606_154941_df1a96e1-a06f-450c-bd02-d863414cc1a0.mp4';
@@ -130,13 +132,18 @@ export default function Experience() {
               </p>
 
               <div className='animate-fade-up-delay-3 mt-8 flex flex-wrap items-center gap-4 sm:gap-6 lg:mt-10'>
-                <a
-                  href='#projects'
-                  className='group inline-flex items-center gap-2 bg-black px-5 py-3 font-inter text-[11px] uppercase tracking-widest text-white transition-colors hover:bg-neutral-900 sm:px-7 sm:py-4 sm:text-xs'
+                <TactileButton
+                  width={220}
+                  height={56}
+                  hue={0}
+                  saturation={1.0}
+                  brightness={1.0}
+                  onClick={() => { scrollToHash('#projects'); window.history.pushState({}, '', '#projects'); }}
+                  ariaLabel='See our work'
                 >
-                  See our work
-                  <ArrowUpRight className='h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5' />
-                </a>
+                  SEE OUR WORK
+                  <ArrowUpRight className='ml-2 h-4 w-4' />
+                </TactileButton>
                 <div className='hidden items-center gap-3 sm:flex'>
                   <Award className='h-8 w-8 text-white/50' aria-hidden />
                   <div className='font-inter text-xs uppercase tracking-wider text-white/60'>
