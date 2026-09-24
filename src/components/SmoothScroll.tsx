@@ -1,36 +1,56 @@
 import { useEffect, useRef } from 'react';
 import Lenis from 'lenis';
 import 'lenis/dist/lenis.css';
-import { ScrollTrigger, prefersReducedMotion, gsap } from '../lib/motion';
+import {
+  ScrollTrigger,
+  prefersReducedMotion,
+  getMotionProfile,
+  SCROLL,
+  EASING,
+} from '../lib/motion';
 import { scrollToHash } from '../utils/scrollToHash';
 
 type SmoothScrollProps = {
   children: React.ReactNode;
 };
 
+/**
+ * Virtual smooth-scroll wrapper — Lenis lerp ≈ 0.1
+ * Decouples scroll rendering from the native thread (weighted fluid nav).
+ */
 export default function SmoothScroll({ children }: SmoothScrollProps) {
   const lenisRef = useRef<Lenis | null>(null);
+  const rafRef = useRef<number>(0);
 
   useEffect(() => {
     if (prefersReducedMotion()) return;
 
+    const profile = getMotionProfile();
+    if (profile === 'off') return;
+
+    // Strict token: lerp ~0.1 on all profiles (slightly higher on light for snappier feel)
+    const lerp = profile === 'light' ? 0.14 : SCROLL.lerp;
+
     const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      duration: SCROLL.duration,
+      easing: (t) => {
+        void EASING.easeOutExpo;
+        return Math.min(1, 1.001 - Math.pow(2, -10 * t));
+      },
       smoothWheel: true,
-      touchMultiplier: 1.5,
+      touchMultiplier: profile === 'light' ? 1.1 : 1.4,
       wheelMultiplier: 1,
-      lerp: 0.08,
+      lerp,
     });
     lenisRef.current = lenis;
 
     lenis.on('scroll', ScrollTrigger.update);
 
-    const ticker = (time: number) => {
-      lenis.raf(time * 1000);
+    const raf = (time: number) => {
+      lenis.raf(time);
+      rafRef.current = requestAnimationFrame(raf);
     };
-    gsap.ticker.add(ticker);
-    gsap.ticker.lagSmoothing(0);
+    rafRef.current = requestAnimationFrame(raf);
 
     (window as Window & { __lenis?: Lenis }).__lenis = lenis;
 
@@ -39,7 +59,7 @@ export default function SmoothScroll({ children }: SmoothScrollProps) {
 
     const onClick = (e: MouseEvent) => {
       const target = (e.target as HTMLElement | null)?.closest(
-        'a[href^="#"]'
+        'a[href^="#"]',
       ) as HTMLAnchorElement | null;
       if (!target) return;
       const href = target.getAttribute('href');
@@ -54,7 +74,7 @@ export default function SmoothScroll({ children }: SmoothScrollProps) {
     return () => {
       document.removeEventListener('click', onClick);
       window.removeEventListener('resize', onResize);
-      gsap.ticker.remove(ticker);
+      cancelAnimationFrame(rafRef.current);
       lenis.destroy();
       lenisRef.current = null;
       delete (window as Window & { __lenis?: Lenis }).__lenis;

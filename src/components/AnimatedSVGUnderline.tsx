@@ -8,6 +8,7 @@ import {
   type MouseEventHandler,
 } from 'react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
+import { DURATION, EASING } from '@/lib/motion';
 
 const SVG_VARIANTS = [
   'M5 20.9999C26.7762 16.2245 49.5532 11.5572 71.7979 14.6666C84.9553 16.5057 97.0392 21.8432 109.987 24.3888C116.413 25.6523 123.012 25.5143 129.042 22.6388C135.981 19.3303 142.586 15.1422 150.092 13.3333C156.799 11.7168 161.702 14.6225 167.887 16.8333C181.562 21.7212 194.975 22.6234 209.252 21.3888C224.678 20.0548 239.912 17.991 255.42 18.3055C272.027 18.6422 288.409 18.867 305 17.9999',
@@ -158,14 +159,20 @@ export default function AnimatedSVGUnderline({
         pathOffset: 0,
         transition: prefersReducedMotion
           ? { duration: 0 }
-          : { duration: 0.55, ease: [0.4, 0, 0.2, 1] as const },
+          : {
+              duration: DURATION.element,
+              ease: EASING.easeOutExpo,
+            },
       },
       erase: {
         pathLength: 1,
         pathOffset: 1,
         transition: prefersReducedMotion
           ? { duration: 0 }
-          : { duration: 0.4, ease: [0.4, 0, 0.2, 1] as const },
+          : {
+              duration: DURATION.interaction,
+              ease: EASING.easeOutExpo,
+            },
       },
     }),
     [prefersReducedMotion],

@@ -3,11 +3,38 @@
 @tailwind utilities;
 
 @layer base {
+  /*
+   * MOTION DESIGN TOKENS — single source mirrored from src/lib/motion.ts
+   * micro 100ms | structural 250ms (200–300) | hero 400ms
+   */
+  :root {
+    --motion-micro: 100ms;
+    --motion-structural: 250ms;
+    --motion-hero: 400ms;
+    --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-in-out-cubic: cubic-bezier(0.65, 0, 0.35, 1);
+    --ease-in-cubic: cubic-bezier(0.32, 0, 0.67, 0);
+    --scroll-lerp: 0.1;
+  }
+
   /* Keep fixed navbar and in-flow sections on the same horizontal axis */
   html {
     scrollbar-gutter: stable;
     scroll-behavior: smooth;
     scroll-padding-top: 5.5rem;
+  }
+
+  /* Same-document View Transitions — structural timing */
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: var(--motion-structural);
+    animation-timing-function: var(--ease-out-expo);
+  }
+
+  ::view-transition-group(hero-portrait),
+  ::view-transition-group(project-thumb-0) {
+    animation-duration: var(--motion-hero);
+    animation-timing-function: var(--ease-out-expo);
   }
 
   @media (min-width: 640px) {
@@ -74,7 +101,7 @@
     color: transparent;
     -webkit-text-fill-color: transparent;
     filter: drop-shadow(0 0 14px rgba(0, 230, 255, 0.35));
-    animation: hero-liquid-shimmer 5.5s ease-in-out infinite;
+    animation: hero-liquid-shimmer 5.5s var(--ease-in-out-cubic) infinite;
   }
 
   @keyframes hero-liquid-shimmer {
@@ -94,6 +121,14 @@
     }
   }
 
+  /* WCAG 2.2.2 — paused loops via MotionPauseToggle */
+  html[data-motion-loops='paused'] .hero-liquid-text,
+  html[data-motion-loops='paused'] .footer-raindrop,
+  html[data-motion-loops='paused'] .nav-active-wave::before,
+  html[data-motion-loops='paused'] .footer-lightning,
+  html[data-motion-loops='paused'] [data-motion-loop] {
+    animation-play-state: paused !important;
+  }
   /* Clear glass — same look in light & dark (About Me) */
   .glass-field {
     background: linear-gradient(
@@ -458,7 +493,6 @@
     animation-name: footer-raindrop-fall;
     animation-timing-function: linear;
     animation-iteration-count: infinite;
-    will-change: transform;
   }
 
   .footer-lightning {
@@ -794,27 +828,27 @@
 }
 
 .contact-section.is-inview .animate-fade-up {
-  animation: fade-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: fade-up var(--motion-structural) var(--ease-out-expo) forwards;
 }
 
 .contact-section.is-inview .animate-fade-down {
-  animation: fade-down 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: fade-down var(--motion-structural) var(--ease-out-expo) forwards;
 }
 
 .contact-section.is-inview .animate-fade-left {
-  animation: fade-left 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: fade-left var(--motion-structural) var(--ease-out-expo) forwards;
 }
 
 .contact-section.is-inview .animate-fade-right {
-  animation: fade-right 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: fade-right var(--motion-structural) var(--ease-out-expo) forwards;
 }
 
 .contact-section.is-inview .animate-fade-scale {
-  animation: fade-scale 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: fade-scale var(--motion-hero) var(--ease-out-expo) forwards;
 }
 
 .contact-section.is-inview .animate-bar-grow {
-  animation: bar-grow 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: bar-grow var(--motion-structural) var(--ease-out-expo) forwards;
   opacity: 0;
 }
 
@@ -863,42 +897,42 @@
   }
 
   .experience-vanguard.is-inview .animate-fade-up {
-    animation: vanguard-fade-up 0.8s ease-out forwards;
+    animation: vanguard-fade-up var(--motion-structural) var(--ease-out-expo) forwards;
     opacity: 0;
   }
 
   .experience-vanguard.is-inview .animate-fade-up-delay-1 {
-    animation: vanguard-fade-up 0.8s ease-out 0.2s forwards;
+    animation: vanguard-fade-up var(--motion-structural) var(--ease-out-expo) 0.05s forwards;
     opacity: 0;
   }
 
   .experience-vanguard.is-inview .animate-fade-up-delay-2 {
-    animation: vanguard-fade-up 0.8s ease-out 0.4s forwards;
+    animation: vanguard-fade-up var(--motion-structural) var(--ease-out-expo) 0.1s forwards;
     opacity: 0;
   }
 
   .experience-vanguard.is-inview .animate-fade-up-delay-3 {
-    animation: vanguard-fade-up 0.8s ease-out 0.6s forwards;
+    animation: vanguard-fade-up var(--motion-structural) var(--ease-out-expo) 0.15s forwards;
     opacity: 0;
   }
 
   .experience-vanguard.is-inview .animate-fade-up-delay-4 {
-    animation: vanguard-fade-up 0.8s ease-out 0.8s forwards;
+    animation: vanguard-fade-up var(--motion-structural) var(--ease-out-expo) 0.2s forwards;
     opacity: 0;
   }
 
   .experience-vanguard.is-inview .animate-fade-in {
-    animation: vanguard-fade-in 0.8s ease-out forwards;
+    animation: vanguard-fade-in var(--motion-structural) var(--ease-out-expo) forwards;
     opacity: 0;
   }
 
   .experience-vanguard.is-inview .animate-fade-in-delay {
-    animation: vanguard-fade-in 0.8s ease-out 0.2s forwards;
+    animation: vanguard-fade-in var(--motion-structural) var(--ease-out-expo) 0.05s forwards;
     opacity: 0;
   }
 
   .experience-vanguard.is-inview .animate-scale-in {
-    animation: vanguard-scale-in 0.8s ease-out 0.3s forwards;
+    animation: vanguard-scale-in var(--motion-structural) var(--ease-out-expo) 0.08s forwards;
     opacity: 0;
   }
 }
@@ -964,32 +998,49 @@
   background: rgba(255, 255, 255, 0.06);
   border: 1px solid rgba(232, 226, 214, 0.14);
   transition:
-    background 0.3s ease,
-    border-color 0.3s ease,
-    color 0.3s ease,
-    box-shadow 0.3s ease;
+    background var(--motion-structural) var(--ease-out-expo),
+    border-color var(--motion-structural) var(--ease-out-expo),
+    color var(--motion-structural) var(--ease-out-expo);
 }
 
 .nav-mobile-icon:hover {
   background: rgba(232, 226, 214, 0.12);
   border-color: rgba(198, 167, 94, 0.55);
   color: #c6a75e;
-  box-shadow: 0 0 20px rgba(198, 167, 94, 0.25);
 }
 
 .nav-mobile-icon--accent:hover {
   background: rgba(223, 54, 64, 0.18);
   border-color: rgba(223, 54, 64, 0.65);
   color: #f05a62;
-  box-shadow: 0 0 22px rgba(223, 54, 64, 0.3);
 }
 
 @media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
   .nav-active-wave::before {
     animation: none;
     opacity: 0.25;
     transform: none;
     width: 100%;
+  }
+
+  /* Vestibular: kill translate / scale / rotate / parallax — opacity only */
+  .motion-parallax,
+  .motion-translate,
+  [data-parallax] {
+    transform: none !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: var(--motion-structural) !important;
+    transition-property: opacity, color, background-color, border-color !important;
   }
 }
 

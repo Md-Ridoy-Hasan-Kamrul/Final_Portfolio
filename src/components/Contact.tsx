@@ -1,7 +1,19 @@
-import { useEffect, useRef, useState, type ReactNode } from 'react';
+import { useEffect, useRef, type ReactNode } from 'react';
 import { Mail, Phone, MapPin, Github, Linkedin } from 'lucide-react';
+import { motion, useReducedMotion, type Variants } from 'framer-motion';
 import { Container } from './ui/Container';
 import WowSectionEntrance from './motion/WowSectionEntrance';
+import MagneticButton from './ui/MagneticButton';
+import {
+  DURATION,
+  fadeLeft,
+  fadeUp,
+  instantShow,
+  scaleFade,
+  staggerContainer,
+  transition,
+  VIEWPORT,
+} from '@/lib/motion';
 
 const APOGEE_VIDEO_SRC =
   'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260813_092641_de52eb87-daf2-41db-92cb-7a56eae012a5.mp4';
@@ -11,50 +23,38 @@ const BAR_HEIGHTS = [
   65, 79, 37, 7, 40, 17, 20, 62, 47, 92, 72,
 ];
 
-type AnimateProps = {
+type RevealProps = {
   children: ReactNode;
-  delay?: number;
   className?: string;
-  direction?: 'up' | 'down' | 'left' | 'right' | 'scale';
+  variants?: Variants;
 };
 
-function Animate({
-  children,
-  delay = 0,
-  className = '',
-  direction = 'up',
-}: AnimateProps) {
-  const directionClass = {
-    up: 'animate-fade-up',
-    down: 'animate-fade-down',
-    left: 'animate-fade-left',
-    right: 'animate-fade-right',
-    scale: 'animate-fade-scale',
-  }[direction];
-
+function Reveal({ children, className = '', variants = fadeUp }: RevealProps) {
+  const reduced = useReducedMotion();
   return (
-    <div
-      className={`apogee-anim opacity-0 ${directionClass} ${className}`}
-      style={{ animationDelay: `${delay}ms` }}
+    <motion.div
+      className={className}
+      variants={reduced ? instantShow : variants}
     >
       {children}
-    </div>
+    </motion.div>
   );
 }
 
 function AvailabilityCard() {
   const maxHeight = Math.max(...BAR_HEIGHTS);
+  const reduced = useReducedMotion();
 
   return (
-    <Animate delay={900} direction='scale' className='w-full'>
+    <Reveal variants={scaleFade} className='w-full'>
       <div className='contact-glass w-full rounded-[24px] p-5 pb-5 sm:rounded-[33px] sm:p-8 sm:pb-6'>
         <p className='mb-3 text-[16px] font-[450] leading-[20px] text-white sm:mb-4 sm:text-[20px]'>
           Available for Freelance
         </p>
         <p className='mb-4 text-[14px] font-[450] leading-relaxed text-white/80 sm:mb-6 sm:text-[15.5px]'>
-          I'm currently available for freelance work and open to discussing new
-          opportunities. Whether you have a project in mind or just want to
-          connect, I'd love to hear from you.
+          I&apos;m currently available for freelance work and open to discussing
+          new opportunities. Whether you have a project in mind or just want to
+          connect, I&apos;d love to hear from you.
         </p>
 
         <div className='relative mb-3'>
@@ -63,15 +63,26 @@ function AvailabilityCard() {
               const isProjected = i >= 28;
               const heightPercent = (h / maxHeight) * 100;
               return (
-                <div
+                <motion.div
                   key={i}
-                  className='animate-bar-grow origin-bottom flex-1 rounded-[0.5px]'
+                  className='origin-bottom flex-1 rounded-[0.5px]'
                   style={{
                     height: `${heightPercent}%`,
+                    transformOrigin: 'bottom',
                     backgroundColor: isProjected
                       ? 'rgba(255,255,255,0.1)'
                       : 'white',
-                    animationDelay: `${1100 + i * 30}ms`,
+                  }}
+                  initial={
+                    reduced
+                      ? { scaleY: 1, opacity: 1 }
+                      : { scaleY: 0, opacity: 0.4 }
+                  }
+                  whileInView={{ scaleY: 1, opacity: 1 }}
+                  viewport={VIEWPORT}
+                  transition={{
+                    ...transition.element,
+                    delay: reduced ? 0 : 0.35 + i * 0.018,
                   }}
                 />
               );
@@ -100,14 +111,15 @@ function AvailabilityCard() {
           ))}
         </div>
       </div>
-    </Animate>
+    </Reveal>
   );
 }
 
 export default function Contact() {
   const sectionRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [inView, setInView] = useState(false);
+  const reduced = useReducedMotion();
+  const enter = reduced ? instantShow : staggerContainer;
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -117,13 +129,12 @@ export default function Contact() {
       ([entry]) => {
         if (!entry) return;
         if (entry.isIntersecting) {
-          setInView(true);
           void videoRef.current?.play().catch(() => undefined);
         } else {
           videoRef.current?.pause();
         }
       },
-      { threshold: 0.15 }
+      { threshold: 0.15 },
     );
 
     io.observe(section);
@@ -150,9 +161,7 @@ export default function Contact() {
     <section
       ref={sectionRef}
       id='contact'
-      className={`contact-section relative min-h-screen w-full overflow-hidden bg-[#080A19] py-14 sm:py-20 lg:py-24 ${
-        inView ? 'is-inview' : ''
-      }`}
+      className='contact-section relative min-h-screen w-full overflow-hidden bg-[#080A19] py-14 sm:py-20 lg:py-24'
     >
       <video
         ref={videoRef}
@@ -168,96 +177,119 @@ export default function Contact() {
 
       <Container className='relative z-10'>
         <WowSectionEntrance variant='vortexLock' sectionRef={sectionRef}>
-        <div className='flex flex-col gap-10 lg:flex-row lg:items-center lg:justify-between lg:gap-12'>
-          <div className='max-w-[593px]'>
-            <Animate delay={300} direction='up'>
-              <h2 className='mb-5 text-[36px] font-normal leading-[0.95] text-white sm:mb-8 sm:text-[52px] md:text-[64px] lg:text-[72px]'>
-                Let's Work Together
-              </h2>
-            </Animate>
+          <div className='flex flex-col gap-10 lg:flex-row lg:items-center lg:justify-between lg:gap-12'>
+            <motion.div
+              className='max-w-[593px]'
+              variants={enter}
+              initial='hidden'
+              whileInView='visible'
+              viewport={VIEWPORT}
+            >
+              <Reveal>
+                <h2 className='mb-5 text-[36px] font-normal leading-[0.95] text-white sm:mb-8 sm:text-[52px] md:text-[64px] lg:text-[72px]'>
+                  Let&apos;s Work Together
+                </h2>
+              </Reveal>
 
-            <Animate delay={500} direction='up'>
-              <p className='mb-7 max-w-[370px] text-[16px] font-[450] leading-[1.3] text-white/80 sm:mb-10 sm:text-[18px] md:text-[20px]'>
-                I'm always open to discussing new projects, creative ideas, or
-                opportunities to be part of your vision. Feel free to reach out.
-              </p>
-            </Animate>
+              <Reveal>
+                <p className='mb-7 max-w-[370px] text-[16px] font-[450] leading-[1.3] text-white/80 sm:mb-10 sm:text-[18px] md:text-[20px]'>
+                  I&apos;m always open to discussing new projects, creative
+                  ideas, or opportunities to be part of your vision. Feel free
+                  to reach out.
+                </p>
+              </Reveal>
 
-            <div className='space-y-5 sm:space-y-6'>
-              {contacts.map((item, index) => (
-                <Animate
-                  key={item.title}
-                  delay={750 + index * 100}
-                  direction='left'
-                >
-                  <div className='flex items-start gap-3 sm:gap-4'>
-                    <div className='mt-0.5 flex h-10 w-10 items-center justify-center rounded-[11px] bg-[rgba(10,7,7,0.35)] backdrop-blur-[17px] sm:h-11 sm:w-11'>
-                      <item.icon
-                        className='h-5 w-5 text-white/90'
-                        aria-hidden
-                      />
+              <div className='space-y-5 sm:space-y-6'>
+                {contacts.map((item) => (
+                  <Reveal key={item.title} variants={fadeLeft}>
+                    <div className='flex items-start gap-3 sm:gap-4'>
+                      <div className='mt-0.5 flex h-10 w-10 items-center justify-center rounded-[11px] bg-[rgba(10,7,7,0.35)] backdrop-blur-[17px] sm:h-11 sm:w-11'>
+                        <item.icon
+                          className='h-5 w-5 text-white/90'
+                          aria-hidden
+                        />
+                      </div>
+                      <div>
+                        <h3 className='mb-1 text-[14px] font-[450] text-white/80 sm:text-[15.5px]'>
+                          {item.title}
+                        </h3>
+                        {item.href ? (
+                          <a
+                            href={item.href}
+                            {...(item.href.startsWith('http')
+                              ? {
+                                  target: '_blank' as const,
+                                  rel: 'noopener noreferrer',
+                                }
+                              : {})}
+                            className='cursor-target break-all text-[15px] font-[450] text-white transition-opacity hover:opacity-80 sm:text-[16px]'
+                            style={{
+                              transitionDuration: `${DURATION.interaction * 1000}ms`,
+                            }}
+                          >
+                            {item.content}
+                          </a>
+                        ) : (
+                          <p className='text-[15px] font-[450] text-white sm:text-[16px]'>
+                            {item.content}
+                          </p>
+                        )}
+                      </div>
                     </div>
-                    <div>
-                      <h3 className='mb-1 text-[14px] font-[450] text-white/80 sm:text-[15.5px]'>
-                        {item.title}
-                      </h3>
-                      {item.href ? (
-                        <a
-                          href={item.href}
-                          {...(item.href.startsWith('http')
-                            ? {
-                                target: '_blank' as const,
-                                rel: 'noopener noreferrer',
-                              }
-                            : {})}
-                          className='cursor-target break-all text-[15px] font-[450] text-white transition-opacity hover:opacity-80 sm:text-[16px]'
-                        >
-                          {item.content}
-                        </a>
-                      ) : (
-                        <p className='text-[15px] font-[450] text-white sm:text-[16px]'>
-                          {item.content}
-                        </p>
-                      )}
-                    </div>
-                  </div>
-                </Animate>
-              ))}
-            </div>
-
-            <Animate delay={1100} direction='up' className='mt-8'>
-              <div>
-                <h3 className='mb-4 text-[16px] font-[450] text-white sm:mb-5 sm:text-[20px]'>
-                  Connect With Me
-                </h3>
-                <div className='flex gap-3 sm:gap-4'>
-                  <a
-                    href='https://github.com/Md-Ridoy-Hasan-Kamrul'
-                    target='_blank'
-                    rel='noopener noreferrer'
-                    className='cursor-target flex h-[46px] w-[46px] items-center justify-center rounded-[12px] bg-[rgba(10,7,7,0.35)] text-white backdrop-blur-[17px] transition-opacity hover:opacity-80 sm:h-[51px] sm:w-[51px]'
-                    aria-label='Visit my GitHub profile'
-                  >
-                    <Github className='h-5 w-5' aria-hidden />
-                  </a>
-                  <a
-                    href='https://www.linkedin.com/in/md-ridoy-hasan-kamrul'
-                    target='_blank'
-                    rel='noopener noreferrer'
-                    className='cursor-target flex h-[46px] w-[46px] items-center justify-center rounded-[12px] bg-[#E9E9E9] text-[#0A0707] transition-opacity hover:opacity-90 sm:h-[51px] sm:w-[51px]'
-                    aria-label='Visit my LinkedIn profile'
-                  >
-                    <Linkedin className='h-5 w-5' aria-hidden />
-                  </a>
-                </div>
+                  </Reveal>
+                ))}
               </div>
-            </Animate>
-          </div>
 
-          <div className='mx-auto w-full max-w-[405px] lg:mx-0'>
-            <AvailabilityCard />
+              <Reveal className='mt-8'>
+                <div>
+                  <h3 className='mb-4 text-[16px] font-[450] text-white sm:mb-5 sm:text-[20px]'>
+                    Connect With Me
+                  </h3>
+                  <div className='flex gap-3 sm:gap-4'>
+                    <MagneticButton strength={0.22}>
+                      <a
+                        href='https://github.com/Md-Ridoy-Hasan-Kamrul'
+                        target='_blank'
+                        rel='noopener noreferrer'
+                        className='cursor-target flex h-[46px] w-[46px] items-center justify-center rounded-[12px] bg-[rgba(10,7,7,0.35)] text-white backdrop-blur-[17px] transition-opacity hover:opacity-80 sm:h-[51px] sm:w-[51px]'
+                        aria-label='Visit my GitHub profile'
+                        style={{
+                          transitionDuration: `${DURATION.interaction * 1000}ms`,
+                        }}
+                      >
+                        <Github className='h-5 w-5' aria-hidden />
+                      </a>
+                    </MagneticButton>
+                    <MagneticButton strength={0.22}>
+                      <a
+                        href='https://www.linkedin.com/in/md-ridoy-hasan-kamrul'
+                        target='_blank'
+                        rel='noopener noreferrer'
+                        className='cursor-target flex h-[46px] w-[46px] items-center justify-center rounded-[12px] bg-[#E9E9E9] text-[#0A0707] transition-opacity hover:opacity-90 sm:h-[51px] sm:w-[51px]'
+                        aria-label='Visit my LinkedIn profile'
+                        style={{
+                          transitionDuration: `${DURATION.interaction * 1000}ms`,
+                        }}
+                      >
+                        <Linkedin className='h-5 w-5' aria-hidden />
+                      </a>
+                    </MagneticButton>
+                  </div>
+                </div>
+              </Reveal>
+            </motion.div>
+
+            <div className='mx-auto w-full max-w-[405px] lg:mx-0'>
+              <motion.div
+                variants={enter}
+                initial='hidden'
+                whileInView='visible'
+                viewport={VIEWPORT}
+              >
+                <AvailabilityCard />
+              </motion.div>
+            </div>
           </div>
-        </div>
         </WowSectionEntrance>
       </Container>
     </section>

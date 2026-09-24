@@ -92,7 +92,7 @@ function RiftSplit({
       />
       <Flash opacity={flash} />
       <motion.div
-        className='relative z-10 origin-center will-change-transform'
+        className='relative z-10 origin-center'
         style={{
           y,
           scale,
@@ -161,7 +161,7 @@ function BladeSlash({
       />
       <Flash opacity={flash} />
       <motion.div
-        className='relative z-10 will-change-transform'
+        className='relative z-10'
         style={{
           x,
           skewX,
@@ -218,7 +218,7 @@ function IrisPunch({
       />
       <Flash opacity={flash} />
       <motion.div
-        className='relative z-10 will-change-transform'
+        className='relative z-10'
         style={{
           scale,
           rotate,
@@ -293,7 +293,7 @@ function PrismTumble({
       </div>
       <Flash opacity={flash} />
       <motion.div
-        className='relative z-10 will-change-transform'
+        className='relative z-10'
         style={{
           rotateX,
           rotateY,
@@ -357,7 +357,7 @@ function VortexLock({
       />
       <Flash opacity={flash} />
       <motion.div
-        className='relative z-10 will-change-transform'
+        className='relative z-10'
         style={{
           scale,
           rotate,
@@ -414,7 +414,7 @@ function CurtainBloom({
       />
       <Flash opacity={flash} />
       <motion.div
-        className='relative z-10 will-change-transform'
+        className='relative z-10'
         style={{
           y,
           scaleY,

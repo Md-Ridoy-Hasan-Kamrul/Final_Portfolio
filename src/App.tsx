@@ -10,35 +10,50 @@ import Footer from './components/Footer';
 import TargetCursor from './components/TargetCursor';
 import SmoothScroll from './components/SmoothScroll';
 import SectionTransitions from './components/SectionTransitions';
+import MotionPauseToggle from './components/ui/MotionPauseToggle';
 import { ThemeProvider } from './contexts/ThemeContext';
+import { MotionProvider, useMotionProfile } from './contexts/MotionContext';
 
-function App() {
+function AppShell() {
+  const { isAdvanced } = useMotionProfile();
+
   return (
-    <ThemeProvider>
-      <SmoothScroll>
-        <div className='min-h-screen bg-transparent transition-colors duration-300'>
+    <SmoothScroll>
+      <div className='min-h-screen bg-transparent transition-colors duration-[var(--motion-structural)]'>
+        {isAdvanced && (
           <TargetCursor
             spinDuration={2}
             hideDefaultCursor={true}
             parallaxOn={true}
           />
-          <HeroVideoBg />
-          <Navigation />
-          <div className='relative z-10'>
-            <main className='overflow-x-hidden'>
-              <SectionTransitions>
-                <Hero />
-                <About />
-                <Experience />
-                <Projects />
-                <Skills />
-                <Contact />
-                <Footer />
-              </SectionTransitions>
-            </main>
-          </div>
+        )}
+        <MotionPauseToggle />
+        <HeroVideoBg />
+        <Navigation />
+        <div className='relative z-10'>
+          <main className='overflow-x-hidden'>
+            <SectionTransitions>
+              <Hero />
+              <About />
+              <Experience />
+              <Projects />
+              <Skills />
+              <Contact />
+              <Footer />
+            </SectionTransitions>
+          </main>
         </div>
-      </SmoothScroll>
+      </div>
+    </SmoothScroll>
+  );
+}
+
+function App() {
+  return (
+    <ThemeProvider>
+      <MotionProvider>
+        <AppShell />
+      </MotionProvider>
     </ThemeProvider>
   );
 }

@@ -1,34 +1,52 @@
 import { useEffect, useRef, type ReactNode } from 'react';
-import { gsap, ScrollTrigger, prefersReducedMotion } from '../lib/motion';
+import {
+  gsap,
+  ScrollTrigger,
+  prefersReducedMotion,
+  DURATION,
+  EASE,
+  clearWillChange,
+} from '../lib/motion';
 import { useTheme } from '../contexts/ThemeContext';
+import { SECTION_TRANSITION_EVENT } from '../utils/sectionTransitionEvent';
 
+/** Token aliases — structural 250ms, hero/page morph 400ms, micro 100ms */
+const T = {
+  micro: DURATION.micro,
+  structural: DURATION.structural,
+  hero: DURATION.hero,
+} as const;
 /**
- * Cinematic section boundary transitions (GSAP one-shot, not weak scrub).
+ * Cinematic section transitions (GSAP one-shot).
  *
- * Home → About gets the signature “Horizon Rift” — heavy, eye-catching,
- * brand-locked (bone / crimson / gold / void). Other boundaries cycle
- * unique heavy variants, including Contact → Footer (“Curtain Finale”).
+ * Destination-aware: scroll boundaries AND nav clicks show the
+ * section you are entering (Contact click → CONTACT, not ABOUT).
  */
 
 const TRANSITIONS = [
-  'horizonRift', // Home → About (signature)
-  'bladeGuillotine', // About → Experience
-  'inkBloom', // Experience → Projects
-  'prismBreach', // Projects → Skills
-  'vortexStamp', // Skills → Contact
-  'curtainFinale', // Contact → Footer
+  'horizonRift',
+  'bladeGuillotine',
+  'inkBloom',
+  'prismBreach',
+  'vortexStamp',
+  'curtainFinale',
 ] as const;
 
 type TransitionName = (typeof TRANSITIONS)[number];
 
-const SECTION_LABELS = [
-  'ABOUT',
-  'EXPERIENCE',
-  'PROJECTS',
-  'SKILLS',
-  'CONTACT',
-  'KAMRUL',
-] as const;
+/** Destination section id → label + animation */
+const DEST_META: Record<
+  string,
+  { label: string; transition: TransitionName }
+> = {
+  home: { label: 'HOME', transition: 'inkBloom' },
+  about: { label: 'ABOUT', transition: 'horizonRift' },
+  experience: { label: 'EXPERIENCE', transition: 'bladeGuillotine' },
+  projects: { label: 'PROJECTS', transition: 'inkBloom' },
+  skills: { label: 'SKILLS', transition: 'prismBreach' },
+  contact: { label: 'CONTACT', transition: 'vortexStamp' },
+  footer: { label: 'KAMRUL', transition: 'curtainFinale' },
+};
 
 type SectionTransitionsProps = {
   children: ReactNode;
@@ -79,6 +97,8 @@ function resetAll(refs: LayerRefs) {
       scaleY: 1,
       xPercent: -50,
       yPercent: -50,
+      x: 0,
+      y: 0,
       left: '50%',
       top: '50%',
       width: '140%',
@@ -92,10 +112,8 @@ function resetAll(refs: LayerRefs) {
   if (label) {
     gsap.set(label, {
       opacity: 0,
-      scale: 0.7,
-      yPercent: 20,
-      letterSpacing: '0.4em',
-      filter: 'blur(18px)',
+      scale: 0.85,
+      yPercent: 12,
     });
   }
   if (sub) gsap.set(sub, { opacity: 0, y: 24 });
@@ -166,169 +184,172 @@ function buildTimeline(
       height: '4px',
       width: '160%',
       top: '50%',
+      left: '50%',
       rotate: 0,
       scaleX: 0,
+      y: 0,
+      // Glow baked into background — never tween box-shadow (paint thrash)
       background: `linear-gradient(90deg, transparent 0%, ${BRAND.bone} 20%, ${BRAND.gold} 45%, ${BRAND.crimson} 55%, ${BRAND.gold} 70%, transparent 100%)`,
-      boxShadow: `0 0 40px ${BRAND.crimson}, 0 0 80px ${BRAND.gold}`,
     });
 
     tl
-      // Blackout slam
+      // Blackout slam — clip-path + opacity only
       .set(veil, { opacity: 0, clipPath: 'inset(50% 0 50% 0)' })
       .to(veil, {
         opacity: 1,
         clipPath: 'inset(0% 0 0% 0)',
-        duration: 0.45,
-        ease: 'power4.in',
+        duration: T.hero,
+        ease: EASE.in,
       })
-      .to(grain, { opacity: 0.35, duration: 0.2 }, '<0.15')
-      // Horizontal light blade tears open
+      .to(grain, { opacity: 0.35, duration: T.structural }, '<0.08')
       .to(
         blade,
         {
           opacity: 1,
           scaleX: 1,
-          duration: 0.35,
-          ease: 'power4.out',
+          duration: T.structural,
+          ease: EASE.out,
         },
-        '-=0.1',
+        '-=0.08',
       )
+      // NEUTRALIZED: height tween → scaleY (compositor)
       .to(
         blade,
         {
-          height: '100%',
+          scaleY: 40,
           opacity: 0.85,
-          duration: 0.28,
-          ease: 'power3.in',
+          duration: T.structural,
+          ease: EASE.in,
         },
         '-=0.05',
       )
-      .to(flash, { opacity: 0.9, duration: 0.08, ease: 'none' }, '<0.12')
-      .to(flash, { opacity: 0, duration: 0.25 }, '>')
-      // Giant title stamp
+      .to(flash, { opacity: 0.9, duration: T.micro }, '<0.08')
+      .to(flash, { opacity: 0, duration: T.structural }, '>')
       .fromTo(
         sub,
-        { opacity: 0, y: 30, letterSpacing: '0.6em' },
+        { opacity: 0, y: 20 },
         {
           opacity: 1,
           y: 0,
-          letterSpacing: '0.35em',
-          duration: 0.35,
-          ease: 'power3.out',
+          duration: T.structural,
+          ease: EASE.out,
         },
-        '-=0.35',
+        '-=0.2',
       )
+      // NEUTRALIZED: filter/letterSpacing (paint/layout) → opacity + scale only
       .fromTo(
         label,
-        {
-          opacity: 0,
-          scale: 1.45,
-          yPercent: 10,
-          filter: 'blur(24px)',
-          letterSpacing: '0.55em',
-        },
+        { opacity: 0, scale: 1.12, yPercent: 8 },
         {
           opacity: 1,
           scale: 1,
           yPercent: 0,
-          filter: 'blur(0px)',
-          letterSpacing: '0.12em',
-          duration: 0.55,
-          ease: 'expo.out',
+          duration: T.hero,
+          ease: EASE.expo,
         },
-        '-=0.25',
+        '-=0.15',
       )
-      // Vertical blinds peel
       .to(
         bars,
         {
           scaleY: 1,
-          duration: 0.4,
-          stagger: { each: 0.035, from: 'center' },
-          ease: 'power3.inOut',
+          duration: T.structural,
+          stagger: { each: 0.03, from: 'center' },
+          ease: EASE.inOut,
         },
-        '-=0.2',
+        '-=0.12',
       )
-      .to(blade, { opacity: 0, duration: 0.2 }, '<')
-      // Hold beat then explode open
+      .to(blade, { opacity: 0, duration: T.micro }, '<')
       .to(label, {
-        scale: 1.08,
+        scale: 1.04,
         opacity: 0.95,
-        duration: 0.22,
-        ease: 'power1.inOut',
+        duration: T.micro,
+        ease: EASE.inOut,
       })
       .to(
         bars,
         {
           scaleY: 0,
           opacity: 0,
-          stagger: { each: 0.028, from: 'edges' },
-          duration: 0.42,
-          ease: 'power4.inOut',
+          stagger: { each: 0.025, from: 'edges' },
+          duration: T.structural,
+          ease: EASE.inOut,
         },
-        '+=0.08',
+        '+=0.06',
       )
       .to(
         label,
         {
           opacity: 0,
-          scale: 0.85,
-          filter: 'blur(12px)',
-          yPercent: -18,
-          duration: 0.35,
-          ease: 'power3.in',
+          scale: 0.92,
+          yPercent: -10,
+          duration: T.structural,
+          ease: EASE.in,
         },
-        '<0.05',
+        '<0.04',
       )
-      .to(sub, { opacity: 0, y: -16, duration: 0.25 }, '<')
-      .to(veil, { opacity: 0, duration: 0.35, ease: 'power2.out' }, '<0.1')
-      .to(grain, { opacity: 0, duration: 0.3 }, '<');
+      .to(sub, { opacity: 0, y: -12, duration: T.structural }, '<')
+      .to(veil, { opacity: 0, duration: T.structural, ease: EASE.soft }, '<0.06')
+      .to(grain, { opacity: 0, duration: T.structural }, '<');
     return tl;
   }
 
   /* ── 2. Blade Guillotine ───────────────────────────────────── */
   if (name === 'bladeGuillotine') {
+    // NEUTRALIZED: top% tweens → y translate from off-screen
     gsap.set(blade, {
       width: '140%',
       height: '8px',
-      top: '-5%',
+      top: '50%',
       left: '50%',
       rotate: 0,
       scaleX: 1,
+      y: '-60vh',
       background: `linear-gradient(90deg, ${BRAND.crimson}, ${BRAND.gold}, ${BRAND.crimson})`,
-      boxShadow: `0 0 60px ${BRAND.crimson}`,
     });
     gsap.set(veil, { clipPath: 'inset(0 0 100% 0)', opacity: 1 });
 
     tl
-      .to(blade, { opacity: 1, top: '50%', duration: 0.45, ease: 'power4.in' })
+      .to(blade, {
+        opacity: 1,
+        y: 0,
+        duration: T.hero,
+        ease: EASE.in,
+      })
       .to(
         veil,
-        { clipPath: 'inset(0 0 0% 0)', duration: 0.45, ease: 'power4.in' },
+        { clipPath: 'inset(0 0 0% 0)', duration: T.hero, ease: EASE.in },
         '<',
       )
-      .to(flash, { opacity: 0.75, duration: 0.08 }, '-=0.05')
-      .to(flash, { opacity: 0, duration: 0.2 })
+      .to(flash, { opacity: 0.75, duration: T.micro }, '-=0.04')
+      .to(flash, { opacity: 0, duration: T.structural })
       .fromTo(
         label,
-        { opacity: 0, yPercent: 30, scale: 0.8, filter: 'blur(16px)' },
+        { opacity: 0, yPercent: 18, scale: 0.92 },
         {
           opacity: 1,
           yPercent: 0,
           scale: 1,
-          filter: 'blur(0px)',
-          duration: 0.4,
-          ease: 'expo.out',
+          duration: T.structural,
+          ease: EASE.expo,
         },
-        '-=0.25',
+        '-=0.15',
       )
-      .to(blade, { top: '105%', opacity: 0, duration: 0.4, ease: 'power3.in' }, '+=0.12')
+      .to(
+        blade,
+        { y: '60vh', opacity: 0, duration: T.structural, ease: EASE.in },
+        '+=0.08',
+      )
       .to(
         veil,
-        { clipPath: 'inset(100% 0 0% 0)', duration: 0.45, ease: 'power3.inOut' },
-        '<0.05',
+        {
+          clipPath: 'inset(100% 0 0% 0)',
+          duration: T.hero,
+          ease: EASE.inOut,
+        },
+        '<0.04',
       )
-      .to(label, { opacity: 0, yPercent: -20, duration: 0.3 }, '<0.1')
+      .to(label, { opacity: 0, yPercent: -12, duration: T.structural }, '<0.06')
       .set(veil, { opacity: 0, clipPath: 'inset(0 0 0 0)' });
     return tl;
   }
@@ -351,32 +372,31 @@ function buildTimeline(
     tl
       .to(veil, {
         clipPath: 'circle(75% at 50% 50%)',
-        duration: 0.5,
-        ease: 'power3.in',
+        duration: T.hero,
+        ease: EASE.in,
       })
-      .to(ring, { opacity: 1, scale: 1.6, duration: 0.45, ease: 'power2.out' }, '<0.1')
-      .to(flash, { opacity: 0.7, duration: 0.1 }, '<0.25')
-      .to(flash, { opacity: 0, duration: 0.25 })
+      .to(ring, { opacity: 1, scale: 1.6, duration: T.hero, ease: EASE.soft }, '<0.06')
+      .to(flash, { opacity: 0.7, duration: T.micro }, '<0.15')
+      .to(flash, { opacity: 0, duration: T.structural })
       .fromTo(
         label,
-        { opacity: 0, scale: 1.6, filter: 'blur(20px)' },
+        { opacity: 0, scale: 1.2 },
         {
           opacity: 1,
           scale: 1,
-          filter: 'blur(0px)',
-          duration: 0.45,
-          ease: 'expo.out',
+          duration: T.hero,
+          ease: EASE.expo,
         },
-        '-=0.35',
+        '-=0.2',
       )
       .to(veil, {
         clipPath: 'circle(160% at 50% 50%)',
-        duration: 0.55,
-        ease: 'power3.out',
+        duration: T.hero,
+        ease: EASE.out,
       })
-      .to(ring, { opacity: 0, scale: 3.2, duration: 0.4 }, '<')
-      .to(label, { opacity: 0, scale: 0.9, duration: 0.3 }, '<0.15')
-      .to(veil, { opacity: 0, duration: 0.2 });
+      .to(ring, { opacity: 0, scale: 3.2, duration: T.structural }, '<')
+      .to(label, { opacity: 0, scale: 0.94, duration: T.structural }, '<0.1')
+      .to(veil, { opacity: 0, duration: T.structural });
     return tl;
   }
 
@@ -407,37 +427,35 @@ function buildTimeline(
       scaleX: 1,
       scaleY: 0,
       background: `linear-gradient(180deg, transparent, ${BRAND.gold}, ${BRAND.crimson}, transparent)`,
-      boxShadow: `0 0 50px ${BRAND.gold}`,
     });
 
     tl
       .to(bars.slice(0, 3), {
         opacity: 1,
-        stagger: 0.07,
-        duration: 0.28,
-        ease: 'power3.out',
+        stagger: 0.05,
+        duration: T.structural,
+        ease: EASE.out,
       })
-      .to(blade, { opacity: 1, scaleY: 1, duration: 0.35, ease: 'power4.out' }, '<0.1')
-      .to(flash, { opacity: 0.85, duration: 0.08 }, '<0.2')
-      .to(flash, { opacity: 0, duration: 0.2 })
+      .to(blade, { opacity: 1, scaleY: 1, duration: T.structural, ease: EASE.out }, '<0.06')
+      .to(flash, { opacity: 0.85, duration: T.micro }, '<0.12')
+      .to(flash, { opacity: 0, duration: T.structural })
       .fromTo(
         label,
-        { opacity: 0, rotate: -4, scale: 0.85, filter: 'blur(12px)' },
+        { opacity: 0, rotate: -3, scale: 0.92 },
         {
           opacity: 1,
           rotate: 0,
           scale: 1,
-          filter: 'blur(0px)',
-          duration: 0.4,
-          ease: 'expo.out',
+          duration: T.structural,
+          ease: EASE.expo,
         },
-        '-=0.25',
+        '-=0.15',
       )
-      .to(bars[0], { xPercent: -130, opacity: 0, duration: 0.45, ease: 'power4.inOut' }, '+=0.1')
-      .to(bars[2], { xPercent: 130, opacity: 0, duration: 0.45, ease: 'power4.inOut' }, '<')
-      .to(bars[1], { scaleY: 0, opacity: 0, duration: 0.35, ease: 'power3.in' }, '<0.08')
-      .to(blade, { opacity: 0, scaleY: 0, duration: 0.25 }, '<')
-      .to(label, { opacity: 0, yPercent: -15, duration: 0.28 }, '<0.05');
+      .to(bars[0], { xPercent: -130, opacity: 0, duration: T.hero, ease: EASE.inOut }, '+=0.06')
+      .to(bars[2], { xPercent: 130, opacity: 0, duration: T.hero, ease: EASE.inOut }, '<')
+      .to(bars[1], { scaleY: 0, opacity: 0, duration: T.structural, ease: EASE.in }, '<0.06')
+      .to(blade, { opacity: 0, scaleY: 0, duration: T.structural }, '<')
+      .to(label, { opacity: 0, yPercent: -10, duration: T.structural }, '<0.04');
     return tl;
   }
 
@@ -462,55 +480,65 @@ function buildTimeline(
         width: `${100 / bars.length + 0.5}%`,
         bottom: 0,
         top: 'auto',
-        height: '0%',
+        // NEUTRALIZED: height 0%→100% → fixed height + scaleY
+        height: '100%',
         background: i % 2 === 0 ? `${BRAND.crimson}33` : `${BRAND.gold}28`,
         opacity: 1,
-        scaleY: 1,
+        scaleY: 0,
+        transformOrigin: 'bottom center',
       });
     });
 
     tl
-      .to(veil, { opacity: 1, scale: 1, rotate: 0, duration: 0.4, ease: 'power3.out' })
+      .to(veil, {
+        opacity: 1,
+        scale: 1,
+        rotate: 0,
+        duration: T.structural,
+        ease: EASE.out,
+      })
       .to(
         bars,
         {
-          height: '100%',
-          stagger: 0.03,
-          duration: 0.35,
-          ease: 'power2.out',
+          scaleY: 1,
+          stagger: 0.025,
+          duration: T.structural,
+          ease: EASE.out,
         },
-        '<0.05',
+        '<0.04',
       )
-      .to(ring, { opacity: 1, scale: 2.2, duration: 0.45, ease: 'power2.out' }, '<0.1')
-      .to(flash, { opacity: 0.65, duration: 0.1 }, '<0.2')
-      .to(flash, { opacity: 0, duration: 0.22 })
+      .to(ring, { opacity: 1, scale: 2.2, duration: T.hero, ease: EASE.soft }, '<0.06')
+      .to(flash, { opacity: 0.65, duration: T.micro }, '<0.12')
+      .to(flash, { opacity: 0, duration: T.structural })
       .fromTo(
         label,
-        { opacity: 0, scale: 0.4, rotate: 12, filter: 'blur(20px)' },
+        { opacity: 0, scale: 0.7, rotate: 8 },
         {
           opacity: 1,
           scale: 1,
           rotate: 0,
-          filter: 'blur(0px)',
-          duration: 0.5,
-          ease: 'expo.out',
+          duration: T.hero,
+          ease: EASE.expo,
         },
-        '-=0.35',
+        '-=0.2',
       )
-      .to(bars, { height: '0%', stagger: 0.025, duration: 0.3, ease: 'power2.in' }, '+=0.12')
-      .to(ring, { opacity: 0, scale: 4, duration: 0.35 }, '<')
+      .to(
+        bars,
+        { scaleY: 0, stagger: 0.02, duration: T.structural, ease: EASE.in },
+        '+=0.08',
+      )
+      .to(ring, { opacity: 0, scale: 4, duration: T.structural }, '<')
       .to(
         label,
         {
           opacity: 0,
-          scale: 1.2,
-          filter: 'blur(10px)',
-          duration: 0.3,
-          ease: 'power2.in',
+          scale: 1.08,
+          duration: T.structural,
+          ease: EASE.in,
         },
-        '<0.05',
+        '<0.04',
       )
-      .to(veil, { opacity: 0, duration: 0.3 }, '<0.1');
+      .to(veil, { opacity: 0, duration: T.structural }, '<0.06');
     return tl;
   }
 
@@ -532,12 +560,12 @@ function buildTimeline(
   gsap.set(blade, {
     width: '120%',
     height: '3px',
-    top: '100%',
+    top: '50%',
     left: '50%',
     scaleX: 1,
     rotate: 0,
+    y: '55vh',
     background: `linear-gradient(90deg, transparent, ${BRAND.gold}, ${BRAND.crimson}, ${BRAND.gold}, transparent)`,
-    boxShadow: `0 0 48px ${BRAND.gold}`,
   });
   gsap.set(veil, { opacity: 0, clipPath: 'inset(100% 0 0 0)' });
   if (sub) {
@@ -549,80 +577,73 @@ function buildTimeline(
     .to(veil, {
       opacity: 1,
       clipPath: 'inset(0% 0 0 0)',
-      duration: 0.42,
-      ease: 'power4.in',
+      duration: T.hero,
+      ease: EASE.in,
     })
     .to(
       bars,
       {
         scaleX: 1,
-        stagger: { each: 0.04, from: 'end' },
-        duration: 0.38,
-        ease: 'power3.out',
+        stagger: { each: 0.03, from: 'end' },
+        duration: T.structural,
+        ease: EASE.out,
       },
-      '<0.08',
+      '<0.06',
     )
-    .to(blade, { opacity: 1, top: '50%', duration: 0.4, ease: 'power3.out' }, '<0.12')
-    .to(flash, { opacity: 0.8, duration: 0.1 }, '<0.25')
-    .to(flash, { opacity: 0, duration: 0.22 })
+    // NEUTRALIZED: top% → y translate
+    .to(blade, { opacity: 1, y: 0, duration: T.structural, ease: EASE.out }, '<0.08')
+    .to(flash, { opacity: 0.8, duration: T.micro }, '<0.15')
+    .to(flash, { opacity: 0, duration: T.structural })
     .fromTo(
       sub,
-      { opacity: 0, y: 20 },
-      { opacity: 1, y: 0, duration: 0.3, ease: 'power2.out' },
-      '-=0.3',
+      { opacity: 0, y: 16 },
+      { opacity: 1, y: 0, duration: T.structural, ease: EASE.out },
+      '-=0.18',
     )
+    // NEUTRALIZED: filter + letterSpacing layout thrash → opacity/scale/yPercent
     .fromTo(
       label,
-      {
-        opacity: 0,
-        scale: 1.35,
-        yPercent: 25,
-        filter: 'blur(20px)',
-        letterSpacing: '0.5em',
-      },
+      { opacity: 0, scale: 1.15, yPercent: 16 },
       {
         opacity: 1,
         scale: 1,
         yPercent: 0,
-        filter: 'blur(0px)',
-        letterSpacing: '0.18em',
-        duration: 0.55,
-        ease: 'expo.out',
+        duration: T.hero,
+        ease: EASE.expo,
       },
-      '-=0.2',
+      '-=0.12',
     )
-    .to(blade, { opacity: 0, duration: 0.2 }, '+=0.1')
+    .to(blade, { opacity: 0, duration: T.structural }, '+=0.06')
     .to(
       bars,
       {
         scaleX: 0,
-        stagger: { each: 0.03, from: 'start' },
-        duration: 0.4,
-        ease: 'power4.inOut',
+        stagger: { each: 0.025, from: 'start' },
+        duration: T.structural,
+        ease: EASE.inOut,
       },
-      '+=0.08',
+      '+=0.06',
     )
     .to(
       label,
       {
         opacity: 0,
-        yPercent: -22,
-        scale: 0.92,
-        filter: 'blur(10px)',
-        duration: 0.35,
-        ease: 'power3.in',
+        yPercent: -14,
+        scale: 0.94,
+        duration: T.structural,
+        ease: EASE.in,
       },
-      '<0.05',
+      '<0.04',
     )
-    .to(sub, { opacity: 0, y: -12, duration: 0.25 }, '<')
+    .to(sub, { opacity: 0, y: -10, duration: T.structural }, '<')
     .to(
       veil,
       {
         clipPath: 'inset(0 0 100% 0)',
-        duration: 0.45,
-        ease: 'power3.inOut',
+        duration: T.hero,
+        ease: EASE.inOut,
       },
-      '<0.08',
+      '<0.06',
     )
     .set(veil, { opacity: 0, clipPath: 'inset(0 0 0 0)' });
   return tl;
@@ -641,6 +662,8 @@ export default function SectionTransitions({ children }: SectionTransitionsProps
   const ringRef = useRef<HTMLDivElement>(null);
   const barRefs = useRef<HTMLDivElement[]>([]);
   const busyRef = useRef(false);
+  /** Suppress scroll-boundary plays while nav/hash is scrolling to a target */
+  const navLockRef = useRef(false);
   const themeRef = useRef(theme);
   themeRef.current = theme;
 
@@ -670,32 +693,66 @@ export default function SectionTransitions({ children }: SectionTransitionsProps
 
     resetAll(refs);
 
-    const play = (index: number) => {
+    const playForId = (sectionId: string, fromNav = false) => {
+      const meta = DEST_META[sectionId];
+      if (!meta) return;
       if (busyRef.current) return;
-      const name = TRANSITIONS[index % TRANSITIONS.length];
-      const labelText = SECTION_LABELS[index % SECTION_LABELS.length];
+      if (!fromNav && navLockRef.current) return;
+
       busyRef.current = true;
+      // Arm will-change only for the active transition lifetime
+      const animated = [
+        refs.veil,
+        refs.blade,
+        refs.flash,
+        refs.label,
+        refs.sub,
+        refs.ring,
+        refs.grain,
+        ...refs.bars,
+      ].filter(Boolean) as HTMLElement[];
+      animated.forEach((el) => {
+        el.style.willChange = 'transform, opacity, clip-path';
+      });
+
       resetAll(refs);
       const tl = buildTimeline(
         refs,
-        name,
-        labelText,
+        meta.transition,
+        meta.label,
         themeRef.current === 'dark',
       );
       tl.eventCallback('onComplete', () => {
         busyRef.current = false;
+        clearWillChange(animated);
         resetAll(refs);
       });
       tl.play(0);
     };
 
+    const onNavTransition = (e: Event) => {
+      const id = (e as CustomEvent<{ id?: string }>).detail?.id;
+      if (!id) return;
+      navLockRef.current = true;
+      // Unlock after Lenis/smooth scroll finishes crossing boundaries
+      window.setTimeout(() => {
+        navLockRef.current = false;
+      }, (DURATION.hero + DURATION.structural) * 1000 + 200);
+      playForId(id, true);
+    };
+
+    window.addEventListener(SECTION_TRANSITION_EVENT, onNavTransition);
+
     const ctx = gsap.context(() => {
+      // Fire when leaving section[i] → entering section[i+1]
       sections.slice(0, -1).forEach((section, index) => {
+        const dest = sections[index + 1];
+        if (!dest?.id) return;
         ScrollTrigger.create({
           trigger: section,
           start: 'bottom 58%',
           once: false,
-          onEnter: () => play(index),
+          onEnter: () => playForId(dest.id),
         });
       });
 
@@ -704,6 +761,8 @@ export default function SectionTransitions({ children }: SectionTransitionsProps
 
     return () => {
       busyRef.current = false;
+      navLockRef.current = false;
+      window.removeEventListener(SECTION_TRANSITION_EVENT, onNavTransition);
       ctx.revert();
     };
   }, []);
@@ -716,7 +775,7 @@ export default function SectionTransitions({ children }: SectionTransitionsProps
         className='pointer-events-none fixed inset-0 z-[55] overflow-hidden'
         aria-hidden='true'
       >
-        <div ref={veilRef} className='absolute inset-0 will-change-[clip-path,opacity,transform]' />
+        <div ref={veilRef} className='absolute inset-0' />
         <div
           ref={grainRef}
           className='absolute inset-0 opacity-0 mix-blend-overlay'
@@ -733,22 +792,22 @@ export default function SectionTransitions({ children }: SectionTransitionsProps
               ref={(el) => {
                 if (el) barRefs.current[i] = el;
               }}
-              className='absolute will-change-transform'
+              className='absolute'
             />
           ))}
         </div>
         <div
           ref={bladeRef}
-          className='absolute will-change-transform'
+          className='absolute'
           style={{ transform: 'translate(-50%, -50%)' }}
         />
         <div
           ref={ringRef}
-          className='pointer-events-none absolute left-1/2 top-1/2 aspect-square w-[min(70vw,520px)] -translate-x-1/2 -translate-y-1/2 rounded-full border-2 will-change-[transform,opacity]'
+          className='pointer-events-none absolute left-1/2 top-1/2 aspect-square w-[min(70vw,520px)] -translate-x-1/2 -translate-y-1/2 rounded-full border-2'
         />
         <div
           ref={flashRef}
-          className='absolute inset-0 will-change-opacity'
+          className='absolute inset-0'
           style={{
             background: `radial-gradient(ellipse at center, ${BRAND.bone}cc 0%, ${BRAND.gold}55 25%, transparent 58%)`,
           }}
@@ -760,7 +819,7 @@ export default function SectionTransitions({ children }: SectionTransitionsProps
           />
           <div
             ref={labelRef}
-            className='font-instrument text-center text-[clamp(3.2rem,14vw,9rem)] font-normal leading-none will-change-[transform,opacity,filter]'
+            className='font-instrument text-center text-[clamp(3.2rem,14vw,9rem)] font-normal leading-none'
           />
         </div>
       </div>

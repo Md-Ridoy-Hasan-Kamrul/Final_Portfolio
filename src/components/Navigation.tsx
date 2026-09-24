@@ -8,6 +8,7 @@ import HamburgerMenu from './HamburgerMenu';
 import AnimatedSVGUnderline from './AnimatedSVGUnderline';
 import FullscreenNavOverlay from './FullscreenNavOverlay';
 import { scrollToHash } from '../utils/scrollToHash';
+import { transition } from '@/lib/motion';
 
 const navLinks = [
   { href: '#home', label: 'Home' },
@@ -160,9 +161,9 @@ const Navigation = memo(() => {
       className={`fixed top-0 inset-x-0 z-50 transition-all duration-500 ${navSurfaceClass}`}
       role='navigation'
       aria-label='Main navigation'
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.6, type: 'spring', stiffness: 100 }}
+      initial={{ y: -24, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={transition.section}
     >
       {/* Gradient border bottom — hidden while fullscreen menu is open */}
       {!isOpen && (

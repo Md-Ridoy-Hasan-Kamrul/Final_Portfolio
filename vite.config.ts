@@ -1,4 +1,4 @@
-import { defineConfig } from 'vite';
+import { defineConfig } from 'vitest/config';
 import react from '@vitejs/plugin-react';
 import path from 'path';
 
@@ -6,60 +6,62 @@ import path from 'path';
 export default defineConfig({
   plugins: [
     react({
-      // Babel configuration for optimizations
       babel: {
-        plugins: [
-          // Add any babel plugins here if needed
-        ],
+        plugins: [],
       },
     }),
   ],
 
-  // Path aliases
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
     },
   },
 
-  // Optimize dependencies
+  // Vitest — Vite-native runner (use instead of Jest for this frontend)
+  test: {
+    globals: true,
+    environment: 'jsdom',
+    setupFiles: ['./src/test/setup.ts'],
+    css: true,
+    include: ['src/**/*.{test,spec}.{ts,tsx}'],
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'html'],
+      include: ['src/**/*.{ts,tsx}'],
+      exclude: [
+        'src/main.tsx',
+        'src/vite-env.d.ts',
+        'src/test/**',
+        'src/**/*.d.ts',
+      ],
+    },
+  },
+
   optimizeDeps: {
     exclude: ['lucide-react'],
     include: ['react', 'react-dom'],
   },
 
-  // Build configuration for production
   build: {
-    // Output directory
     outDir: 'dist',
-
-    // Generate sourcemaps for debugging (disable in production)
     sourcemap: false,
-
-    // Minification
     minify: 'terser',
     terserOptions: {
       compress: {
-        drop_console: true, // Remove console.log in production
+        drop_console: true,
         drop_debugger: true,
       },
     },
-
-    // Chunk size warning limit (500kb)
     chunkSizeWarningLimit: 500,
-
-    // Rollup options
     rollupOptions: {
       output: {
-        // Manual chunk splitting for better caching
         manualChunks: {
           'react-vendor': ['react', 'react-dom'],
           'animation-vendor': ['framer-motion', 'gsap', '@gsap/react', 'lenis'],
           'i18n-vendor': ['i18next', 'react-i18next'],
           'icons-vendor': ['lucide-react'],
         },
-
-        // Asset file names
         assetFileNames: (assetInfo) => {
           const info = assetInfo.name?.split('.') || [];
           const ext = info[info.length - 1];
@@ -70,30 +72,20 @@ export default defineConfig({
           }
           return `assets/[name]-[hash][extname]`;
         },
-
-        // Chunk file names
         chunkFileNames: 'assets/js/[name]-[hash].js',
-
-        // Entry file names
         entryFileNames: 'assets/js/[name]-[hash].js',
       },
     },
-
-    // Target browsers
     target: 'esnext',
-
-    // CSS code splitting
     cssCodeSplit: true,
   },
 
-  // Preview server configuration
   preview: {
     port: 4173,
     strictPort: true,
     host: true,
   },
 
-  // Development server configuration
   server: {
     port: 5173,
     strictPort: true,

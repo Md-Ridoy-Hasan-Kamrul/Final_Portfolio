@@ -103,6 +103,10 @@ export default function FluidImage({
     const ctx = canvas.getContext('2d', { alpha: true });
     if (!ctx) return;
 
+    // Non-null bindings for nested frame() under strictNullChecks
+    const surface: HTMLCanvasElement = canvas;
+    const g: CanvasRenderingContext2D = ctx;
+
     let cancelled = false;
     let raf = 0;
     let img: HTMLImageElement | null = null;
@@ -194,15 +198,15 @@ export default function FluidImage({
       const dpr = Math.min(window.devicePixelRatio || 1, Math.max(0.5, maxDpr));
       const pw = Math.floor(cw * dpr);
       const ph = Math.floor(ch * dpr);
-      if (canvas.width !== pw || canvas.height !== ph) {
-        canvas.width = pw;
-        canvas.height = ph;
+      if (surface.width !== pw || surface.height !== ph) {
+        surface.width = pw;
+        surface.height = ph;
       }
 
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      ctx.clearRect(0, 0, cw, ch);
-      ctx.fillStyle = '#000';
-      ctx.fillRect(0, 0, cw, ch);
+      g.setTransform(dpr, 0, 0, dpr, 0, 0);
+      g.clearRect(0, 0, cw, ch);
+      g.fillStyle = '#000';
+      g.fillRect(0, 0, cw, ch);
 
       const waveAmp = (8 + distortion * 28) * (0.25 + active * 0.85);
       const waveFreq = 0.035 + distortion * 0.02;
@@ -230,7 +234,7 @@ export default function FluidImage({
           const sy = ((y - dy) / dh) * img.naturalHeight;
           if (sy < 0 || sy >= img.naturalHeight) continue;
 
-          ctx.drawImage(
+          g.drawImage(
             img,
             0,
             sy,
@@ -248,7 +252,7 @@ export default function FluidImage({
         const r = (0.35 + strength * 0.35) * Math.min(cw, ch);
         const gx = smooth.x * cw;
         const gy = smooth.y * ch;
-        const grad = ctx.createRadialGradient(gx, gy, 0, gx, gy, r);
+        const grad = g.createRadialGradient(gx, gy, 0, gx, gy, r);
         const c0 = palette[0] ?? '#fff';
         const c1 = palette[1] ?? c0;
         const c2 = palette[2] ?? c1;
@@ -257,20 +261,20 @@ export default function FluidImage({
         grad.addColorStop(0.45, hexAlpha(c1, a * 0.55));
         grad.addColorStop(0.75, hexAlpha(c2, a * 0.25));
         grad.addColorStop(1, 'rgba(0,0,0,0)');
-        ctx.globalCompositeOperation = 'screen';
-        ctx.fillStyle = grad;
-        ctx.fillRect(0, 0, cw, ch);
-        ctx.globalCompositeOperation = 'source-over';
+        g.globalCompositeOperation = 'screen';
+        g.fillStyle = grad;
+        g.fillRect(0, 0, cw, ch);
+        g.globalCompositeOperation = 'source-over';
       }
 
       // Soft idle shimmer so it always feels alive
       const idle =
         Math.sin(t * 1.1) * 0.015 + Math.sin(t * 0.7 + 1.3) * 0.01;
       if (Math.abs(idle) > 0.001) {
-        ctx.globalAlpha = 0.08 + active * 0.05;
-        ctx.fillStyle = palette?.[0] ?? '#fff';
-        ctx.fillRect(0, 0, cw, ch);
-        ctx.globalAlpha = 1;
+        g.globalAlpha = 0.08 + active * 0.05;
+        g.fillStyle = palette?.[0] ?? '#fff';
+        g.fillRect(0, 0, cw, ch);
+        g.globalAlpha = 1;
       }
 
       const stillIdle = !pointerInside && active < 0.02;

@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useState } from 'react';
+import { DURATION, DURATION_CSS, EASING_CSS } from '@/lib/motion';
 
 type Theme = 'light' | 'dark';
 
@@ -10,7 +11,6 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  // Initialize theme from localStorage immediately (default: dark)
   const [theme, setTheme] = useState<Theme>(() => {
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme === 'light' || savedTheme === 'dark') return savedTheme;
@@ -18,9 +18,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   });
 
   useEffect(() => {
-    // Update document class and save to localStorage with animation
     const root = document.documentElement;
-
     if (theme === 'dark') {
       root.classList.add('dark');
     } else {
@@ -30,7 +28,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   }, [theme]);
 
   const toggleTheme = () => {
-    // Add transition overlay effect
+    const ms = DURATION.hero * 1000;
     const overlay = document.createElement('div');
     overlay.style.cssText = `
       position: fixed;
@@ -46,25 +44,26 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       z-index: 9999;
       opacity: 0;
       pointer-events: none;
-      transition: opacity 0.4s ease-in-out;
+      transition: opacity ${DURATION_CSS.hero} ${EASING_CSS.easeInOutCubic};
     `;
     document.body.appendChild(overlay);
+    overlay.style.willChange = 'opacity';
 
-    // Trigger animation
     requestAnimationFrame(() => {
       overlay.style.opacity = '1';
     });
 
-    setTimeout(() => {
+    window.setTimeout(() => {
       setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
 
-      setTimeout(() => {
+      window.setTimeout(() => {
         overlay.style.opacity = '0';
-        setTimeout(() => {
-          document.body.removeChild(overlay);
-        }, 400);
-      }, 200);
-    }, 200);
+        window.setTimeout(() => {
+          overlay.style.willChange = 'auto';
+          if (overlay.parentNode) document.body.removeChild(overlay);
+        }, ms);
+      }, DURATION.structural * 1000);
+    }, DURATION.structural * 1000);
   };
 
   return (

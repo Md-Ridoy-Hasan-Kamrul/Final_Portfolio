@@ -313,17 +313,19 @@ function PremiumSmearCard({
   });
 
   const absOffset = useTransform(localOffset, Math.abs);
-  const cardWidth = useTransform(absOffset, [0, 1], [itemWidth, sideItemWidth], {
-    clamp: true,
-  });
-  const cardHeight = useTransform(
+  // FLIP-style sizing: fixed layout box + GPU scale (never tween width/height/margin)
+  const scaleX = useTransform(
     absOffset,
     [0, 1],
-    [itemHeight, sideItemHeight],
-    { clamp: true }
+    [1, sideItemWidth / itemWidth],
+    { clamp: true },
   );
-  const marginLeft = useTransform(cardWidth, (w) => -w / 2);
-  const marginTop = useTransform(cardHeight, (h) => -h / 2);
+  const scaleY = useTransform(
+    absOffset,
+    [0, 1],
+    [1, sideItemHeight / itemHeight],
+    { clamp: true },
+  );
 
   const x = useTransform(localOffset, (o) => {
     const a = Math.abs(o);
@@ -363,17 +365,22 @@ function PremiumSmearCard({
     <motion.div
       style={{
         position: 'absolute',
-        left: 0,
-        top: 0,
-        marginLeft,
-        marginTop,
-        width: cardWidth,
-        height: cardHeight,
+        left: '50%',
+        top: '50%',
+        // Static centering — layout once; motion via transform only
+        width: itemWidth,
+        height: itemHeight,
+        marginLeft: -itemWidth / 2,
+        marginTop: -itemHeight / 2,
+        scaleX,
+        scaleY,
         rotateY,
         x,
         z,
         zIndex,
         transformStyle: 'preserve-3d',
+        // View Transitions morph target for project thumbs
+        viewTransitionName: `project-thumb-${index}`,
       }}
     >
       <motion.div
@@ -384,7 +391,6 @@ function PremiumSmearCard({
           inset: 0,
           borderRadius,
           opacity: visibilityOpacity,
-          boxShadow: '0 24px 48px rgba(0,0,0,0.32)',
           overflow: 'hidden',
           display: 'flex',
           flexDirection: 'column',

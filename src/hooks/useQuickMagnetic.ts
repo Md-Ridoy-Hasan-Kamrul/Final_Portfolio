@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { gsap, getMotionLevel } from '../lib/motion';
+import { gsap, getMotionLevel, DURATION, EASE } from '../lib/motion';
 
 type Options = {
   strength?: number;
@@ -16,8 +16,14 @@ export function useQuickMagnetic<T extends HTMLElement>(options: Options = {}) {
     const el = ref.current;
     if (!el || getMotionLevel() !== 'full') return;
 
-    const xTo = gsap.quickTo(el, 'x', { duration: 0.35, ease: 'power3.out' });
-    const yTo = gsap.quickTo(el, 'y', { duration: 0.35, ease: 'power3.out' });
+    const xTo = gsap.quickTo(el, 'x', {
+      duration: DURATION.element - 0.05,
+      ease: EASE.out,
+    });
+    const yTo = gsap.quickTo(el, 'y', {
+      duration: DURATION.element - 0.05,
+      ease: EASE.out,
+    });
 
     const onMove = (e: MouseEvent) => {
       const r = el.getBoundingClientRect();

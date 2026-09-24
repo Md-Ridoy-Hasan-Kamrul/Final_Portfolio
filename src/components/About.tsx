@@ -1,41 +1,21 @@
-import {
-  motion,
-} from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import ScrambledText from './ScrambledText';
 import BadHandwriting from './BadHandwriting';
 import { Container } from './ui/Container';
 import WowSectionEntrance from './motion/WowSectionEntrance';
 import { useEffect, useRef, useState } from 'react';
+import {
+  fadeUp,
+  staggerContainer,
+  instantShow,
+  transition,
+  VIEWPORT,
+  SPRING,
+  EASING,
+} from '@/lib/motion';
 
 const ABOUT_VIDEO_SRC =
   'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260314_131748_f2ca2a28-fed7-44c8-b9a9-bd9acdd5ec31.mp4';
-
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.18,
-      delayChildren: 0.15,
-    },
-  },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 56, scale: 0.94, filter: 'blur(8px)' },
-  visible: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    filter: 'blur(0px)',
-    transition: {
-      type: 'spring' as const,
-      stiffness: 120,
-      damping: 18,
-      mass: 0.9,
-    },
-  },
-};
 
 const education = [
   {
@@ -59,6 +39,9 @@ export default function About() {
   const [fontSize, setFontSize] = useState(56);
   const sectionRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const reduced = useReducedMotion();
+  const containerVariants = reduced ? instantShow : staggerContainer;
+  const itemVariants = reduced ? instantShow : fadeUp;
 
   useEffect(() => {
     const update = () => {
@@ -124,15 +107,10 @@ export default function About() {
       >
         <Container>
           <motion.div
-            initial={{ opacity: 0, y: 40, scale: 0.96 }}
-            whileInView={{ opacity: 1, y: 0, scale: 1 }}
-            viewport={{ once: true, amount: 0.35 }}
-            transition={{
-              type: 'spring',
-              stiffness: 90,
-              damping: 16,
-              mass: 1,
-            }}
+            initial='hidden'
+            whileInView='visible'
+            viewport={VIEWPORT}
+            variants={itemVariants}
             className='mb-16'
           >
             <BadHandwriting
@@ -147,13 +125,13 @@ export default function About() {
             />
             <motion.div
               className='h-1 w-20 origin-left rounded bg-gradient-to-r from-crimson to-gold'
-              initial={{ scaleX: 0 }}
+              initial={reduced ? false : { scaleX: 0 }}
               whileInView={{ scaleX: 1 }}
-              viewport={{ once: true }}
+              viewport={VIEWPORT}
               transition={{
-                duration: 0.9,
-                ease: [0.22, 1, 0.36, 1],
-                delay: 0.2,
+                ...transition.section,
+                ease: EASING.easeOutExpo,
+                delay: 0.12,
               }}
             />
           </motion.div>
@@ -164,7 +142,7 @@ export default function About() {
               variants={containerVariants}
               initial='hidden'
               whileInView='visible'
-              viewport={{ once: true, amount: 0.25 }}
+              viewport={VIEWPORT}
             >
               {[
                 'Frontend Developer specializing in React.js, Next.js, TypeScript, and JavaScript, with a B.Sc. in Computer Science and Engineering from UITS, Dhaka.',
@@ -189,7 +167,7 @@ export default function About() {
               variants={containerVariants}
               initial='hidden'
               whileInView='visible'
-              viewport={{ once: true, amount: 0.3 }}
+              viewport={VIEWPORT}
             >
               <motion.div variants={itemVariants}>
                 <h3 className='mb-2 text-lg font-bold text-white'>Location</h3>
@@ -224,8 +202,8 @@ export default function About() {
                 </h3>
                 <motion.div
                   className='glass-field rounded-2xl px-5 py-4'
-                  whileHover={{ y: -4, scale: 1.02 }}
-                  transition={{ type: 'spring', stiffness: 320, damping: 22 }}
+                  whileHover={reduced ? undefined : { y: -4, scale: 1.02 }}
+                  transition={SPRING.soft}
                 >
                   <p className='glass-field-title text-base'>MERN Stack</p>
                   <p className='glass-field-meta mt-1 text-sm'>Ostad · 2024</p>
@@ -239,7 +217,7 @@ export default function About() {
             variants={containerVariants}
             initial='hidden'
             whileInView='visible'
-            viewport={{ once: true, amount: 0.2 }}
+            viewport={VIEWPORT}
           >
             <motion.h3
               variants={itemVariants}
@@ -249,18 +227,13 @@ export default function About() {
               Education
             </motion.h3>
             <div className='grid gap-5 sm:grid-cols-2 lg:grid-cols-3'>
-              {education.map((item, index) => (
+              {education.map((item) => (
                 <motion.div
                   key={item.title}
                   variants={itemVariants}
                   className='glass-field h-full rounded-2xl px-5 py-5'
-                  whileHover={{ y: -6, scale: 1.02 }}
-                  transition={{
-                    type: 'spring',
-                    stiffness: 300,
-                    damping: 20,
-                    delay: index * 0.02,
-                  }}
+                  whileHover={reduced ? undefined : { y: -6, scale: 1.02 }}
+                  transition={SPRING.soft}
                 >
                   <div className='mb-2 flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1'>
                     <p className='glass-field-title text-base'>{item.title}</p>

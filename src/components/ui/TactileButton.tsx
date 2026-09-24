@@ -74,22 +74,26 @@ export default function TactileButton({
 
   useEffect(() => {
     const btn = btnRef.current;
-    const canvas = canvasRef.current;
-    if (!btn || !canvas) return;
+    const canvasEl = canvasRef.current;
+    if (!btn || !canvasEl) return;
 
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const gl = canvas.getContext('webgl', {
+    const glCtx = canvasEl.getContext('webgl', {
       antialias: true,
       premultipliedAlpha: false,
     });
-    if (!gl) {
+    if (!glCtx) {
       btn.style.background =
         tone === 'ember'
           ? 'linear-gradient(to top, #120606 0%, #4a1010 40%, #8a1818 52%, #c81b1c 55%, #0a0404 56%)'
           : `linear-gradient(to top, hsl(${resolvedHue || 190}, ${resolvedSat * 100}%, 45%) 0%, hsl(${resolvedHue || 190}, ${resolvedSat * 100}%, 55%) 52%, hsl(${resolvedHue || 190}, ${resolvedSat * 100}%, 80%) 55%, #050b11 56%)`;
-      canvas.style.display = 'none';
+      canvasEl.style.display = 'none';
       return;
     }
+
+    // Re-bind so nested closures keep non-null types under strictNullChecks
+    const gl: WebGLRenderingContext = glCtx;
+    const canvas: HTMLCanvasElement = canvasEl;
 
     const isEmber = tone === 'ember' ? 1 : 0;
 
@@ -268,20 +272,24 @@ export default function TactileButton({
     const hueRad = (resolvedHue / 360) * Math.PI * 2;
 
     function frame(now: number) {
+      const loopsPaused =
+        document.documentElement.dataset.motionLoops === 'paused';
       const dt = Math.min(0.05, (now - last) / 1000);
       last = now;
-      slosh *= Math.exp(-1.5 * dt);
-      gulp *= Math.exp(-1.1 * dt);
-      tilt += (tiltTarget - tilt) * Math.min(1, dt * 5);
-      const levelTarget = BASE - 0.36 * gulp;
-      level += (levelTarget - level) * Math.min(1, dt * 5.5);
+      if (!loopsPaused && !reduced) {
+        slosh *= Math.exp(-1.5 * dt);
+        gulp *= Math.exp(-1.1 * dt);
+        tilt += (tiltTarget - tilt) * Math.min(1, dt * 5);
+        const levelTarget = BASE - 0.36 * gulp;
+        level += (levelTarget - level) * Math.min(1, dt * 5.5);
+      }
 
       resize();
       gl.uniform2f(uRes, canvas.width, canvas.height);
-      gl.uniform1f(uTime, reduced ? 2.0 : now / 1000);
+      gl.uniform1f(uTime, reduced || loopsPaused ? 2.0 : now / 1000);
       gl.uniform1f(uLevel, level);
       gl.uniform1f(uTilt, tilt);
-      gl.uniform1f(uSlosh, reduced ? 0.25 : slosh);
+      gl.uniform1f(uSlosh, reduced || loopsPaused ? 0.25 : slosh);
       gl.uniform1f(uHue, hueRad);
       gl.uniform1f(uSat, resolvedSat);
       gl.uniform1f(uBrt, resolvedBrt);
@@ -312,8 +320,9 @@ export default function TactileButton({
         type='button'
         onClick={onClick}
         aria-label={ariaLabel}
-        className={`relative flex cursor-pointer items-center justify-center overflow-hidden rounded-[18px] border-0 bg-[#050b11] p-0 transition-all duration-300 ease-out hover:-translate-y-[2px] active:translate-y-[1px] active:scale-[0.985] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[5px] ${palette.button}`}
+        className={`relative flex cursor-pointer items-center justify-center overflow-hidden rounded-[18px] border-0 bg-[#050b11] p-0 transition-transform duration-[var(--motion-structural)] ease-[var(--ease-out-expo)] hover:-translate-y-[2px] active:translate-y-[1px] active:scale-[0.985] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[5px] ${palette.button}`}
         style={{ width: `${width}px`, height: `${height}px` }}
+        data-motion-loop
       >
         <canvas
           ref={canvasRef}

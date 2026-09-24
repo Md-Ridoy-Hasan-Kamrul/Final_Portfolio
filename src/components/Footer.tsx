@@ -11,6 +11,7 @@ import { pageContainerClass } from './ui/Container';
 import CloudField from './motion/CloudField';
 import FooterStormWeather from './motion/FooterStormWeather';
 import { useTheme } from '../contexts/ThemeContext';
+import { fadeUp, VIEWPORT, SPRING } from '@/lib/motion';
 
 const EMAIL = 'mdridoyhasankamrul@gmail.com';
 const GMAIL_COMPOSE = `https://mail.google.com/mail/?view=cm&fs=1&to=${EMAIL}`;
@@ -88,8 +89,8 @@ export default function Footer() {
 
   const sx = useMotionValue(-SPOT);
   const sy = useMotionValue(-SPOT);
-  const springX = useSpring(sx, { stiffness: 90, damping: 20 });
-  const springY = useSpring(sy, { stiffness: 90, damping: 20 });
+  const springX = useSpring(sx, SPRING.magnetic);
+  const springY = useSpring(sy, SPRING.magnetic);
 
   const onMove = (e: React.MouseEvent) => {
     const el = ref.current;
@@ -104,7 +105,7 @@ export default function Footer() {
     offset: ['start end', 'end end'],
   });
   // Continues rising slightly as you scroll through the footer
-  const markY = useTransform(scrollYProgress, [0.15, 0.85], [48, 0]);
+  const markY = useTransform(scrollYProgress, [0.15, 0.85], [28, 0]);
 
   return (
     <footer
@@ -168,7 +169,7 @@ export default function Footer() {
                 target='_blank'
                 rel='noopener noreferrer'
                 aria-label='LinkedIn'
-                className='grid h-10 w-10 place-items-center rounded-xl border border-bone/25 text-bone/90 transition-all duration-300 hover:-translate-y-0.5 hover:border-crimson hover:text-crimson-light'
+                className='grid h-10 w-10 place-items-center rounded-xl border border-bone/25 text-bone/90 transition-[transform,border-color,color] duration-[var(--motion-structural)] ease-[var(--ease-out-expo)] hover:-translate-y-0.5 hover:border-crimson hover:text-crimson-light'
               >
                 <LinkedinMark />
               </a>
@@ -177,7 +178,7 @@ export default function Footer() {
                 target='_blank'
                 rel='noopener noreferrer'
                 aria-label='GitHub'
-                className='grid h-10 w-10 place-items-center rounded-xl border border-bone/25 text-bone/90 transition-all duration-300 hover:-translate-y-0.5 hover:border-crimson hover:text-crimson-light'
+                className='grid h-10 w-10 place-items-center rounded-xl border border-bone/25 text-bone/90 transition-[transform,border-color,color] duration-[var(--motion-structural)] ease-[var(--ease-out-expo)] hover:-translate-y-0.5 hover:border-crimson hover:text-crimson-light'
               >
                 <GithubMark />
               </a>
@@ -186,7 +187,7 @@ export default function Footer() {
                 target='_blank'
                 rel='noopener noreferrer'
                 aria-label='Compose email in Gmail'
-                className='grid h-10 w-10 place-items-center rounded-xl border border-bone/25 text-bone/90 transition-all duration-300 hover:-translate-y-0.5 hover:border-crimson hover:text-crimson-light'
+                className='grid h-10 w-10 place-items-center rounded-xl border border-bone/25 text-bone/90 transition-[transform,border-color,color] duration-[var(--motion-structural)] ease-[var(--ease-out-expo)] hover:-translate-y-0.5 hover:border-crimson hover:text-crimson-light'
               >
                 <Mail className='h-4 w-4' />
               </a>
@@ -206,7 +207,7 @@ export default function Footer() {
                   >
                     <span className='relative'>
                       {n.label}
-                      <span className='absolute -bottom-0.5 left-0 h-px w-0 bg-crimson transition-all duration-300 group-hover:w-full' />
+                      <span className='absolute -bottom-0.5 left-0 h-px w-full origin-left scale-x-0 bg-crimson transition-transform duration-[var(--motion-structural)] ease-[var(--ease-out-expo)] group-hover:scale-x-100' />
                     </span>
                   </a>
                 </li>
@@ -238,10 +239,10 @@ export default function Footer() {
         </div>
 
         <motion.div
-          initial={{ opacity: 0, y: 120 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.35 }}
-          transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
+          initial='hidden'
+          whileInView='visible'
+          viewport={VIEWPORT}
+          variants={fadeUp}
           className='pointer-events-none relative mt-10 -mx-2 select-none overflow-visible sm:-mx-4'
           aria-hidden='true'
         >

@@ -5,6 +5,7 @@ import { Container } from './ui/Container';
 import DepthBlurCarousel from './DepthBlurCarousel';
 import { useTheme } from '../contexts/ThemeContext';
 import WowSectionEntrance from './motion/WowSectionEntrance';
+import { fadeUp, VIEWPORT } from '@/lib/motion';
 
 const PROJECTS_VIDEO_SRC =
   'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260901_122529_931c22c8-8d2d-47c0-ad51-b97f56a91e42.mp4';
@@ -317,10 +318,10 @@ export default function Projects() {
 
         <Container className='relative z-10'>
           <motion.div
-            initial={{ opacity: 0, y: 40, scale: 0.94 }}
-            whileInView={{ opacity: 1, y: 0, scale: 1 }}
-            viewport={{ once: true, amount: 0.4 }}
-            transition={{ type: 'spring', stiffness: 100, damping: 16 }}
+            initial='hidden'
+            whileInView='visible'
+            viewport={VIEWPORT}
+            variants={fadeUp}
           >
             <h2
               className={`mb-3 text-2xl font-bold min-[375px]:text-3xl sm:mb-4 sm:text-4xl lg:text-5xl ${
