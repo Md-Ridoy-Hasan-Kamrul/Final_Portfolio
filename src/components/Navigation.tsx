@@ -1,14 +1,26 @@
-import { useState, useEffect, memo } from 'react';
+import { useState, useEffect, memo, useCallback, useRef } from 'react';
 import { Github, Linkedin } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { ThemeToggle } from './ThemeToggle';
 import { useTheme } from '../contexts/ThemeContext';
+import { useMotionProfile } from '../contexts/MotionContext';
 import { Container } from './ui/Container';
 import HamburgerMenu from './HamburgerMenu';
 import AnimatedSVGUnderline from './AnimatedSVGUnderline';
 import FullscreenNavOverlay from './FullscreenNavOverlay';
+import NavMorphChrome from './nav/NavMorphChrome';
+import NavSectionStamp from './nav/NavSectionStamp';
+import NavLiquidIndicator from './nav/NavLiquidIndicator';
+import MagneticButton from './ui/MagneticButton';
 import { scrollToHash } from '../utils/scrollToHash';
-import { transition } from '@/lib/motion';
+import { SECTION_TRANSITION_EVENT } from '../utils/sectionTransitionEvent';
+import { personaFromHash, type NavPersona } from '@/data/navPersonas';
+import {
+  DURATION,
+  EASING,
+  STAGGER,
+  transition,
+} from '@/lib/motion';
 
 const navLinks = [
   { href: '#home', label: 'Home' },
@@ -19,15 +31,35 @@ const navLinks = [
   { href: '#contact', label: 'Contact' },
 ];
 
-/** Compact / fullscreen nav for ≤1020px; desktop horizontal links stay above that. */
 const COMPACT_NAV = 'min-[1021px]:hidden';
 const DESKTOP_NAV = 'hidden min-[1021px]:flex';
 
 const Navigation = memo(() => {
   const { theme } = useTheme();
+  const { isAdvanced, loopsPaused } = useMotionProfile();
+  const reduced = useReducedMotion();
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('#home');
+  const [morphKey, setMorphKey] = useState(0);
+  const [burst, setBurst] = useState(false);
+
+  const persona: NavPersona = personaFromHash(activeSection);
+
+  const triggerMorph = useCallback((hash: string) => {
+    const next = hash.startsWith('#') ? hash : `#${hash}`;
+    setActiveSection(next);
+    setBurst(true);
+    window.setTimeout(() => setBurst(false), DURATION.hero * 1000 + 40);
+  }, []);
+
+  // Rematerialize chrome/stamp once per destination change
+  const prevSectionRef = useRef(activeSection);
+  useEffect(() => {
+    if (prevSectionRef.current === activeSection) return;
+    prevSectionRef.current = activeSection;
+    setMorphKey((k) => k + 1);
+  }, [activeSection]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -63,7 +95,17 @@ const Navigation = memo(() => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Close fullscreen menu if viewport grows into desktop
+  // Sync with cinematic page transitions (nav click / boundary)
+  useEffect(() => {
+    const onTransition = (e: Event) => {
+      const id = (e as CustomEvent<{ id?: string }>).detail?.id;
+      if (!id) return;
+      triggerMorph(`#${id}`);
+    };
+    window.addEventListener(SECTION_TRANSITION_EVENT, onTransition);
+    return () => window.removeEventListener(SECTION_TRANSITION_EVENT, onTransition);
+  }, [triggerMorph]);
+
   useEffect(() => {
     const mq = window.matchMedia('(min-width: 1021px)');
     const onChange = (e: MediaQueryListEvent) => {
@@ -78,213 +120,162 @@ const Navigation = memo(() => {
     href: string,
   ) => {
     e.preventDefault();
-
     const targetId = href.substring(1);
     const element = document.getElementById(targetId);
+    if (!element) return;
 
-    if (element) {
-      setIsOpen(false);
-
-      window.setTimeout(() => {
-        scrollToHash(href);
-        setActiveSection(href);
-        window.history.pushState({}, '', href);
-      }, 60);
-    }
+    setIsOpen(false);
+    window.setTimeout(() => {
+      scrollToHash(href);
+      triggerMorph(href);
+      window.history.pushState({}, '', href);
+    }, 60);
   };
 
-  const onProjects = activeSection === '#projects';
-  const onProjectsNight = onProjects && theme === 'dark';
-  const onSkills = activeSection === '#skills';
-  const onExperience = activeSection === '#experience';
-  const onContact = activeSection === '#contact';
-  const onDarkNav =
-    activeSection === '#about' ||
-    onExperience ||
-    onProjectsNight ||
-    onSkills ||
-    onContact;
-  const useDarkLogo = theme === 'dark' || onDarkNav || isOpen;
+  const useDarkLogo = true; // personas are dark-glass surfaces
+  const fullscreenDark = persona.darkSurface || theme === 'dark';
 
-  const navSurfaceClass = (() => {
-    if (isOpen) {
-      return 'bg-transparent border-transparent shadow-none';
-    }
-
-    switch (activeSection) {
-      case '#about':
-        return 'bg-[#041018]/88 backdrop-blur-xl border-b border-white/10 shadow-none';
-      case '#experience':
-        return theme === 'dark'
-          ? 'bg-[#02080e]/88 backdrop-blur-xl border-b border-cyan-200/20 shadow-lg shadow-black/30'
-          : 'bg-[#0c1824]/75 backdrop-blur-xl border-b border-orange-200/20 shadow-lg shadow-black/25';
-      case '#projects':
-        return theme === 'dark'
-          ? 'bg-[#070d16]/80 backdrop-blur-xl border-b border-white/10 shadow-lg shadow-black/30'
-          : 'bg-white/55 backdrop-blur-xl border-b border-black/10 shadow-md shadow-black/5';
-      case '#home':
-        return isScrolled
-          ? 'bg-white/80 dark:bg-gray-950/80 backdrop-blur-xl border-b border-black/5 dark:border-white/10 shadow-lg shadow-black/5'
-          : 'bg-transparent';
-      case '#skills':
-        return theme === 'dark'
-          ? 'bg-[#070b14]/88 backdrop-blur-xl border-b border-sky-200/15 shadow-lg shadow-black/40'
-          : 'bg-black/20 backdrop-blur-xl border-b border-white/20 shadow-lg shadow-black/15';
-      case '#contact':
-        return 'bg-[#080A19]/85 backdrop-blur-xl border-b border-white/10 shadow-lg shadow-black/30';
-      default:
-        return isScrolled
-          ? 'bg-gradient-to-b from-zinc-300/95 via-zinc-200/95 to-zinc-300/90 dark:from-zinc-800/95 dark:via-zinc-900/95 dark:to-zinc-800/90 backdrop-blur-lg shadow-lg'
-          : 'bg-transparent';
-    }
-  })();
-
-  const fullscreenDark = onDarkNav || theme === 'dark';
-
-  const menuPillClass = (() => {
-    if (isOpen) {
-      return fullscreenDark
-        ? 'border-white/35 text-[#E8E2D6] bg-white/5'
-        : 'border-black/25 text-[#14110f] bg-black/5';
-    }
-    if (onDarkNav) {
-      return 'border-white/35 text-white bg-white/5 hover:bg-white/10';
-    }
-    if (onProjects) {
-      return 'border-black/25 text-black bg-black/5 hover:bg-black/10';
-    }
-    return 'border-gray-800/30 text-gray-800 bg-black/5 hover:bg-black/10 dark:border-white/30 dark:text-white dark:bg-white/5 dark:hover:bg-white/10';
-  })();
+  const menuPillClass = isOpen
+    ? fullscreenDark
+      ? 'border-white/35 text-[#E8E2D6] bg-white/5'
+      : 'border-black/25 text-[#14110f] bg-black/5'
+    : 'border-white/30 text-white bg-white/5 hover:bg-white/10';
 
   return (
     <motion.nav
-      className={`fixed top-0 inset-x-0 z-50 transition-all duration-500 ${navSurfaceClass}`}
+      className='fixed top-0 inset-x-0 z-50'
       role='navigation'
       aria-label='Main navigation'
-      initial={{ y: -24, opacity: 0 }}
+      initial={{ y: -28, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={transition.section}
+      transition={transition.hero}
+      data-nav-section={persona.id}
     >
-      {/* Gradient border bottom — hidden while fullscreen menu is open */}
-      {!isOpen && (
-        <div
-          className={`absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent to-transparent opacity-60 ${
-            onDarkNav
-              ? 'via-blue-400/50'
-              : onProjects
-                ? 'via-[#175A67]/40'
-                : 'via-zinc-400 dark:via-zinc-600'
-          }`}
-        />
-      )}
+      <NavMorphChrome
+        persona={persona}
+        morphKey={morphKey}
+        isScrolled={isScrolled}
+        isOpen={isOpen}
+      />
 
-      {/* Top bar stays above fullscreen overlay so MENU can close */}
+      {/* Section burst flash — opacity only */}
+      <AnimatePresence>
+        {burst && !reduced && !loopsPaused && (
+          <motion.div
+            key={`burst-${morphKey}`}
+            className='pointer-events-none absolute inset-0 z-[1]'
+            style={{
+              background: `radial-gradient(ellipse at 50% 0%, ${persona.accentSoft}, transparent 70%)`,
+            }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={transition.micro}
+            aria-hidden
+          />
+        )}
+      </AnimatePresence>
+
       <Container className='relative z-[70]'>
-        <div className='flex justify-between items-center h-20 sm:h-24 md:h-28 lg:h-28'>
-          {/* Logo with 3D effect */}
-          <motion.a
-            href='#home'
-            onClick={(e) => handleLinkClick(e, '#home')}
-            className='cursor-target relative group'
-            aria-label='Go to home section'
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <img
-              src={useDarkLogo ? '/logo-dark.png' : '/logo.png'}
-              alt='KH Kamrul - Frontend Engineer'
-              className='h-20 sm:h-20 md:h-24 lg:h-36 w-auto relative z-10 object-contain transition-opacity duration-300'
-            />
-            <motion.div
-              className='absolute inset-0 bg-gradient-to-r from-blue-400/20 to-purple-400/20 rounded-lg blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10'
-              animate={{
-                scale: [1, 1.2],
-              }}
-              transition={{
-                duration: 1.5,
-                repeat: Infinity,
-                repeatType: 'reverse',
-                ease: 'easeInOut',
-              }}
-            />
-          </motion.a>
+        <div className='flex items-center justify-between h-20 sm:h-24 md:h-28 lg:h-28'>
+          {/* Logo + destination stamp */}
+          <div className='flex items-center gap-4 lg:gap-6'>
+            <MagneticButton strength={0.18}>
+              <motion.a
+                href='#home'
+                onClick={(e) => handleLinkClick(e, '#home')}
+                className='cursor-target relative group block'
+                aria-label='Go to home section'
+                whileHover={reduced ? undefined : { scale: 1.04 }}
+                whileTap={{ scale: 0.96 }}
+                transition={transition.micro}
+              >
+                <img
+                  src={useDarkLogo ? '/logo-dark.png' : '/logo.png'}
+                  alt='KH Kamrul - Frontend Engineer'
+                  className='relative z-10 h-20 w-auto object-contain sm:h-20 md:h-24 lg:h-36'
+                />
+                {!reduced && isAdvanced && !loopsPaused && (
+                  <motion.span
+                    className='pointer-events-none absolute inset-0 -z-10 rounded-full opacity-40 blur-2xl'
+                    style={{ background: persona.accentSoft }}
+                    animate={{ scale: [1, 1.15, 1], opacity: [0.25, 0.45, 0.25] }}
+                    transition={{
+                      duration: 4,
+                      repeat: Infinity,
+                      ease: EASING.easeInOutCubic,
+                    }}
+                    aria-hidden
+                  />
+                )}
+              </motion.a>
+            </MagneticButton>
 
-          {/* Desktop Navigation — untouched above 1020px */}
-          <div className={`${DESKTOP_NAV} items-center space-x-1 lg:space-x-3`}>
+            <NavSectionStamp persona={persona} morphKey={morphKey} />
+          </div>
+
+          {/* Desktop links — liquid FLIP active + staggered rematerialize */}
+          <div className={`${DESKTOP_NAV} items-center gap-0.5 lg:gap-1`}>
             {navLinks.map((link, index) => {
               const isActive = activeSection === link.href;
               return (
-                <motion.a
+                <motion.div
                   key={link.href}
-                  href={link.href}
-                  onClick={(e) => handleLinkClick(e, link.href)}
-                  className='cursor-target relative px-2 py-1 font-medium'
-                  initial={{ opacity: 0, y: -20 }}
+                  initial={
+                    reduced ? { opacity: 0 } : { opacity: 0, y: -12 }
+                  }
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.08, duration: 0.4 }}
-                  whileTap={{ scale: 0.97 }}
+                  transition={{
+                    ...transition.structural,
+                    delay: reduced ? 0 : index * STAGGER.children,
+                  }}
                 >
-                  <AnimatedSVGUnderline
-                    text={link.label}
-                    forceShow={isActive}
-                    textColor={
-                      onDarkNav
-                        ? isActive
-                          ? '#93C5FD'
-                          : '#E5E7EB'
-                        : onProjects
-                          ? isActive
-                            ? '#175A67'
-                            : '#111111'
-                          : isActive
-                            ? theme === 'dark'
-                              ? '#60A5FA'
-                              : '#2563EB'
-                            : theme === 'dark'
-                              ? '#D1D5DB'
-                              : '#374151'
-                    }
-                    underlineColor={
-                      onDarkNav
-                        ? '#93C5FD'
-                        : onProjects
-                          ? '#175A67'
-                          : theme === 'dark'
-                            ? '#A78BFA'
-                            : '#3B82F6'
-                    }
-                    strokeWidth={2.5}
-                    gap={1}
-                  />
-                </motion.a>
+                  <MagneticButton strength={0.2}>
+                    <motion.a
+                      href={link.href}
+                      onClick={(e) => handleLinkClick(e, link.href)}
+                      className='cursor-target relative block px-2.5 py-1.5 lg:px-3'
+                      whileTap={{ scale: 0.97 }}
+                      aria-current={isActive ? 'page' : undefined}
+                      animate={
+                        burst && !reduced && isActive
+                          ? { scale: [1, 1.06, 1] }
+                          : { scale: 1 }
+                      }
+                      transition={transition.structural}
+                    >
+                      <AnimatedSVGUnderline
+                        text={link.label}
+                        forceShow={isActive}
+                        textColor={
+                          isActive ? persona.accent : persona.inkMuted
+                        }
+                        underlineColor={persona.accent}
+                        strokeWidth={2.5}
+                        gap={1}
+                      />
+                      {isActive && <NavLiquidIndicator persona={persona} />}
+                    </motion.a>
+                  </MagneticButton>
+                </motion.div>
               );
             })}
 
-            {/* Social icons and theme toggle in desktop nav */}
             <div
-              className={`hidden lg:flex items-center gap-2 ml-6 pl-6 border-l ${
-                onDarkNav
-                  ? 'border-white/20'
-                  : onProjects
-                    ? 'border-black/15'
-                    : 'border-gray-200 dark:border-gray-700'
-              }`}
+              className='ml-4 hidden items-center gap-1 border-l pl-4 lg:flex xl:ml-6 xl:pl-6'
+              style={{ borderColor: persona.border }}
             >
               <ThemeToggle />
               <motion.a
                 href='https://github.com/Md-Ridoy-Hasan-Kamrul'
                 target='_blank'
                 rel='noopener noreferrer'
-                className={`cursor-target p-2 rounded-full transition-all duration-300 group relative ${
-                  onDarkNav
-                    ? 'text-gray-200 hover:text-white hover:bg-white/10'
-                    : onProjects
-                      ? 'text-black hover:text-white hover:bg-black'
-                      : 'text-gray-700 hover:text-white hover:bg-gray-900 dark:text-gray-300 dark:hover:bg-gray-700'
-                }`}
+                className='cursor-target rounded-full p-2'
+                style={{ color: persona.inkMuted }}
                 aria-label='GitHub Profile'
-                whileHover={{ scale: 1.1, rotate: 5 }}
-                whileTap={{ scale: 0.9 }}
+                whileHover={reduced ? undefined : { scale: 1.08, color: persona.accent }}
+                whileTap={{ scale: 0.92 }}
+                transition={transition.micro}
               >
                 <Github className='h-5 w-5' />
               </motion.a>
@@ -292,25 +283,23 @@ const Navigation = memo(() => {
                 href='https://www.linkedin.com/in/md-ridoy-hasan-kamrul'
                 target='_blank'
                 rel='noopener noreferrer'
-                className={`cursor-target p-2 rounded-full transition-all duration-300 group relative ${
-                  onDarkNav
-                    ? 'text-gray-200 hover:text-white hover:bg-blue-600/80'
-                    : onProjects
-                      ? 'text-black hover:text-white hover:bg-blue-600'
-                      : 'text-gray-700 hover:text-white hover:bg-blue-600 dark:text-gray-300 dark:hover:bg-blue-600'
-                }`}
+                className='cursor-target rounded-full p-2'
+                style={{ color: persona.inkMuted }}
                 aria-label='LinkedIn Profile'
-                whileHover={{ scale: 1.1, rotate: -5 }}
-                whileTap={{ scale: 0.9 }}
+                whileHover={
+                  reduced ? undefined : { scale: 1.08, color: persona.accent }
+                }
+                whileTap={{ scale: 0.92 }}
+                transition={transition.micro}
               >
                 <Linkedin className='h-5 w-5' />
               </motion.a>
             </div>
           </div>
 
-          {/* Compact MENU pill — Laptop 1020 / Tablet / Mobile only */}
+          {/* Compact MENU — ≤1020 */}
           <div className={COMPACT_NAV}>
-            <div
+            <motion.div
               role='button'
               tabIndex={0}
               onClick={() => setIsOpen((v) => !v)}
@@ -320,12 +309,29 @@ const Navigation = memo(() => {
                   setIsOpen((v) => !v);
                 }
               }}
-              className={`cursor-target inline-flex items-center gap-2 rounded-full border px-3 py-1.5 transition-colors duration-300 min-[375px]:gap-2.5 min-[375px]:px-4 min-[375px]:py-2 ${menuPillClass}`}
+              className={`cursor-target inline-flex items-center gap-2 rounded-full border px-3 py-1.5 min-[375px]:gap-2.5 min-[375px]:px-4 min-[375px]:py-2 ${menuPillClass}`}
+              style={{
+                borderColor: isOpen ? undefined : persona.border,
+                color: isOpen ? undefined : persona.ink,
+              }}
               aria-label={isOpen ? 'Close menu' : 'Open menu'}
               aria-expanded={isOpen}
+              whileTap={{ scale: 0.96 }}
+              animate={
+                burst && !reduced
+                  ? { scale: [1, 1.04, 1] }
+                  : { scale: 1 }
+              }
+              transition={transition.structural}
             >
               <span className='font-inter text-[11px] font-semibold uppercase tracking-[0.18em] min-[375px]:text-xs'>
                 {isOpen ? 'Close' : 'Menu'}
+              </span>
+              <span
+                className='hidden font-mono text-[9px] tracking-[0.2em] min-[425px]:inline'
+                style={{ color: persona.accent }}
+              >
+                {persona.code}
               </span>
               <HamburgerMenu
                 isOpen={isOpen}
@@ -335,17 +341,18 @@ const Navigation = memo(() => {
                 strokeColor='currentColor'
                 className='pointer-events-none'
               />
-            </div>
+            </motion.div>
           </div>
         </div>
       </Container>
 
-      {/* Framer Fullscreen Navbars — ≤1020px only */}
       <FullscreenNavOverlay
         isOpen={isOpen}
         links={navLinks}
         activeSection={activeSection}
         dark={fullscreenDark}
+        persona={persona}
+        morphKey={morphKey}
         onLinkClick={handleLinkClick}
       />
     </motion.nav>
