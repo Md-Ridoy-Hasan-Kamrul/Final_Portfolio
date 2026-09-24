@@ -112,7 +112,7 @@ const Navigation = memo(() => {
 
     switch (activeSection) {
       case '#about':
-        return 'bg-[#041018]/88 backdrop-blur-xl border-b border-white/10 shadow-lg shadow-black/30';
+        return 'bg-[#041018]/88 backdrop-blur-xl border-b border-white/10 shadow-none';
       case '#experience':
         return theme === 'dark'
           ? 'bg-[#02080e]/88 backdrop-blur-xl border-b border-cyan-200/20 shadow-lg shadow-black/30'

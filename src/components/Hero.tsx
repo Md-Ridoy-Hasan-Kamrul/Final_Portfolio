@@ -35,8 +35,6 @@ export default function Hero() {
   const imageOpacity = useTransform(scrollYProgress, [0, 0.55, 0.9], [1, 0.4, 0]);
   const imageRotate = useTransform(scrollYProgress, [0, 1], [0, 8]);
 
-  const veilOpacity = useTransform(scrollYProgress, [0.25, 0.85], [0, 0.85]);
-
   return (
     <section
       ref={sectionRef}
@@ -72,13 +70,6 @@ export default function Hero() {
           }}
         />
       </div>
-
-      {/* Dark veil that rises as hero exits into About */}
-      <motion.div
-        className='pointer-events-none absolute inset-0 z-[5] bg-gradient-to-b from-transparent via-black/40 to-black'
-        style={{ opacity: veilOpacity }}
-        aria-hidden
-      />
 
       <Container className='relative z-10'>
         <div className='grid items-center gap-8 lg:grid-cols-2 lg:gap-12'>

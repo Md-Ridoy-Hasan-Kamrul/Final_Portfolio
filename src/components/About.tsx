@@ -1,7 +1,5 @@
 import {
   motion,
-  useScroll,
-  useTransform,
 } from 'framer-motion';
 import ScrambledText from './ScrambledText';
 import BadHandwriting from './BadHandwriting';
@@ -62,13 +60,6 @@ export default function About() {
   const sectionRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ['start end', 'start 20%'],
-  });
-
-  const washOpacity = useTransform(scrollYProgress, [0, 0.4, 1], [0.9, 0.35, 0]);
-
   useEffect(() => {
     const update = () => {
       const w = window.innerWidth;
@@ -123,14 +114,8 @@ export default function About() {
           <source src={ABOUT_VIDEO_SRC} type='video/mp4' />
         </video>
         <div className='absolute inset-0 bg-[#041018]/72' />
-        <div className='absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/55' />
+        <div className='absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/45' />
       </div>
-
-      <motion.div
-        className='pointer-events-none absolute inset-0 z-[2] bg-gradient-to-b from-black via-black/60 to-transparent'
-        style={{ opacity: washOpacity }}
-        aria-hidden
-      />
 
       <WowSectionEntrance
         variant='riftSplit'
