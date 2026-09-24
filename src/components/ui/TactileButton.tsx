@@ -1,16 +1,45 @@
 import { useEffect, useRef, type ReactNode } from 'react';
 
+type TactileTone = 'cyan' | 'ember';
+
 type TactileButtonProps = {
   children: ReactNode;
   onClick?: () => void;
   className?: string;
   width?: number;
   height?: number;
+  /** Liquid hue shift in degrees (overridden by tone defaults when omitted). */
   hue?: number;
   saturation?: number;
   brightness?: number;
+  /** cyan = hero default; ember = Experience section red/maroon wave */
+  tone?: TactileTone;
   ariaLabel?: string;
 };
+
+const TONE = {
+  cyan: {
+    hue: 0,
+    saturation: 1,
+    brightness: 1,
+    shell:
+      'bg-gradient-to-b from-cyan-500/30 via-neutral-800/20 to-cyan-950/40',
+    button:
+      'shadow-[0_22px_44px_rgba(4,24,36,0.35),0_3px_9px_rgba(5,10,15,0.4),inset_0_0_0_1px_rgba(255,255,255,0.05)] hover:shadow-[0_28px_56px_rgba(6,182,212,0.25),0_4px_11px_rgba(5,10,15,0.45)] focus-visible:outline-[#06b6d4]',
+    label: 'text-[#e0faff] drop-shadow-[0_1px_10px_rgba(0,18,25,0.85)]',
+  },
+  /** Matches Experience film — black wash + deep maroon (#c81b1c) mix */
+  ember: {
+    hue: 0,
+    saturation: 1,
+    brightness: 1,
+    shell:
+      'bg-gradient-to-b from-[#c81b1c]/28 via-[#1a0808]/50 to-[#0a0404]/70',
+    button:
+      'shadow-[0_22px_44px_rgba(20,4,4,0.5),0_3px_9px_rgba(8,2,2,0.55),inset_0_0_0_1px_rgba(200,27,28,0.2)] hover:shadow-[0_28px_56px_rgba(160,30,30,0.28),0_4px_11px_rgba(12,4,4,0.5)] focus-visible:outline-[#c81b1c]',
+    label: 'text-[#F3EDEA] drop-shadow-[0_1px_10px_rgba(20,0,0,0.9)]',
+  },
+} as const;
 
 /**
  * Raw WebGL tactile liquid button — ported from the authored
@@ -28,11 +57,17 @@ export default function TactileButton({
   className = '',
   width = 250,
   height = 70,
-  hue = 0,
-  saturation = 1.0,
-  brightness = 1.0,
+  hue,
+  saturation,
+  brightness,
+  tone = 'cyan',
   ariaLabel,
 }: TactileButtonProps) {
+  const palette = TONE[tone];
+  const resolvedHue = hue ?? palette.hue;
+  const resolvedSat = saturation ?? palette.saturation;
+  const resolvedBrt = brightness ?? palette.brightness;
+
   const btnRef = useRef<HTMLButtonElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const rafRef = useRef<number>(0);
@@ -43,12 +78,20 @@ export default function TactileButton({
     if (!btn || !canvas) return;
 
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const gl = canvas.getContext('webgl', { antialias: true, premultipliedAlpha: false });
+    const gl = canvas.getContext('webgl', {
+      antialias: true,
+      premultipliedAlpha: false,
+    });
     if (!gl) {
-      btn.style.background = `linear-gradient(to top, hsl(${hue}, ${saturation * 100}%, 45%) 0%, hsl(${hue}, ${saturation * 100}%, 55%) 52%, hsl(${hue}, ${saturation * 100}%, 80%) 55%, #050b11 56%)`;
+      btn.style.background =
+        tone === 'ember'
+          ? 'linear-gradient(to top, #120606 0%, #4a1010 40%, #8a1818 52%, #c81b1c 55%, #0a0404 56%)'
+          : `linear-gradient(to top, hsl(${resolvedHue || 190}, ${resolvedSat * 100}%, 45%) 0%, hsl(${resolvedHue || 190}, ${resolvedSat * 100}%, 55%) 52%, hsl(${resolvedHue || 190}, ${resolvedSat * 100}%, 80%) 55%, #050b11 56%)`;
       canvas.style.display = 'none';
       return;
     }
+
+    const isEmber = tone === 'ember' ? 1 : 0;
 
     const VS = 'attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}';
     const FS = `
@@ -61,6 +104,7 @@ export default function TactileButton({
       uniform float u_hue;
       uniform float u_sat;
       uniform float u_brt;
+      uniform float u_ember;
       float hash(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453123);}
       float noise(vec2 p){
         vec2 i=floor(p), f=fract(p);
@@ -90,20 +134,49 @@ export default function TactileButton({
           + amp * 0.62 * sin(x * 9.7 + t * (-6.8) + 1.7)
           + amp * 0.38 * sin(x * 14.3 + t * 8.9 + 4.2);
         float d = surf - uv.y;
-        vec3 col = mix(vec3(0.03, 0.06, 0.1), vec3(0.05, 0.09, 0.15), uv.y);
-        col += vec3(0.02, 0.05, 0.1) * pow(max(0.0, 1.0 - abs(uv.y - 0.88) * 6.0), 2.0);
         float inside = smoothstep(0.0, 0.012, d);
         float depth = clamp(d / max(u_level, 0.001), 0.0, 1.0);
-        vec3 liq = mix(vec3(0.0, 0.9, 1.0), vec3(0.02, 0.15, 0.45), depth);
         float caust = fbm(vec2(x * 4.2, (uv.y + t * 0.14) * 4.2));
-        liq *= 0.8 + 0.42 * caust;
-        liq += vec3(0.02, 0.25, 0.35) * pow(max(0.0, d * 3.0), 1.5) * u_slosh;
+
+        vec3 col;
+        vec3 liq;
+        vec3 crestA;
+        vec3 crestB;
+        vec3 sloshAdd;
+
+        if (u_ember > 0.5) {
+          // Experience film mix: black wash + deep maroon (#c81b1c), not neon
+          vec3 voidA = vec3(0.035, 0.015, 0.015);
+          vec3 voidB = vec3(0.07, 0.025, 0.025);
+          col = mix(voidA, voidB, uv.y);
+          col += vec3(0.08, 0.02, 0.02) * pow(max(0.0, 1.0 - abs(uv.y - 0.88) * 6.0), 2.0);
+          // Surface = muted section red; depth = almost black-red
+          vec3 liqHi = vec3(0.55, 0.09, 0.09);
+          vec3 liqLo = vec3(0.12, 0.03, 0.03);
+          liq = mix(liqHi, liqLo, depth);
+          liq *= 0.72 + 0.38 * caust;
+          sloshAdd = vec3(0.35, 0.06, 0.05) * pow(max(0.0, d * 3.0), 1.5) * u_slosh;
+          crestA = vec3(0.72, 0.18, 0.14);
+          crestB = vec3(0.9, 0.45, 0.38);
+        } else {
+          col = mix(vec3(0.03, 0.06, 0.1), vec3(0.05, 0.09, 0.15), uv.y);
+          col += vec3(0.02, 0.05, 0.1) * pow(max(0.0, 1.0 - abs(uv.y - 0.88) * 6.0), 2.0);
+          liq = mix(vec3(0.0, 0.9, 1.0), vec3(0.02, 0.15, 0.45), depth);
+          liq *= 0.8 + 0.42 * caust;
+          sloshAdd = vec3(0.02, 0.25, 0.35) * pow(max(0.0, d * 3.0), 1.5) * u_slosh;
+          crestA = vec3(0.4, 0.9, 1.0);
+          crestB = vec3(0.8, 0.98, 1.0);
+        }
+
+        liq += sloshAdd;
         col = mix(col, liq, inside);
-        col += vec3(0.4, 0.9, 1.0) * exp(-abs(d) * 80.0) * 0.85;
-        col += vec3(0.8, 0.98, 1.0) * exp(-abs(d) * 220.0) * 0.5;
+        col += crestA * exp(-abs(d) * 80.0) * 0.7;
+        col += crestB * exp(-abs(d) * 220.0) * 0.35;
         vec2 e = uv * (1.0 - uv);
         col *= 0.55 + 0.45 * pow(e.x * e.y * 16.0, 0.22);
-        col = hueShift(col, u_hue);
+        if (u_ember < 0.5) {
+          col = hueShift(col, u_hue);
+        }
         col = mix(vec3(dot(col, vec3(0.299, 0.587, 0.114))), col, u_sat);
         col *= u_brt;
         gl_FragColor = vec4(col, 1.0);
@@ -125,7 +198,11 @@ export default function TactileButton({
 
     const buf = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, buf);
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
+    gl.bufferData(
+      gl.ARRAY_BUFFER,
+      new Float32Array([-1, -1, 3, -1, -1, 3]),
+      gl.STATIC_DRAW,
+    );
     const locP = gl.getAttribLocation(prog, 'p');
     gl.enableVertexAttribArray(locP);
     gl.vertexAttribPointer(locP, 2, gl.FLOAT, false, 0, 0);
@@ -138,6 +215,7 @@ export default function TactileButton({
     const uHue = gl.getUniformLocation(prog, 'u_hue');
     const uSat = gl.getUniformLocation(prog, 'u_sat');
     const uBrt = gl.getUniformLocation(prog, 'u_brt');
+    const uEmber = gl.getUniformLocation(prog, 'u_ember');
 
     function resize() {
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -171,8 +249,13 @@ export default function TactileButton({
       lastX = x;
       tiltTarget = Math.max(-1, Math.min(1, (x - 0.5) * 2));
     };
-    const onMouseLeave = () => { lastX = null; tiltTarget = 0; };
-    const onFocus = () => { slosh = Math.min(1.4, slosh + 0.5); };
+    const onMouseLeave = () => {
+      lastX = null;
+      tiltTarget = 0;
+    };
+    const onFocus = () => {
+      slosh = Math.min(1.4, slosh + 0.5);
+    };
     const onContextLoss = () => {
       cancelAnimationFrame(rafRef.current);
     };
@@ -182,7 +265,7 @@ export default function TactileButton({
     btn.addEventListener('focus', onFocus);
     canvas.addEventListener('webglcontextlost', onContextLoss);
 
-    const hueRad = (hue / 360) * Math.PI * 2;
+    const hueRad = (resolvedHue / 360) * Math.PI * 2;
 
     function frame(now: number) {
       const dt = Math.min(0.05, (now - last) / 1000);
@@ -200,8 +283,9 @@ export default function TactileButton({
       gl.uniform1f(uTilt, tilt);
       gl.uniform1f(uSlosh, reduced ? 0.25 : slosh);
       gl.uniform1f(uHue, hueRad);
-      gl.uniform1f(uSat, saturation);
-      gl.uniform1f(uBrt, brightness);
+      gl.uniform1f(uSat, resolvedSat);
+      gl.uniform1f(uBrt, resolvedBrt);
+      gl.uniform1f(uEmber, isEmber);
       gl.drawArrays(gl.TRIANGLES, 0, 3);
       rafRef.current = requestAnimationFrame(frame);
     }
@@ -217,26 +301,28 @@ export default function TactileButton({
       gl.deleteProgram(prog);
       gl.deleteBuffer(buf);
     };
-  }, [hue, saturation, brightness]);
+  }, [resolvedHue, resolvedSat, resolvedBrt, tone]);
 
   return (
     <div
-      className={`p-[1px] rounded-[19px] bg-gradient-to-b from-cyan-500/30 via-neutral-800/20 to-cyan-950/40 shadow-2xl inline-block ${className}`}
+      className={`inline-block rounded-[19px] p-[1px] shadow-2xl ${palette.shell} ${className}`}
     >
       <button
         ref={btnRef}
         type='button'
         onClick={onClick}
         aria-label={ariaLabel}
-        className='relative flex items-center justify-center border-0 p-0 rounded-[18px] overflow-hidden cursor-pointer bg-[#050b11] transition-all duration-300 ease-out shadow-[0_22px_44px_rgba(4,24,36,0.35),0_3px_9px_rgba(5,10,15,0.4),inset_0_0_0_1px_rgba(255,255,255,0.05)] hover:-translate-y-[2px] hover:shadow-[0_28px_56px_rgba(6,182,212,0.25),0_4px_11px_rgba(5,10,15,0.45)] active:translate-y-[1px] active:scale-[0.985] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#06b6d4] focus-visible:outline-offset-[5px]'
+        className={`relative flex cursor-pointer items-center justify-center overflow-hidden rounded-[18px] border-0 bg-[#050b11] p-0 transition-all duration-300 ease-out hover:-translate-y-[2px] active:translate-y-[1px] active:scale-[0.985] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[5px] ${palette.button}`}
         style={{ width: `${width}px`, height: `${height}px` }}
       >
         <canvas
           ref={canvasRef}
           aria-hidden='true'
-          className='absolute inset-0 w-full h-full block'
+          className='absolute inset-0 block h-full w-full'
         />
-        <span className='relative z-10 pointer-events-none font-normal text-sm tracking-[0.3em] indent-[0.3em] text-[#e0faff] drop-shadow-[0_1px_10px_rgba(0,18,25,0.85)] flex items-center gap-2'>
+        <span
+          className={`relative z-10 flex pointer-events-none items-center gap-2 text-sm font-normal tracking-[0.3em] indent-[0.3em] ${palette.label}`}
+        >
           {children}
         </span>
       </button>

@@ -133,11 +133,9 @@ export default function Experience() {
 
               <div className='animate-fade-up-delay-3 mt-8 flex flex-wrap items-center gap-4 sm:gap-6 lg:mt-10'>
                 <TactileButton
+                  tone='ember'
                   width={220}
                   height={56}
-                  hue={0}
-                  saturation={1.0}
-                  brightness={1.0}
                   onClick={() => { scrollToHash('#projects'); window.history.pushState({}, '', '#projects'); }}
                   ariaLabel='See our work'
                 >
