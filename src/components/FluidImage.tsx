@@ -114,7 +114,7 @@ export default function FluidImage({
     let ch = 1;
 
     let target = { x: 0.5, y: 0.5 };
-    let smooth = { x: 0.5, y: 0.5 };
+    const smooth = { x: 0.5, y: 0.5 };
     let pointerInside = false;
     let active = 0;
     const start = performance.now();

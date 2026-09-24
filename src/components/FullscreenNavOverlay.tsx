@@ -54,16 +54,16 @@ export default function FullscreenNavOverlay({
   }, [isOpen]);
 
   useEffect(() => {
-    if (!isOpen) {
-      setHovered(null);
-      return;
-    }
+    if (!isOpen) return;
     const prev = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
     return () => {
       document.body.style.overflow = prev;
     };
   }, [isOpen]);
+
+  // Derive hover only while open — avoids setState-in-effect on close
+  const effectiveHovered = isOpen ? hovered : null;
 
   const panelBg = dark
     ? 'bg-[#060b12]'
@@ -103,7 +103,9 @@ export default function FullscreenNavOverlay({
               {links.map((link, index) => {
                 const isActive = activeSection === link.href;
                 const isDim =
-                  hovered !== null && hovered !== link.href && !isActive;
+                  effectiveHovered !== null &&
+                  effectiveHovered !== link.href &&
+                  !isActive;
                 const indexLabel = String(index + 1).padStart(2, '0');
 
                 return (

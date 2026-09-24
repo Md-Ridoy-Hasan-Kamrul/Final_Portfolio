@@ -11,7 +11,8 @@ describe('cn', () => {
   });
 
   it('ignores falsy values', () => {
-    expect(cn('text-sm', false && 'hidden', undefined, null, 'font-bold')).toBe(
+    const hidden = false as boolean;
+    expect(cn('text-sm', hidden && 'hidden', undefined, null, 'font-bold')).toBe(
       'text-sm font-bold',
     );
   });

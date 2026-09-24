@@ -306,7 +306,7 @@ function PremiumSmearCard({
     slide;
 
   const localOffset = useTransform(smoothScroll, (v) => {
-    let linearBase = index - v;
+    const linearBase = index - v;
     let mapped = ((linearBase % total) + total) % total;
     if (mapped > total / 2) mapped -= total;
     return mapped;

@@ -23,16 +23,13 @@ const T = {
  * section you are entering (Contact click → CONTACT, not ABOUT).
  */
 
-const TRANSITIONS = [
-  'horizonRift',
-  'bladeGuillotine',
-  'inkBloom',
-  'prismBreach',
-  'vortexStamp',
-  'curtainFinale',
-] as const;
-
-type TransitionName = (typeof TRANSITIONS)[number];
+type TransitionName =
+  | 'horizonRift'
+  | 'bladeGuillotine'
+  | 'inkBloom'
+  | 'prismBreach'
+  | 'vortexStamp'
+  | 'curtainFinale';
 
 /** Destination section id → label + animation */
 const DEST_META: Record<
@@ -665,7 +662,10 @@ export default function SectionTransitions({ children }: SectionTransitionsProps
   /** Suppress scroll-boundary plays while nav/hash is scrolling to a target */
   const navLockRef = useRef(false);
   const themeRef = useRef(theme);
-  themeRef.current = theme;
+
+  useEffect(() => {
+    themeRef.current = theme;
+  }, [theme]);
 
   useEffect(() => {
     if (prefersReducedMotion()) return;

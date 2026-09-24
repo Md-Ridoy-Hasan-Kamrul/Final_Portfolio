@@ -60,13 +60,20 @@ export default function AnimatedSVGUnderline({
   const [isHovered, setIsHovered] = useState(false);
   const [svgPath, setSvgPath] = useState(SVG_VARIANTS[0]);
   const [svgKey, setSvgKey] = useState(0);
-  const [nextIndex, setNextIndex] = useState<number | null>(null);
+  const [nextIndex, setNextIndex] = useState(() => globalSVGState.getNextIndex());
   const [underlineWidth, setUnderlineWidth] = useState<number>();
   const [underlineHeightPx, setUnderlineHeightPx] = useState<number>();
+  const [prevForceShow, setPrevForceShow] = useState(forceShow);
 
-  useEffect(() => {
-    if (nextIndex === null) setNextIndex(globalSVGState.getNextIndex());
-  }, [nextIndex]);
+  // Sync path when forceShow turns on (React-recommended prop→state adjust during render)
+  if (forceShow !== prevForceShow) {
+    setPrevForceShow(forceShow);
+    if (forceShow) {
+      setSvgPath(SVG_VARIANTS[nextIndex] ?? SVG_VARIANTS[0]);
+      setSvgKey((prev) => prev + 1);
+      setNextIndex(globalSVGState.getNextIndex());
+    }
+  }
 
   const scalePathCoordinates = useCallback((path: string, scaleX: number) => {
     return path.replace(
@@ -96,8 +103,7 @@ export default function AnimatedSVGUnderline({
   }, []);
 
   const handleHoverStart = useCallback(() => {
-    if (nextIndex === null) return;
-    setSvgPath(SVG_VARIANTS[nextIndex]);
+    setSvgPath(SVG_VARIANTS[nextIndex] ?? SVG_VARIANTS[0]);
     setSvgKey((prev) => prev + 1);
     setIsHovered(true);
     setNextIndex(globalSVGState.getNextIndex());
@@ -119,15 +125,6 @@ export default function AnimatedSVGUnderline({
     }
     update();
   }, [text]);
-
-  // Keep active underline visible / refresh path when forceShow turns on
-  useEffect(() => {
-    if (forceShow && nextIndex !== null) {
-      setSvgPath(SVG_VARIANTS[nextIndex]);
-      setSvgKey((prev) => prev + 1);
-      setNextIndex(globalSVGState.getNextIndex());
-    }
-  }, [forceShow]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const show = isHovered || forceShow;
   const effectiveStroke = useMemo(() => {
