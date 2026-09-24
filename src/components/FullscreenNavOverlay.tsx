@@ -41,10 +41,10 @@ export default function FullscreenNavOverlay({
       const now = new Date();
       setClock(
         now.toLocaleTimeString([], {
-          hour: '2-digit',
+          hour: 'numeric',
           minute: '2-digit',
           second: '2-digit',
-          hour12: false,
+          hour12: true,
         }),
       );
     };
