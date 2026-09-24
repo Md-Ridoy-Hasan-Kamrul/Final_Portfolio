@@ -8,31 +8,37 @@ import Skills from './components/Skills';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import TargetCursor from './components/TargetCursor';
+import SmoothScroll from './components/SmoothScroll';
+import SectionTransitions from './components/SectionTransitions';
 import { ThemeProvider } from './contexts/ThemeContext';
 
 function App() {
   return (
     <ThemeProvider>
-      <div className='min-h-screen bg-transparent transition-colors duration-300'>
-        <TargetCursor
-          spinDuration={2}
-          hideDefaultCursor={true}
-          parallaxOn={true}
-        />
-        <HeroVideoBg />
-        <Navigation />
-        <div className='relative z-10'>
-          <main className='overflow-x-hidden'>
-            <Hero />
-            <About />
-            <Experience />
-            <Projects />
-            <Skills />
-            <Contact />
-          </main>
-          <Footer />
+      <SmoothScroll>
+        <div className='min-h-screen bg-transparent transition-colors duration-300'>
+          <TargetCursor
+            spinDuration={2}
+            hideDefaultCursor={true}
+            parallaxOn={true}
+          />
+          <HeroVideoBg />
+          <Navigation />
+          <div className='relative z-10'>
+            <main className='overflow-x-hidden'>
+              <SectionTransitions>
+                <Hero />
+                <About />
+                <Experience />
+                <Projects />
+                <Skills />
+                <Contact />
+              </SectionTransitions>
+            </main>
+            <Footer />
+          </div>
         </div>
-      </div>
+      </SmoothScroll>
     </ThemeProvider>
   );
 }

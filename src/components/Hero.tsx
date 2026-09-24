@@ -7,7 +7,9 @@ import {
   useMotionTemplate,
 } from 'framer-motion';
 import TrueFocus from './TrueFocus';
+import TactileButton from './ui/TactileButton';
 import { Container } from './ui/Container';
+import { scrollToHash } from '../utils/scrollToHash';
 
 export default function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -148,28 +150,31 @@ export default function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.8, duration: 0.6 }}
             >
-              <motion.a
-                href='#projects'
-                className='cursor-target group inline-flex items-center justify-center bg-gradient-to-r from-gray-900 to-gray-800 px-6 py-3 text-sm font-medium text-white shadow-lg transition-all duration-300 hover:-translate-y-0.5 hover:from-gray-800 hover:to-gray-700 hover:shadow-xl sm:px-8 sm:py-4 sm:text-base'
-                aria-label='View my projects'
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+              <TactileButton
+                width={250}
+                height={64}
+                hue={0}
+                saturation={1.0}
+                brightness={1.0}
+                onClick={() => { scrollToHash('#projects'); window.history.pushState({}, '', '#projects'); }}
+                ariaLabel='View my projects'
+                className='cursor-target'
               >
                 View My Work
-                <ArrowRight
-                  className='ml-2 h-4 w-4 transition-transform group-hover:translate-x-1 sm:h-5 sm:w-5'
-                  aria-hidden='true'
-                />
-              </motion.a>
-              <motion.a
-                href='#contact'
-                className='cursor-target inline-flex items-center justify-center border-2 border-gray-900 bg-white px-6 py-3 text-sm font-medium text-gray-900 shadow-md transition-all duration-300 hover:bg-gray-900 hover:text-white hover:shadow-lg dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700 sm:px-8 sm:py-4 sm:text-base'
-                aria-label='Get in touch'
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+                <ArrowRight className='ml-2 h-4 w-4 sm:h-5 sm:w-5' aria-hidden='true' />
+              </TactileButton>
+              <TactileButton
+                width={250}
+                height={64}
+                hue={0}
+                saturation={1.0}
+                brightness={1.0}
+                onClick={() => { scrollToHash('#contact'); window.history.pushState({}, '', '#contact'); }}
+                ariaLabel='Get in touch'
+                className='cursor-target'
               >
                 Get In Touch
-              </motion.a>
+              </TactileButton>
             </motion.div>
 
             <motion.div
