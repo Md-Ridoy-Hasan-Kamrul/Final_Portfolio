@@ -7,6 +7,7 @@ export default {
       fontFamily: {
         podium: ['"FSP DEMO - PODIUM Sharp 4.11"', 'Impact', 'sans-serif'],
         inter: ['Inter', 'system-ui', 'sans-serif'],
+        instrument: ['"Instrument Serif"', 'Georgia', 'serif'],
       },
       colors: {
         bone: {

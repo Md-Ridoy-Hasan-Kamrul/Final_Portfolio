@@ -1,11 +1,12 @@
 import { useState, useEffect, memo } from 'react';
 import { Github, Linkedin } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { ThemeToggle } from './ThemeToggle';
 import { useTheme } from '../contexts/ThemeContext';
 import { Container } from './ui/Container';
 import HamburgerMenu from './HamburgerMenu';
 import AnimatedSVGUnderline from './AnimatedSVGUnderline';
+import FullscreenNavOverlay from './FullscreenNavOverlay';
 import { scrollToHash } from '../utils/scrollToHash';
 
 const navLinks = [
@@ -17,67 +18,9 @@ const navLinks = [
   { href: '#contact', label: 'Contact' },
 ];
 
-/** Motion Corner Menu–style field open (panel from top-right; fields cascade in) */
-const cornerMenuPanel = {
-  closed: {
-    opacity: 0,
-    scaleY: 0.72,
-    scaleX: 0.92,
-    transformOrigin: 'top right',
-  },
-  open: {
-    opacity: 1,
-    scaleY: 1,
-    scaleX: 1,
-    transformOrigin: 'top right',
-    transition: {
-      type: 'spring' as const,
-      stiffness: 320,
-      damping: 28,
-      mass: 0.85,
-      staggerChildren: 0.07,
-      delayChildren: 0.06,
-    },
-  },
-  exit: {
-    opacity: 0,
-    scaleY: 0.85,
-    scaleX: 0.96,
-    transformOrigin: 'top right',
-    transition: { duration: 0.22, ease: [0.4, 0, 1, 1] as const },
-  },
-};
-
-const cornerMenuField = {
-  closed: {
-    opacity: 0,
-    x: 48,
-    y: -18,
-    scale: 0.9,
-    filter: 'blur(6px)',
-  },
-  open: {
-    opacity: 1,
-    x: 0,
-    y: 0,
-    scale: 1,
-    filter: 'blur(0px)',
-    transition: {
-      type: 'spring' as const,
-      stiffness: 420,
-      damping: 26,
-      mass: 0.7,
-    },
-  },
-  exit: {
-    opacity: 0,
-    x: 28,
-    y: -10,
-    scale: 0.96,
-    filter: 'blur(4px)',
-    transition: { duration: 0.15 },
-  },
-};
+/** Compact / fullscreen nav for ≤1020px; desktop horizontal links stay above that. */
+const COMPACT_NAV = 'min-[1021px]:hidden';
+const DESKTOP_NAV = 'hidden min-[1021px]:flex';
 
 const Navigation = memo(() => {
   const { theme } = useTheme();
@@ -89,25 +32,20 @@ const Navigation = memo(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
 
-      // Detect active section based on scroll position
       const sections = navLinks.map((link) => link.href.substring(1));
       let currentSection = '#home';
 
-      // Get viewport height and scroll position
       const scrollPosition = window.scrollY;
       const windowHeight = window.innerHeight;
       const documentHeight = document.documentElement.scrollHeight;
 
-      // If we're at the bottom of the page, activate the last section (contact)
       if (scrollPosition + windowHeight >= documentHeight - 50) {
         currentSection = '#contact';
       } else {
-        // Check from bottom to top to prioritize sections in view
         for (let i = sections.length - 1; i >= 0; i--) {
           const element = document.getElementById(sections[i]);
           if (element) {
             const rect = element.getBoundingClientRect();
-            // Section is considered active if its top is near the nav band
             if (rect.top <= 160 && rect.bottom >= 160) {
               currentSection = `#${sections[i]}`;
               break;
@@ -120,8 +58,18 @@ const Navigation = memo(() => {
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll(); // Initial check
+    handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Close fullscreen menu if viewport grows into desktop
+  useEffect(() => {
+    const mq = window.matchMedia('(min-width: 1021px)');
+    const onChange = (e: MediaQueryListEvent) => {
+      if (e.matches) setIsOpen(false);
+    };
+    mq.addEventListener('change', onChange);
+    return () => mq.removeEventListener('change', onChange);
   }, []);
 
   const handleLinkClick = (
@@ -136,7 +84,6 @@ const Navigation = memo(() => {
     if (element) {
       setIsOpen(false);
 
-      // Let mobile menu start closing, then scroll via shared helper
       window.setTimeout(() => {
         scrollToHash(href);
         setActiveSection(href);
@@ -156,17 +103,11 @@ const Navigation = memo(() => {
     onProjectsNight ||
     onSkills ||
     onContact;
-  const useDarkLogo = theme === 'dark' || onDarkNav;
+  const useDarkLogo = theme === 'dark' || onDarkNav || isOpen;
 
   const navSurfaceClass = (() => {
-    if (isOpen && onDarkNav) {
-      return 'bg-[#041018]/95 backdrop-blur-xl border-b border-white/10 shadow-lg shadow-black/40';
-    }
-    if (isOpen && onProjects) {
-      return 'bg-[#EAE3DE]/95 backdrop-blur-xl border-b border-black/10 shadow-lg';
-    }
     if (isOpen) {
-      return 'bg-gradient-to-b from-zinc-300/95 via-zinc-200/95 to-zinc-300/90 dark:from-zinc-800/95 dark:via-zinc-900/95 dark:to-zinc-800/90 backdrop-blur-lg shadow-lg';
+      return 'bg-transparent border-transparent shadow-none';
     }
 
     switch (activeSection) {
@@ -197,6 +138,23 @@ const Navigation = memo(() => {
     }
   })();
 
+  const fullscreenDark = onDarkNav || theme === 'dark';
+
+  const menuPillClass = (() => {
+    if (isOpen) {
+      return fullscreenDark
+        ? 'border-white/35 text-[#E8E2D6] bg-white/5'
+        : 'border-black/25 text-[#14110f] bg-black/5';
+    }
+    if (onDarkNav) {
+      return 'border-white/35 text-white bg-white/5 hover:bg-white/10';
+    }
+    if (onProjects) {
+      return 'border-black/25 text-black bg-black/5 hover:bg-black/10';
+    }
+    return 'border-gray-800/30 text-gray-800 bg-black/5 hover:bg-black/10 dark:border-white/30 dark:text-white dark:bg-white/5 dark:hover:bg-white/10';
+  })();
+
   return (
     <motion.nav
       className={`fixed top-0 inset-x-0 z-50 transition-all duration-500 ${navSurfaceClass}`}
@@ -206,18 +164,21 @@ const Navigation = memo(() => {
       animate={{ y: 0 }}
       transition={{ duration: 0.6, type: 'spring', stiffness: 100 }}
     >
-      {/* Gradient border bottom */}
-      <div
-        className={`absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent to-transparent opacity-60 ${
-          onDarkNav
-            ? 'via-blue-400/50'
-            : onProjects
-              ? 'via-[#175A67]/40'
-              : 'via-zinc-400 dark:via-zinc-600'
-        }`}
-      />
+      {/* Gradient border bottom — hidden while fullscreen menu is open */}
+      {!isOpen && (
+        <div
+          className={`absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent to-transparent opacity-60 ${
+            onDarkNav
+              ? 'via-blue-400/50'
+              : onProjects
+                ? 'via-[#175A67]/40'
+                : 'via-zinc-400 dark:via-zinc-600'
+          }`}
+        />
+      )}
 
-      <Container>
+      {/* Top bar stays above fullscreen overlay so MENU can close */}
+      <Container className='relative z-[70]'>
         <div className='flex justify-between items-center h-20 sm:h-24 md:h-28 lg:h-28'>
           {/* Logo with 3D effect */}
           <motion.a
@@ -247,8 +208,8 @@ const Navigation = memo(() => {
             />
           </motion.a>
 
-          {/* Desktop Navigation — Framer AnimatedSVGUnderline */}
-          <div className='hidden md:flex items-center space-x-1 lg:space-x-3'>
+          {/* Desktop Navigation — untouched above 1020px */}
+          <div className={`${DESKTOP_NAV} items-center space-x-1 lg:space-x-3`}>
             {navLinks.map((link, index) => {
               const isActive = activeSection === link.href;
               return (
@@ -346,118 +307,46 @@ const Navigation = memo(() => {
             </div>
           </div>
 
-          {/* Mobile hamburger — Framer HamburgerMenu morph */}
-          <div
-            className={`md:hidden relative flex items-center justify-center p-1 ${
-              onDarkNav
-                ? 'text-white'
-                : onProjects
-                  ? 'text-black'
-                  : 'text-gray-800 dark:text-white'
-            }`}
-          >
-            <HamburgerMenu
-              isOpen={isOpen}
-              onToggle={setIsOpen}
-              size={40}
-              strokeWidth={2.5}
-              strokeColor='currentColor'
-              className='cursor-target'
-            />
+          {/* Compact MENU pill — Laptop 1020 / Tablet / Mobile only */}
+          <div className={COMPACT_NAV}>
+            <div
+              role='button'
+              tabIndex={0}
+              onClick={() => setIsOpen((v) => !v)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  setIsOpen((v) => !v);
+                }
+              }}
+              className={`cursor-target inline-flex items-center gap-2 rounded-full border px-3 py-1.5 transition-colors duration-300 min-[375px]:gap-2.5 min-[375px]:px-4 min-[375px]:py-2 ${menuPillClass}`}
+              aria-label={isOpen ? 'Close menu' : 'Open menu'}
+              aria-expanded={isOpen}
+            >
+              <span className='font-inter text-[11px] font-semibold uppercase tracking-[0.18em] min-[375px]:text-xs'>
+                {isOpen ? 'Close' : 'Menu'}
+              </span>
+              <HamburgerMenu
+                isOpen={isOpen}
+                onToggle={setIsOpen}
+                size={28}
+                strokeWidth={2.25}
+                strokeColor='currentColor'
+                className='pointer-events-none'
+              />
+            </div>
           </div>
         </div>
       </Container>
 
-      {/* Mobile dropdown — Motion Corner Menu field open; hamburger icon unchanged */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            className={`md:hidden overflow-hidden backdrop-blur-lg border-t shadow-2xl ${
-              onDarkNav
-                ? 'bg-[#041018]/98 border-white/10 shadow-black/40'
-                : onProjects
-                  ? 'bg-[#EAE3DE]/98 border-black/10 shadow-black/10'
-                  : 'bg-gradient-to-b from-zinc-300/95 via-zinc-200/95 to-zinc-300/95 dark:from-zinc-800/95 dark:via-zinc-900/95 dark:to-zinc-800/95 border-zinc-400/40 dark:border-zinc-700 shadow-zinc-500/15 dark:shadow-black/40'
-            }`}
-            variants={cornerMenuPanel}
-            initial='closed'
-            animate='open'
-            exit='exit'
-          >
-            <Container className='space-y-2 py-6'>
-              {navLinks.map((link) => {
-                const isActive = activeSection === link.href;
-                return (
-                  <motion.a
-                    key={link.href}
-                    href={link.href}
-                    onClick={(e) => handleLinkClick(e, link.href)}
-                    variants={cornerMenuField}
-                    className={`cursor-target relative group block overflow-hidden rounded-xl px-6 py-3 font-medium transition-colors duration-300 ${
-                      isActive
-                        ? 'nav-active-pill text-white'
-                        : onDarkNav
-                          ? 'text-gray-200 hover:bg-white/10 hover:text-white'
-                          : onProjects
-                            ? 'text-black hover:bg-black/5 hover:text-[#175A67]'
-                            : 'text-zinc-800 hover:bg-zinc-400/30 hover:text-zinc-900 dark:text-zinc-200 dark:hover:bg-zinc-700/50 dark:hover:text-white'
-                    }`}
-                    whileHover={{ scale: 1.02, x: 4 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    {isActive && (
-                      <span className='nav-active-wave' aria-hidden='true' />
-                    )}
-                    <span className='relative z-10 flex items-center'>
-                      {isActive && (
-                        <motion.span
-                          className='mr-2 h-2 w-2 rounded-full bg-bone'
-                          initial={{ scale: 0 }}
-                          animate={{ scale: 1 }}
-                          transition={{ type: 'spring', stiffness: 500 }}
-                        />
-                      )}
-                      {link.label}
-                    </span>
-                    {!isActive && (
-                      <div className='absolute left-0 top-1/2 h-0 w-1 -translate-y-1/2 rounded-r bg-crimson transition-all duration-300 group-hover:h-1/2' />
-                    )}
-                  </motion.a>
-                );
-              })}
-
-              <motion.div
-                className='mt-6 flex justify-center gap-4 border-t border-white/10 pt-6'
-                variants={cornerMenuField}
-              >
-                <ThemeToggle variant='mobile' />
-                <motion.a
-                  href='https://github.com/Md-Ridoy-Hasan-Kamrul'
-                  target='_blank'
-                  rel='noopener noreferrer'
-                  className='nav-mobile-icon cursor-target'
-                  aria-label='GitHub Profile'
-                  whileHover={{ scale: 1.12, y: -3 }}
-                  whileTap={{ scale: 0.92 }}
-                >
-                  <Github className='h-5 w-5' />
-                </motion.a>
-                <motion.a
-                  href='https://www.linkedin.com/in/md-ridoy-hasan-kamrul'
-                  target='_blank'
-                  rel='noopener noreferrer'
-                  className='nav-mobile-icon nav-mobile-icon--accent cursor-target'
-                  aria-label='LinkedIn Profile'
-                  whileHover={{ scale: 1.12, y: -3 }}
-                  whileTap={{ scale: 0.92 }}
-                >
-                  <Linkedin className='h-5 w-5' />
-                </motion.a>
-              </motion.div>
-            </Container>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* Framer Fullscreen Navbars — ≤1020px only */}
+      <FullscreenNavOverlay
+        isOpen={isOpen}
+        links={navLinks}
+        activeSection={activeSection}
+        dark={fullscreenDark}
+        onLinkClick={handleLinkClick}
+      />
     </motion.nav>
   );
 });
