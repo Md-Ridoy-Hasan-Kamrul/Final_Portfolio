@@ -55,6 +55,45 @@
 }
 
 @layer components {
+  /*
+   * Hero role line — same cyan liquid mix as TactileButton wave
+   * (#00E6FF crest → #053B73 deep → #E0FAFF highlight)
+   */
+  .hero-liquid-text {
+    background-image: linear-gradient(
+      105deg,
+      #67e8f9 0%,
+      #00e6ff 28%,
+      #22d3ee 48%,
+      #0891b2 72%,
+      #053b73 100%
+    );
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 14px rgba(0, 230, 255, 0.35));
+    animation: hero-liquid-shimmer 5.5s ease-in-out infinite;
+  }
+
+  @keyframes hero-liquid-shimmer {
+    0%,
+    100% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-liquid-text {
+      animation: none;
+      background-position: 40% 50%;
+    }
+  }
+
   /* Clear glass — same look in light & dark (About Me) */
   .glass-field {
     background: linear-gradient(

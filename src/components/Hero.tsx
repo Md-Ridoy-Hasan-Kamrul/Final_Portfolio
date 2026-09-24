@@ -44,7 +44,7 @@ export default function Hero() {
       {/* Soft accent orbs over video */}
       <div className='pointer-events-none absolute inset-0 z-[1] overflow-hidden'>
         <motion.div
-          className='absolute left-10 top-20 h-72 w-72 rounded-full bg-blue-200/20 blur-3xl dark:bg-blue-500/10'
+          className='absolute left-10 top-20 h-72 w-72 rounded-full bg-cyan-300/20 blur-3xl dark:bg-cyan-500/15'
           animate={{
             scale: [1, 1.2, 1],
             x: [0, 50, 0],
@@ -57,7 +57,7 @@ export default function Hero() {
           }}
         />
         <motion.div
-          className='absolute bottom-20 right-10 h-96 w-96 rounded-full bg-purple-200/15 blur-3xl dark:bg-purple-500/10'
+          className='absolute bottom-20 right-10 h-96 w-96 rounded-full bg-sky-400/15 blur-3xl dark:bg-sky-500/10'
           animate={{
             scale: [1, 1.3, 1],
             x: [0, -50, 0],
@@ -107,14 +107,14 @@ export default function Hero() {
                   sentence='Md. Ridoy Hasan Kamrul'
                   manualMode={false}
                   blurAmount={3}
-                  borderColor='#3B82F6'
-                  glowColor='rgba(59, 130, 246, 0.6)'
+                  borderColor='#22D3EE'
+                  glowColor='rgba(34, 211, 238, 0.55)'
                   animationDuration={1.5}
                   pauseBetweenAnimations={0.8}
                 />
               </motion.div>
               <motion.p
-                className='mt-4 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-xl font-semibold text-transparent dark:from-blue-400 dark:via-purple-400 dark:to-pink-400 sm:text-2xl lg:text-3xl'
+                className='hero-liquid-text mt-4 text-xl font-semibold sm:text-2xl lg:text-3xl'
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.6, duration: 0.6 }}
@@ -235,8 +235,13 @@ export default function Hero() {
               }}
             >
               <div className='relative h-64 w-64 sm:h-80 sm:w-80 lg:h-96 lg:w-96'>
+                {/* Soft cyan glow — matches tactile liquid button */}
                 <motion.div
-                  className='absolute inset-0 rounded-full bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 opacity-75 blur-xl'
+                  className='absolute inset-0 rounded-full opacity-70 blur-xl'
+                  style={{
+                    background:
+                      'conic-gradient(from 0deg, #00E6FF, #053B73, #67E8F9, #02182D, #00E6FF)',
+                  }}
                   animate={{ rotate: 360 }}
                   transition={{
                     duration: 8,
@@ -244,8 +249,17 @@ export default function Hero() {
                     ease: 'linear',
                   }}
                 />
-                <div className='absolute inset-2 rounded-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 p-1'>
-                  <div className='h-full w-full overflow-hidden rounded-full bg-white'>
+                {/* Ring mix: cyan crest → deep liquid blue (same as button wave) */}
+                <div
+                  className='absolute inset-2 rounded-full p-[3px] sm:p-1'
+                  style={{
+                    background:
+                      'linear-gradient(145deg, #67E8F9 0%, #00E6FF 28%, #0891B2 55%, #053B73 78%, #02182D 100%)',
+                    boxShadow:
+                      '0 0 28px rgba(0, 230, 255, 0.35), inset 0 0 0 1px rgba(224, 250, 255, 0.2)',
+                  }}
+                >
+                  <div className='h-full w-full overflow-hidden rounded-full bg-[#050b11] ring-1 ring-cyan-400/20'>
                     <img
                       src='/images/Profile.png'
                       alt='Md. Ridoy Hasan Kamrul - Frontend Developer'
@@ -254,7 +268,7 @@ export default function Hero() {
                   </div>
                 </div>
                 <motion.div
-                  className='absolute -right-4 -top-4 h-20 w-20 rounded-full bg-blue-400/20 blur-2xl'
+                  className='absolute -right-4 -top-4 h-20 w-20 rounded-full bg-cyan-400/25 blur-2xl'
                   animate={{
                     scale: [1, 1.5, 1],
                     opacity: [0.3, 0.6, 0.3],
@@ -266,7 +280,7 @@ export default function Hero() {
                   }}
                 />
                 <motion.div
-                  className='absolute -bottom-4 -left-4 h-24 w-24 rounded-full bg-purple-400/20 blur-2xl'
+                  className='absolute -bottom-4 -left-4 h-24 w-24 rounded-full bg-sky-500/20 blur-2xl'
                   animate={{
                     scale: [1, 1.5, 1],
                     opacity: [0.3, 0.6, 0.3],
