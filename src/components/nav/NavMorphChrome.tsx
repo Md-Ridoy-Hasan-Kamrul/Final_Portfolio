@@ -7,6 +7,7 @@ type NavMorphChromeProps = {
   morphKey: number;
   isScrolled: boolean;
   isOpen: boolean;
+  floating?: boolean;
 };
 
 /**
@@ -18,6 +19,7 @@ export default function NavMorphChrome({
   morphKey,
   isScrolled,
   isOpen,
+  floating = false,
 }: NavMorphChromeProps) {
   const reduced = useReducedMotion();
 
@@ -47,8 +49,10 @@ export default function NavMorphChrome({
           className='absolute inset-0'
           style={{
             background: persona.glass,
-            borderBottom: `1px solid ${persona.border}`,
-            backdropFilter: isScrolled || persona.id !== 'home' ? 'blur(18px)' : 'blur(8px)',
+            borderBottom: floating ? 'none' : `1px solid ${persona.border}`,
+            border: floating ? `1px solid ${persona.border}` : undefined,
+            backdropFilter:
+              isScrolled || persona.id !== 'home' ? 'blur(18px)' : 'blur(8px)',
             WebkitBackdropFilter:
               isScrolled || persona.id !== 'home' ? 'blur(18px)' : 'blur(8px)',
           }}
@@ -67,10 +71,11 @@ export default function NavMorphChrome({
         />
       </AnimatePresence>
 
-      {/* Energy rail — transform scaleX, never width */}
       <motion.div
         key={`rail-${persona.id}-${morphKey}`}
-        className='absolute bottom-0 left-0 right-0 h-[2px] origin-center'
+        className={`absolute left-0 right-0 h-[2px] origin-center ${
+          floating ? 'bottom-0' : 'bottom-0'
+        }`}
         style={{
           background: `linear-gradient(90deg, ${persona.rail[0]}, ${persona.rail[1]}, ${persona.rail[2]})`,
         }}
@@ -83,7 +88,6 @@ export default function NavMorphChrome({
         }}
       />
 
-      {/* Soft accent bloom — opacity only */}
       <motion.div
         key={`bloom-${persona.id}`}
         className='absolute -top-16 left-1/2 h-32 w-[min(60vw,420px)] -translate-x-1/2 rounded-full'

@@ -24,6 +24,22 @@
     scroll-padding-top: 5.5rem;
   }
 
+  /* When nav docks to bottom, free the top scroll padding */
+  html[data-nav-dock='bottom'] {
+    scroll-padding-top: 1rem;
+    scroll-padding-bottom: 7rem;
+  }
+
+  html[data-nav-dock='bottom'] #home,
+  html[data-nav-dock='bottom'] #about,
+  html[data-nav-dock='bottom'] #experience,
+  html[data-nav-dock='bottom'] #projects,
+  html[data-nav-dock='bottom'] #skills,
+  html[data-nav-dock='bottom'] #contact {
+    scroll-margin-top: 1rem;
+    scroll-margin-bottom: 6rem;
+  }
+
   /* Same-document View Transitions — structural timing */
   ::view-transition-old(root),
   ::view-transition-new(root) {

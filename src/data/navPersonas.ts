@@ -1,6 +1,6 @@
 /**
  * Per-section nav personas — synced with SectionTransitions DEST_META.
- * Colors / motion signatures only; no layout thrash props.
+ * Includes unique dock poses (transform-only position morphs).
  */
 
 export type NavSectionId =
@@ -11,26 +11,30 @@ export type NavSectionId =
   | 'skills'
   | 'contact';
 
+/** Where the bar docks for this section (desktop). Mobile stays top. */
+export type NavDockAnchor =
+  | 'top-full' // edge-to-edge top
+  | 'top-center' // floating pill under top
+  | 'top-left' // left-biased float
+  | 'top-right' // right-biased float
+  | 'bottom-center' // floating over footer zone
+  | 'bottom-wide'; // wide bottom dock
+
 export type NavPersona = {
   id: NavSectionId;
   code: string;
   label: string;
-  /** Short cinematic tag under the stamp */
   tagline: string;
-  /** Accent for active liquid + rail */
   accent: string;
   accentSoft: string;
-  /** Text / icon color on this surface */
   ink: string;
   inkMuted: string;
-  /** Glass fill (rgba) */
   glass: string;
   border: string;
-  /** Bottom energy-rail gradient stops */
   rail: [string, string, string];
-  /** Morph entrance clip signature */
   morph: 'orbit' | 'rift' | 'blade' | 'iris' | 'prism' | 'vortex';
   darkSurface: boolean;
+  dock: NavDockAnchor;
 };
 
 export const NAV_PERSONAS: Record<NavSectionId, NavPersona> = {
@@ -48,6 +52,7 @@ export const NAV_PERSONAS: Record<NavSectionId, NavPersona> = {
     rail: ['transparent', '#00E6FF', 'transparent'],
     morph: 'orbit',
     darkSurface: true,
+    dock: 'top-full',
   },
   about: {
     id: 'about',
@@ -63,6 +68,7 @@ export const NAV_PERSONAS: Record<NavSectionId, NavPersona> = {
     rail: ['transparent', '#93C5FD', 'transparent'],
     morph: 'rift',
     darkSurface: true,
+    dock: 'top-center',
   },
   experience: {
     id: 'experience',
@@ -78,6 +84,7 @@ export const NAV_PERSONAS: Record<NavSectionId, NavPersona> = {
     rail: ['transparent', '#C6A75E', 'transparent'],
     morph: 'blade',
     darkSurface: true,
+    dock: 'top-left',
   },
   projects: {
     id: 'projects',
@@ -93,6 +100,7 @@ export const NAV_PERSONAS: Record<NavSectionId, NavPersona> = {
     rail: ['transparent', '#38BDF8', 'transparent'],
     morph: 'iris',
     darkSurface: true,
+    dock: 'bottom-wide',
   },
   skills: {
     id: 'skills',
@@ -108,6 +116,7 @@ export const NAV_PERSONAS: Record<NavSectionId, NavPersona> = {
     rail: ['#DF3640', '#C6A75E', '#93C5FD'],
     morph: 'prism',
     darkSurface: true,
+    dock: 'top-right',
   },
   contact: {
     id: 'contact',
@@ -123,6 +132,7 @@ export const NAV_PERSONAS: Record<NavSectionId, NavPersona> = {
     rail: ['transparent', '#DF3640', 'transparent'],
     morph: 'vortex',
     darkSurface: true,
+    dock: 'bottom-center',
   },
 };
 
@@ -134,4 +144,8 @@ export function sectionIdFromHash(hash: string): NavSectionId {
 
 export function personaFromHash(hash: string): NavPersona {
   return NAV_PERSONAS[sectionIdFromHash(hash)];
+}
+
+export function isBottomDock(dock: NavDockAnchor): boolean {
+  return dock === 'bottom-center' || dock === 'bottom-wide';
 }

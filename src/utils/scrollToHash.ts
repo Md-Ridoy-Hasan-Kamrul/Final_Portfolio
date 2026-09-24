@@ -4,7 +4,11 @@ import { SECTION_TRANSITION_EVENT } from './sectionTransitionEvent';
 type LenisLike = {
   scrollTo: (
     target: number,
-    opts?: { duration?: number; immediate?: boolean },
+    opts?: {
+      duration?: number;
+      immediate?: boolean;
+      easing?: (t: number) => number;
+    },
   ) => void;
 };
 
@@ -22,7 +26,18 @@ function performScroll(id: string) {
     'nav[aria-label="Main navigation"]',
   ) as HTMLElement | null;
   const navH = navEl?.getBoundingClientRect().height ?? 112;
-  const offset = Math.max(0, navH - 8);
+  const dock = document.documentElement.dataset.navDock;
+  const dockY =
+    Number.parseFloat(
+      getComputedStyle(document.documentElement).getPropertyValue(
+        '--nav-dock-y',
+      ) || '0',
+    ) || 0;
+
+  // Bottom-docked nav: minimal top offset so Lenis lands cleanly
+  const offset =
+    dock === 'bottom' ? 12 : Math.max(0, navH - 8 + dockY);
+
   const top = section.getBoundingClientRect().top + window.scrollY - offset;
   const y = Math.max(0, top);
   const lenis = (window as Window & { __lenis?: LenisLike }).__lenis;
@@ -33,6 +48,7 @@ function performScroll(id: string) {
     lenis.scrollTo(y, {
       duration: prefersReducedMotion() ? 0 : SCROLL.duration,
       immediate: prefersReducedMotion(),
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
     });
   } else {
     window.scrollTo({
@@ -43,8 +59,7 @@ function performScroll(id: string) {
 }
 
 /**
- * Hash navigation with same-document View Transitions when supported.
- * Hero portrait / project thumbs use view-transition-name for morphing.
+ * Hash navigation via Lenis (lerp smooth scroll) + View Transitions when available.
  */
 export function scrollToHash(hash: string) {
   const id = hash.replace('#', '');
@@ -70,5 +85,4 @@ export function scrollToHash(hash: string) {
   performScroll(id);
 }
 
-/** Token export for callers that need duration alignment */
 export const HASH_SCROLL_DURATION = DURATION.hero;
