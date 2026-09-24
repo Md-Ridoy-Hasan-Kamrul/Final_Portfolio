@@ -33,9 +33,9 @@ function App() {
                 <Projects />
                 <Skills />
                 <Contact />
+                <Footer />
               </SectionTransitions>
             </main>
-            <Footer />
           </div>
         </div>
       </SmoothScroll>

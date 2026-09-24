@@ -107,6 +107,7 @@ export default function Footer() {
 
   return (
     <footer
+      id='footer'
       ref={ref}
       onMouseMove={onMove}
       onMouseLeave={() => {

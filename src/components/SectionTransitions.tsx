@@ -7,7 +7,7 @@ import { useTheme } from '../contexts/ThemeContext';
  *
  * Home → About gets the signature “Horizon Rift” — heavy, eye-catching,
  * brand-locked (bone / crimson / gold / void). Other boundaries cycle
- * unique heavy variants so the page never feels like the same wipe twice.
+ * unique heavy variants, including Contact → Footer (“Curtain Finale”).
  */
 
 const TRANSITIONS = [
@@ -16,6 +16,7 @@ const TRANSITIONS = [
   'inkBloom', // Experience → Projects
   'prismBreach', // Projects → Skills
   'vortexStamp', // Skills → Contact
+  'curtainFinale', // Contact → Footer
 ] as const;
 
 type TransitionName = (typeof TRANSITIONS)[number];
@@ -26,6 +27,7 @@ const SECTION_LABELS = [
   'PROJECTS',
   'SKILLS',
   'CONTACT',
+  'KAMRUL',
 ] as const;
 
 type SectionTransitionsProps = {
@@ -440,74 +442,189 @@ function buildTimeline(
   }
 
   /* ── 5. Vortex Stamp ───────────────────────────────────────── */
-  if (ring) {
-    gsap.set(ring, {
-      borderColor: BRAND.gold,
-      scale: 0.08,
-      borderWidth: '2px',
+  if (name === 'vortexStamp') {
+    if (ring) {
+      gsap.set(ring, {
+        borderColor: BRAND.gold,
+        scale: 0.08,
+        borderWidth: '2px',
+      });
+    }
+    gsap.set(veil, {
+      opacity: 0,
+      scale: 1.15,
+      rotate: -6,
+      transformOrigin: '50% 50%',
     });
+    bars.forEach((b, i) => {
+      gsap.set(b, {
+        left: `${(i / bars.length) * 100}%`,
+        width: `${100 / bars.length + 0.5}%`,
+        bottom: 0,
+        top: 'auto',
+        height: '0%',
+        background: i % 2 === 0 ? `${BRAND.crimson}33` : `${BRAND.gold}28`,
+        opacity: 1,
+        scaleY: 1,
+      });
+    });
+
+    tl
+      .to(veil, { opacity: 1, scale: 1, rotate: 0, duration: 0.4, ease: 'power3.out' })
+      .to(
+        bars,
+        {
+          height: '100%',
+          stagger: 0.03,
+          duration: 0.35,
+          ease: 'power2.out',
+        },
+        '<0.05',
+      )
+      .to(ring, { opacity: 1, scale: 2.2, duration: 0.45, ease: 'power2.out' }, '<0.1')
+      .to(flash, { opacity: 0.65, duration: 0.1 }, '<0.2')
+      .to(flash, { opacity: 0, duration: 0.22 })
+      .fromTo(
+        label,
+        { opacity: 0, scale: 0.4, rotate: 12, filter: 'blur(20px)' },
+        {
+          opacity: 1,
+          scale: 1,
+          rotate: 0,
+          filter: 'blur(0px)',
+          duration: 0.5,
+          ease: 'expo.out',
+        },
+        '-=0.35',
+      )
+      .to(bars, { height: '0%', stagger: 0.025, duration: 0.3, ease: 'power2.in' }, '+=0.12')
+      .to(ring, { opacity: 0, scale: 4, duration: 0.35 }, '<')
+      .to(
+        label,
+        {
+          opacity: 0,
+          scale: 1.2,
+          filter: 'blur(10px)',
+          duration: 0.3,
+          ease: 'power2.in',
+        },
+        '<0.05',
+      )
+      .to(veil, { opacity: 0, duration: 0.3 }, '<0.1');
+    return tl;
   }
-  gsap.set(veil, {
-    opacity: 0,
-    scale: 1.15,
-    rotate: -6,
-    transformOrigin: '50% 50%',
-  });
+
+  /* ── 6. Contact → Footer: Curtain Finale ────────────────────── */
   bars.forEach((b, i) => {
+    const n = bars.length;
     gsap.set(b, {
-      left: `${(i / bars.length) * 100}%`,
-      width: `${100 / bars.length + 0.5}%`,
-      bottom: 0,
-      top: 'auto',
-      height: '0%',
-      background: i % 2 === 0 ? `${BRAND.crimson}33` : `${BRAND.gold}28`,
+      left: 0,
+      top: `${(i / n) * 100}%`,
+      width: '100%',
+      height: `${100 / n + 0.8}%`,
+      scaleX: 0,
+      transformOrigin: i % 2 === 0 ? 'left center' : 'right center',
+      background: i % 2 === 0 ? BRAND.voidDeep : '#0a121c',
       opacity: 1,
       scaleY: 1,
     });
   });
+  gsap.set(blade, {
+    width: '120%',
+    height: '3px',
+    top: '100%',
+    left: '50%',
+    scaleX: 1,
+    rotate: 0,
+    background: `linear-gradient(90deg, transparent, ${BRAND.gold}, ${BRAND.crimson}, ${BRAND.gold}, transparent)`,
+    boxShadow: `0 0 48px ${BRAND.gold}`,
+  });
+  gsap.set(veil, { opacity: 0, clipPath: 'inset(100% 0 0 0)' });
+  if (sub) {
+    sub.textContent = 'THE END — AND BEGINNING';
+    gsap.set(sub, { color: BRAND.gold });
+  }
 
   tl
-    .to(veil, { opacity: 1, scale: 1, rotate: 0, duration: 0.4, ease: 'power3.out' })
+    .to(veil, {
+      opacity: 1,
+      clipPath: 'inset(0% 0 0 0)',
+      duration: 0.42,
+      ease: 'power4.in',
+    })
     .to(
       bars,
       {
-        height: '100%',
-        stagger: 0.03,
-        duration: 0.35,
-        ease: 'power2.out',
+        scaleX: 1,
+        stagger: { each: 0.04, from: 'end' },
+        duration: 0.38,
+        ease: 'power3.out',
       },
-      '<0.05',
+      '<0.08',
     )
-    .to(ring, { opacity: 1, scale: 2.2, duration: 0.45, ease: 'power2.out' }, '<0.1')
-    .to(flash, { opacity: 0.65, duration: 0.1 }, '<0.2')
+    .to(blade, { opacity: 1, top: '50%', duration: 0.4, ease: 'power3.out' }, '<0.12')
+    .to(flash, { opacity: 0.8, duration: 0.1 }, '<0.25')
     .to(flash, { opacity: 0, duration: 0.22 })
     .fromTo(
+      sub,
+      { opacity: 0, y: 20 },
+      { opacity: 1, y: 0, duration: 0.3, ease: 'power2.out' },
+      '-=0.3',
+    )
+    .fromTo(
       label,
-      { opacity: 0, scale: 0.4, rotate: 12, filter: 'blur(20px)' },
+      {
+        opacity: 0,
+        scale: 1.35,
+        yPercent: 25,
+        filter: 'blur(20px)',
+        letterSpacing: '0.5em',
+      },
       {
         opacity: 1,
         scale: 1,
-        rotate: 0,
+        yPercent: 0,
         filter: 'blur(0px)',
-        duration: 0.5,
+        letterSpacing: '0.18em',
+        duration: 0.55,
         ease: 'expo.out',
       },
-      '-=0.35',
+      '-=0.2',
     )
-    .to(bars, { height: '0%', stagger: 0.025, duration: 0.3, ease: 'power2.in' }, '+=0.12')
-    .to(ring, { opacity: 0, scale: 4, duration: 0.35 }, '<')
+    .to(blade, { opacity: 0, duration: 0.2 }, '+=0.1')
+    .to(
+      bars,
+      {
+        scaleX: 0,
+        stagger: { each: 0.03, from: 'start' },
+        duration: 0.4,
+        ease: 'power4.inOut',
+      },
+      '+=0.08',
+    )
     .to(
       label,
       {
         opacity: 0,
-        scale: 1.2,
+        yPercent: -22,
+        scale: 0.92,
         filter: 'blur(10px)',
-        duration: 0.3,
-        ease: 'power2.in',
+        duration: 0.35,
+        ease: 'power3.in',
       },
       '<0.05',
     )
-    .to(veil, { opacity: 0, duration: 0.3 }, '<0.1');
+    .to(sub, { opacity: 0, y: -12, duration: 0.25 }, '<')
+    .to(
+      veil,
+      {
+        clipPath: 'inset(0 0 100% 0)',
+        duration: 0.45,
+        ease: 'power3.inOut',
+      },
+      '<0.08',
+    )
+    .set(veil, { opacity: 0, clipPath: 'inset(0 0 0 0)' });
   return tl;
 }
 
