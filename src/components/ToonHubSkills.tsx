@@ -254,10 +254,10 @@ export default function Skills({ categories }: SkillsProps) {
                 letterSpacing: '-0.02em',
                 whiteSpace: 'nowrap',
                 maxWidth: '100%',
-                color: isDark ? '#D7E8FF' : '#FFFFFF',
+                color: isDark ? '#D7E8FF' : 'rgba(255, 248, 240, 0.38)',
                 textShadow: isDark
                   ? '0 0 28px rgba(140,190,255,0.55), 0 0 60px rgba(80,140,220,0.35)'
-                  : '0 2px 24px rgba(0,0,0,0.18)',
+                  : 'none',
               }}
             >
               {activeCategory?.title ?? 'Frontend'}
@@ -269,8 +269,11 @@ export default function Skills({ categories }: SkillsProps) {
           className='absolute left-4 top-6 z-[60] text-xs font-semibold uppercase sm:left-8'
           style={{
             letterSpacing: '0.18em',
-            opacity: 0.9,
-            color: isDark ? '#C8DCFF' : '#FFFFFF',
+            opacity: 0.95,
+            color: isDark ? '#C8DCFF' : '#3A1C12',
+            textShadow: isDark
+              ? 'none'
+              : '0 1px 0 rgba(255,255,255,0.35)',
           }}
         >
           Skills
@@ -281,10 +284,10 @@ export default function Skills({ categories }: SkillsProps) {
             className='text-2xl font-bold sm:text-4xl lg:text-5xl'
             style={{
               fontFamily: 'Inter, sans-serif',
-              color: isDark ? '#F0F6FF' : '#FFFFFF',
+              color: isDark ? '#F0F6FF' : '#2A140E',
               textShadow: isDark
                 ? '0 0 20px rgba(150,200,255,0.35)'
-                : '0 2px 12px rgba(0,0,0,0.2)',
+                : '0 1px 0 rgba(255,255,255,0.25)',
             }}
           >
             Skills & Expertise
@@ -294,7 +297,7 @@ export default function Skills({ categories }: SkillsProps) {
             style={{
               color: isDark
                 ? 'rgba(200,220,255,0.75)'
-                : 'rgba(255,255,255,0.85)',
+                : 'rgba(42, 20, 14, 0.78)',
             }}
           >
             One focus area at a time swipe through with the arrows.
@@ -390,7 +393,7 @@ export default function Skills({ categories }: SkillsProps) {
               className={`flex h-12 w-12 items-center justify-center rounded-full border-2 transition-[transform,background-color,border-color,color] duration-150 hover:scale-105 active:scale-95 sm:h-16 sm:w-16 ${
                 isDark
                   ? 'border-sky-200/70 bg-black/45 text-sky-100 hover:bg-sky-400/20'
-                  : 'border-white bg-transparent text-white hover:bg-white/12'
+                  : 'border-[#2A140E]/55 bg-[#2A140E]/10 text-[#2A140E] hover:bg-[#2A140E]/18'
               }`}
             >
               <ArrowLeft size={26} strokeWidth={2.25} />
@@ -402,7 +405,7 @@ export default function Skills({ categories }: SkillsProps) {
               className={`flex h-12 w-12 items-center justify-center rounded-full border-2 transition-[transform,background-color,border-color,color] duration-150 hover:scale-105 active:scale-95 sm:h-16 sm:w-16 ${
                 isDark
                   ? 'border-sky-200/70 bg-black/45 text-sky-100 hover:bg-sky-400/20'
-                  : 'border-white bg-transparent text-white hover:bg-white/12'
+                  : 'border-[#2A140E]/55 bg-[#2A140E]/10 text-[#2A140E] hover:bg-[#2A140E]/18'
               }`}
             >
               <ArrowRight size={26} strokeWidth={2.25} />
@@ -420,9 +423,11 @@ export default function Skills({ categories }: SkillsProps) {
             letterSpacing: '-0.02em',
             lineHeight: 1,
             textTransform: 'uppercase',
-            color: isDark ? '#D7E8FF' : '#FFFFFF',
+            color: isDark ? '#D7E8FF' : '#2A140E',
             opacity: 0.95,
-            textShadow: isDark ? '0 0 18px rgba(140,190,255,0.4)' : 'none',
+            textShadow: isDark
+              ? '0 0 18px rgba(140,190,255,0.4)'
+              : '0 1px 0 rgba(255,255,255,0.3)',
           }}
         >
           Discover it

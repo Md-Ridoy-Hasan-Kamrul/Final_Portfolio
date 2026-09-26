@@ -111,6 +111,7 @@ function resetAll(refs: LayerRefs) {
       opacity: 0,
       scale: 0.85,
       yPercent: 12,
+      textShadow: 'none',
     });
   }
   if (sub) gsap.set(sub, { opacity: 0, y: 24 });
@@ -148,16 +149,25 @@ function buildTimeline(
   if (!veil || !blade || !flash || !label) return tl;
 
   setLabel(refs, labelText);
-  // Dark-bar morphs (rift / prism / curtain) stay cinematic in day —
-  // force light ink so labels never wash out on navy stripes.
+  // Dark-bar morphs stay cinematic; day labels get gold + ink halo so they
+  // stay readable when bars peel and the section (e.g. coral Skills) shows through.
   const darkBarMorph =
     name === 'horizonRift' ||
     name === 'prismBreach' ||
     name === 'curtainFinale';
   const veilColor = isDark || darkBarMorph ? BRAND.voidDeep : '#f2ebe2';
-  const labelColor = isDark || darkBarMorph ? BRAND.bone : BRAND.ink;
+  const labelColor = isDark
+    ? BRAND.bone
+    : darkBarMorph
+      ? BRAND.gold
+      : BRAND.ink;
+  const labelShadow = isDark
+    ? 'none'
+    : darkBarMorph
+      ? `0 1px 0 ${BRAND.ink}, 0 0 18px rgba(10,12,18,0.55), 0 2px 28px rgba(10,12,18,0.35)`
+      : 'none';
   gsap.set(veil, { background: veilColor });
-  gsap.set(label, { color: labelColor });
+  gsap.set(label, { color: labelColor, textShadow: labelShadow });
   if (sub) {
     sub.textContent = 'ENTERING';
     gsap.set(sub, {
@@ -456,11 +466,16 @@ function buildTimeline(
         },
         '-=0.15',
       )
-      .to(bars[0], { xPercent: -130, opacity: 0, duration: T.hero, ease: EASE.inOut }, '+=0.06')
+      // Fade label first so day mode never leaves gold SKILLS on white FRONTEND
+      .to(
+        label,
+        { opacity: 0, yPercent: -10, duration: T.structural, ease: EASE.in },
+        '+=0.04',
+      )
+      .to(bars[0], { xPercent: -130, opacity: 0, duration: T.hero, ease: EASE.inOut }, '<0.02')
       .to(bars[2], { xPercent: 130, opacity: 0, duration: T.hero, ease: EASE.inOut }, '<')
       .to(bars[1], { scaleY: 0, opacity: 0, duration: T.structural, ease: EASE.in }, '<0.06')
-      .to(blade, { opacity: 0, scaleY: 0, duration: T.structural }, '<')
-      .to(label, { opacity: 0, yPercent: -10, duration: T.structural }, '<0.04');
+      .to(blade, { opacity: 0, scaleY: 0, duration: T.structural }, '<');
     return tl;
   }
 
