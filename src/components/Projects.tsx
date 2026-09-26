@@ -290,7 +290,7 @@ export default function Projects() {
     <section
       ref={sectionRef}
       id='projects'
-      className='projects-section transition-colors duration-300'
+      className='projects-section min-h-screen transition-colors duration-300'
     >
       {/* Heritage Grove landscape — full-bleed on desktop, no scrim */}
       <div className='projects-media' aria-hidden='true'>

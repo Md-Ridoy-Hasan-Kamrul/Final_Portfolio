@@ -189,7 +189,7 @@ export default function Skills({ categories }: SkillsProps) {
     <section
       ref={sectionRef}
       id='skills'
-      className='relative w-full overflow-hidden'
+      className='relative min-h-screen w-full overflow-hidden'
       style={{
         backgroundColor: sectionBg,
         transition: `background-color ${TRANSITION_MS}ms ${EASE}`,
@@ -200,11 +200,11 @@ export default function Skills({ categories }: SkillsProps) {
       <WowSectionEntrance
         variant='prismTumble'
         sectionRef={sectionRef}
-        className='relative w-full overflow-hidden'
+        className='relative min-h-screen w-full overflow-hidden'
       >
       <div
-        className='relative w-full overflow-hidden'
-        style={{ height: '100vh' }}
+        className='relative min-h-screen w-full overflow-hidden'
+        style={{ height: '100svh' }}
       >
         {/* Theme wash */}
         <div

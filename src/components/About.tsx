@@ -82,7 +82,7 @@ export default function About() {
     <section
       ref={sectionRef}
       id='about'
-      className='relative overflow-hidden bg-transparent py-16 sm:py-20 lg:py-24'
+      className='relative flex min-h-screen flex-col justify-center overflow-hidden bg-transparent py-16 sm:py-20 lg:py-24'
     >
       <div className='pointer-events-none absolute inset-0 z-0' aria-hidden>
         <video

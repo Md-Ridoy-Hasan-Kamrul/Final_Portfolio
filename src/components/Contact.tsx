@@ -161,7 +161,7 @@ export default function Contact() {
     <section
       ref={sectionRef}
       id='contact'
-      className='contact-section relative min-h-screen w-full overflow-hidden bg-[#080A19] py-14 sm:py-20 lg:py-24'
+      className='contact-section relative flex min-h-screen w-full flex-col justify-center overflow-hidden bg-[#080A19] py-14 sm:py-20 lg:py-24'
     >
       <video
         ref={videoRef}
