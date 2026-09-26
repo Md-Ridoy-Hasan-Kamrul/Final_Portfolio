@@ -9,7 +9,6 @@ import HamburgerMenu from './HamburgerMenu';
 import AnimatedSVGUnderline from './AnimatedSVGUnderline';
 import FullscreenNavOverlay from './FullscreenNavOverlay';
 import NavMorphChrome from './nav/NavMorphChrome';
-import NavSectionStamp from './nav/NavSectionStamp';
 import NavLiquidIndicator from './nav/NavLiquidIndicator';
 import MagneticButton from './ui/MagneticButton';
 import { scrollToHash } from '../utils/scrollToHash';
@@ -242,8 +241,6 @@ const Navigation = memo(() => {
                     )}
                   </motion.a>
                 </MagneticButton>
-
-                <NavSectionStamp persona={persona} morphKey={morphKey} />
               </div>
 
               <div className={`${DESKTOP_NAV} items-center gap-0.5 lg:gap-1`}>
@@ -391,6 +388,7 @@ const Navigation = memo(() => {
         dark={fullscreenDark}
         persona={persona}
         morphKey={morphKey}
+        onClose={() => setIsOpen(false)}
         onLinkClick={handleLinkClick}
       />
     </>

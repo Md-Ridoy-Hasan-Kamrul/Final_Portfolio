@@ -1,5 +1,5 @@
 import { useEffect, useState, type MouseEvent } from 'react';
-import { Github, Linkedin, Mail } from 'lucide-react';
+import { Github, Linkedin, Mail, X } from 'lucide-react';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { site } from '../data/site';
 import { ThemeToggle } from './ThemeToggle';
@@ -18,6 +18,7 @@ type FullscreenNavOverlayProps = {
   dark: boolean;
   persona: NavPersona;
   morphKey: number;
+  onClose: () => void;
   onLinkClick: (e: MouseEvent<HTMLAnchorElement>, href: string) => void;
 };
 
@@ -32,6 +33,7 @@ export default function FullscreenNavOverlay({
   dark,
   persona,
   morphKey,
+  onClose,
   onLinkClick,
 }: FullscreenNavOverlayProps) {
   const [hovered, setHovered] = useState<string | null>(null);
@@ -65,9 +67,20 @@ export default function FullscreenNavOverlay({
     };
   }, [isOpen]);
 
+  useEffect(() => {
+    if (!isOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [isOpen, onClose]);
+
   const textMain = dark ? 'text-[#E8E2D6]' : 'text-[#14110f]';
   const textMuted = dark ? 'text-white/45' : 'text-black/40';
   const hairline = dark ? 'border-white/10' : 'border-black/10';
+  const closeBorder = dark ? 'border-white/25' : 'border-black/20';
+  const closeHover = dark ? 'hover:bg-white/10' : 'hover:bg-black/5';
 
   const clipEnter =
     persona.morph === 'rift'
@@ -119,14 +132,30 @@ export default function FullscreenNavOverlay({
             aria-hidden
           />
 
-          {/* Live section stamp in overlay */}
-          <div className='absolute left-5 top-[4.75rem] z-10 min-[375px]:left-6 md:left-12'>
-            <p
-              className='font-mono text-[10px] tracking-[0.28em]'
-              style={{ color: persona.accent }}
+          {/* Header: section stamp + close */}
+          <div className='absolute inset-x-0 top-0 z-20 flex items-start justify-between gap-4 px-5 pt-[max(1rem,env(safe-area-inset-top))] min-[375px]:px-6 md:px-12'>
+            <div className='min-w-0 pt-3'>
+              <p
+                className='font-mono text-[10px] tracking-[0.28em]'
+                style={{ color: persona.accent }}
+              >
+                {persona.code} — {persona.tagline}
+              </p>
+            </div>
+
+            <motion.button
+              type='button'
+              onClick={onClose}
+              className={`cursor-target mt-2 inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border ${closeBorder} ${closeHover} ${textMain}`}
+              aria-label='Close menu'
+              initial={reduced ? { opacity: 0 } : { opacity: 0, scale: 0.85 }}
+              animate={{ opacity: 1, scale: 1 }}
+              whileHover={reduced ? undefined : { scale: 1.06 }}
+              whileTap={{ scale: 0.92 }}
+              transition={transition.structural}
             >
-              {persona.code} — {persona.tagline}
-            </p>
+              <X className='h-5 w-5' strokeWidth={2.25} aria-hidden />
+            </motion.button>
           </div>
 
           <div className='relative flex min-h-0 flex-1 flex-col px-5 pb-6 pt-24 min-[375px]:px-6 min-[425px]:px-8 sm:px-10 md:px-12 md:pt-28'>

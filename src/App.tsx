@@ -10,7 +10,6 @@ import Footer from './components/Footer';
 import TargetCursor from './components/TargetCursor';
 import SmoothScroll from './components/SmoothScroll';
 import SectionTransitions from './components/SectionTransitions';
-import MotionPauseToggle from './components/ui/MotionPauseToggle';
 import ThemeDayNightOrb from './components/ThemeDayNightOrb';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { MotionProvider, useMotionProfile } from './contexts/MotionContext';
@@ -29,7 +28,6 @@ function AppShell() {
           />
         )}
         <ThemeDayNightOrb />
-        <MotionPauseToggle />
         <HeroVideoBg />
         <Navigation />
         <div className='relative z-10'>

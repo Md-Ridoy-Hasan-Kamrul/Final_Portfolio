@@ -138,7 +138,7 @@
     }
   }
 
-  /* WCAG 2.2.2 — paused loops via MotionPauseToggle */
+  /* WCAG 2.2.2 — paused loops via prefers-reduced-motion / motion profile */
   html[data-motion-loops='paused'] .hero-liquid-text,
   html[data-motion-loops='paused'] .footer-raindrop,
   html[data-motion-loops='paused'] .nav-active-wave::before,
