@@ -124,7 +124,13 @@ export default function Skills({ categories }: SkillsProps) {
   );
 
   const categoryCount = categories.length;
-  const imageIndex = activeIndex % IMAGES.length;
+  // 5 categories / 4 characters: avoid Frontend(0) and Methodologies(4)
+  // landing on the same toon (activeIndex % 4 === 0 for both).
+  const imageIndex =
+    categoryCount <= IMAGES.length
+      ? activeIndex % IMAGES.length
+      : ([0, 1, 2, 3, 1] as const)[activeIndex % categoryCount] ??
+        activeIndex % IMAGES.length;
   const activeCategory = categories[activeIndex % categoryCount];
   const activeImage = IMAGES[imageIndex];
 
