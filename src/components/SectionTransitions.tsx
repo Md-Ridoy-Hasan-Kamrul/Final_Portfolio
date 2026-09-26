@@ -566,7 +566,7 @@ function buildTimeline(
   });
   gsap.set(veil, { opacity: 0, clipPath: 'inset(100% 0 0 0)' });
   if (sub) {
-    sub.textContent = 'THE END — AND BEGINNING';
+    sub.textContent = 'THE END AND BEGINNING';
     gsap.set(sub, { color: BRAND.gold });
   }
 

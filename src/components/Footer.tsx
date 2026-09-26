@@ -21,7 +21,7 @@ const LINKEDIN = 'https://www.linkedin.com/in/md-ridoy-hasan-kamrul';
 const DISPLAY_NAME = 'Md. Ridoy Hasan Kamrul';
 const BRAND = 'KAMRUL';
 const QUOTE =
-  'Interfaces should feel inevitable clear, fast, and built to last.';
+  'Interfaces should feel inevitable, clear, fast, and built to last.';
 
 const nav = [
   { label: 'Home', href: '#home' },
@@ -160,7 +160,7 @@ export default function Footer() {
             </div>
             <p className='mt-4 max-w-sm text-sm leading-relaxed text-bone/80'>
               Frontend Developer specializing in React.js, Next.js, TypeScript,
-              and JavaScript. Building responsive, production-ready interfaces —
+              and JavaScript. Building responsive, production-ready interfaces,
               open to remote and contract work worldwide.
             </p>
             <div className='mt-5 flex items-center gap-2.5'>
@@ -233,7 +233,7 @@ export default function Footer() {
                 <span className='absolute inline-flex h-full w-full animate-ping rounded-full bg-crimson opacity-75' />
                 <span className='relative inline-flex h-1.5 w-1.5 rounded-full bg-crimson' />
               </span>
-              Dhaka, BD — <DhakaClock /> local
+              Dhaka, BD <DhakaClock /> local
             </div>
           </div>
         </div>

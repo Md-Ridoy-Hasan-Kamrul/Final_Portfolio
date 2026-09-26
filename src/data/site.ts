@@ -5,5 +5,5 @@ export const site = {
   email: 'mdridoyhasankamrul@gmail.com',
   linkedin: 'https://www.linkedin.com/in/md-ridoy-hasan-kamrul',
   github: 'https://github.com/Md-Ridoy-Hasan-Kamrul',
-  quote: 'Interfaces should feel inevitable — clear, fast, and built to last.',
+  quote: 'Interfaces should feel inevitable, clear, fast, and built to last.',
 } as const;

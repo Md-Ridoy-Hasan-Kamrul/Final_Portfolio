@@ -139,7 +139,7 @@ export default function FullscreenNavOverlay({
                 className='font-mono text-[10px] tracking-[0.28em]'
                 style={{ color: persona.accent }}
               >
-                {persona.code} — {persona.tagline}
+                {persona.code} · {persona.tagline}
               </p>
             </div>
 
