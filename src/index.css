@@ -11,6 +11,7 @@
     --motion-micro: 100ms;
     --motion-structural: 250ms;
     --motion-hero: 400ms;
+    --motion-sky-transit: 1400ms;
     --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
     --ease-in-out-cubic: cubic-bezier(0.65, 0, 0.35, 1);
     --ease-in-cubic: cubic-bezier(0.32, 0, 0.67, 0);
@@ -319,6 +320,100 @@
   @media (prefers-reduced-motion: reduce) {
     .dark .projects-moon {
       animation: none;
+    }
+  }
+
+  /* Day/night sky orbs — static glow; motion is transform/opacity only */
+  .theme-sky-sun,
+  .theme-sky-moon {
+    position: absolute;
+    border-radius: 50%;
+    will-change: transform, opacity;
+    pointer-events: none;
+  }
+
+  .theme-sky-sun {
+    background:
+      radial-gradient(circle at 32% 28%, #fff7d6 0%, transparent 26%),
+      radial-gradient(
+        circle at 50% 50%,
+        #ffe566 0%,
+        #ffb020 48%,
+        #ff7a18 78%,
+        #e85d04 100%
+      );
+    box-shadow:
+      0 0 18px 6px rgba(255, 190, 60, 0.55),
+      0 0 48px 16px rgba(255, 140, 40, 0.28),
+      0 0 90px 28px rgba(255, 120, 30, 0.12);
+  }
+
+  .theme-sky-sun::after {
+    content: '';
+    position: absolute;
+    inset: -8px;
+    border-radius: 50%;
+    background: radial-gradient(
+      circle,
+      rgba(255, 210, 100, 0.45) 0%,
+      transparent 68%
+    );
+    z-index: -1;
+  }
+
+  .theme-sky-moon {
+    background:
+      radial-gradient(circle at 32% 30%, #ffffff 0%, transparent 28%),
+      radial-gradient(
+        circle at 62% 58%,
+        rgba(180, 200, 220, 0.35) 0%,
+        transparent 22%
+      ),
+      radial-gradient(
+        circle at 40% 38%,
+        #f8fbff 0%,
+        #e4eef8 42%,
+        #b8cce0 78%,
+        #8eabc8 100%
+      );
+    box-shadow:
+      0 0 18px 6px rgba(200, 230, 255, 0.55),
+      0 0 48px 14px rgba(140, 190, 255, 0.28),
+      0 0 90px 28px rgba(100, 160, 230, 0.12);
+  }
+
+  .theme-sky-moon::after {
+    content: '';
+    position: absolute;
+    inset: -6px;
+    border-radius: 50%;
+    background: radial-gradient(
+      circle,
+      rgba(220, 240, 255, 0.4) 0%,
+      transparent 68%
+    );
+    z-index: -1;
+  }
+
+  html[data-motion-loops='running'] .theme-sky-sun::after,
+  html[data-motion-loops='running'] .theme-sky-moon::after {
+    animation: theme-sky-glow 4.5s var(--ease-in-out-cubic) infinite;
+  }
+
+  @keyframes theme-sky-glow {
+    0%,
+    100% {
+      opacity: 0.75;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .theme-sky-sun::after,
+    .theme-sky-moon::after {
+      animation: none !important;
     }
   }
 

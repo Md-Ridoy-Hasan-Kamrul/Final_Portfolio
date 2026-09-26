@@ -11,6 +11,7 @@ import TargetCursor from './components/TargetCursor';
 import SmoothScroll from './components/SmoothScroll';
 import SectionTransitions from './components/SectionTransitions';
 import MotionPauseToggle from './components/ui/MotionPauseToggle';
+import ThemeDayNightOrb from './components/ThemeDayNightOrb';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { MotionProvider, useMotionProfile } from './contexts/MotionContext';
 
@@ -27,6 +28,7 @@ function AppShell() {
             parallaxOn={true}
           />
         )}
+        <ThemeDayNightOrb />
         <MotionPauseToggle />
         <HeroVideoBg />
         <Navigation />

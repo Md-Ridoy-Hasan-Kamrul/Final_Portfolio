@@ -12,6 +12,7 @@ export { gsap, ScrollTrigger };
  *  micro        100ms  — hover / tap / cursor micro-feedback
  *  structural   250ms  — baseline UI & section structure (200–300)
  *  hero         400ms  — full-viewport / hero / page morph
+ *  skyTransit  1400ms  — day/night celestial diagonal flight
  *
  * Compositor-only: transform · opacity · clip-path
  * Never animate: width, height, top, left, margin, padding, box-shadow
@@ -30,6 +31,8 @@ export const DURATION = {
   hero: 0.4,
   page: 0.4,
   cinematic: 0.4,
+  /** Theme day/night sky flight (BL ↔ TR) */
+  skyTransit: 1.4,
 } as const;
 
 /** CSS custom-property mirrors (seconds → ms strings for stylesheets) */
@@ -37,6 +40,7 @@ export const DURATION_CSS = {
   micro: '100ms',
   structural: '250ms',
   hero: '400ms',
+  skyTransit: '1400ms',
 } as const;
 
 export const EASING = {
@@ -104,6 +108,10 @@ export const transition = {
   cinematic: {
     duration: DURATION.cinematic,
     ease: EASING.easeOutExpo,
+  } satisfies Transition,
+  skyTransit: {
+    duration: DURATION.skyTransit,
+    ease: EASING.easeInOutCubic,
   } satisfies Transition,
   parallax: {
     duration: DURATION.structural,

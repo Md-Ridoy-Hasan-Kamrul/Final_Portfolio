@@ -21,6 +21,7 @@ describe('motion tokens', () => {
     expect(DURATION.section).toBe(0.25);
     expect(DURATION.hero).toBe(0.4);
     expect(DURATION.cinematic).toBe(0.4);
+    expect(DURATION.skyTransit).toBe(1.4);
   });
 
   it('uses expo / cubic easings (never linear defaults)', () => {
