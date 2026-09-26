@@ -148,13 +148,21 @@ function buildTimeline(
   if (!veil || !blade || !flash || !label) return tl;
 
   setLabel(refs, labelText);
-  const veilColor = isDark ? BRAND.voidDeep : '#f2ebe2';
-  const labelColor = isDark ? BRAND.bone : BRAND.ink;
+  // Dark-bar morphs (rift / prism / curtain) stay cinematic in day —
+  // force light ink so labels never wash out on navy stripes.
+  const darkBarMorph =
+    name === 'horizonRift' ||
+    name === 'prismBreach' ||
+    name === 'curtainFinale';
+  const veilColor = isDark || darkBarMorph ? BRAND.voidDeep : '#f2ebe2';
+  const labelColor = isDark || darkBarMorph ? BRAND.bone : BRAND.ink;
   gsap.set(veil, { background: veilColor });
   gsap.set(label, { color: labelColor });
   if (sub) {
     sub.textContent = 'ENTERING';
-    gsap.set(sub, { color: isDark ? BRAND.gold : BRAND.crimson });
+    gsap.set(sub, {
+      color: isDark ? BRAND.gold : BRAND.crimson,
+    });
   }
 
   /* ── 1. Home → About: Horizon Rift ─────────────────────────── */
@@ -567,6 +575,7 @@ function buildTimeline(
   gsap.set(veil, { opacity: 0, clipPath: 'inset(100% 0 0 0)' });
   if (sub) {
     sub.textContent = 'THE END AND BEGINNING';
+    // Always gold on dark curtain bars — readable in day & night
     gsap.set(sub, { color: BRAND.gold });
   }
 

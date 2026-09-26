@@ -152,9 +152,18 @@ const Navigation = memo(() => {
           data-nav-dock={pose.edge}
           className='pointer-events-auto relative mx-auto overflow-hidden'
           style={{
-            width: '100%',
+            width:
+              pose.insetPct > 0
+                ? `calc(100% - ${pose.insetPct * 2}%)`
+                : '100%',
             transformOrigin:
-              pose.x < 0 ? 'left top' : pose.x > 0 ? 'right top' : 'center top',
+              pose.x < 0
+                ? 'left top'
+                : pose.x > 0
+                  ? 'right top'
+                  : pose.edge === 'bottom'
+                    ? 'center bottom'
+                    : 'center top',
           }}
           initial={{ opacity: 0, y: -32 }}
           animate={{
@@ -243,19 +252,24 @@ const Navigation = memo(() => {
                 </MagneticButton>
               </div>
 
-              <div className={`${DESKTOP_NAV} items-center gap-0.5 lg:gap-1`}>
+              <div
+                key={`links-${persona.id}-${morphKey}`}
+                className={`${DESKTOP_NAV} items-center gap-0.5 lg:gap-1`}
+              >
                 {navLinks.map((link, index) => {
                   const isActive = activeSection === link.href;
                   return (
                     <motion.div
                       key={link.href}
                       initial={
-                        reduced ? { opacity: 0 } : { opacity: 0, y: -12 }
+                        reduced ? { opacity: 0 } : { opacity: 0, y: -10 }
                       }
                       animate={{ opacity: 1, y: 0 }}
                       transition={{
                         ...transition.structural,
-                        delay: reduced ? 0 : index * STAGGER.children,
+                        delay: reduced
+                          ? 0
+                          : STAGGER.delay + index * STAGGER.children,
                       }}
                     >
                       <MagneticButton strength={0.2}>
@@ -267,7 +281,7 @@ const Navigation = memo(() => {
                           aria-current={isActive ? 'page' : undefined}
                           animate={
                             burst && !reduced && isActive
-                              ? { scale: [1, 1.06, 1] }
+                              ? { scale: [1, 1.08, 1] }
                               : { scale: 1 }
                           }
                           transition={transition.structural}
@@ -283,7 +297,11 @@ const Navigation = memo(() => {
                             gap={1}
                           />
                           {isActive && (
-                            <NavLiquidIndicator persona={persona} />
+                            <NavLiquidIndicator
+                              persona={persona}
+                              morphKey={morphKey}
+                              burst={burst && !reduced}
+                            />
                           )}
                         </motion.a>
                       </MagneticButton>
@@ -291,9 +309,15 @@ const Navigation = memo(() => {
                   );
                 })}
 
-                <div
+                <motion.div
                   className='ml-4 hidden items-center gap-1 border-l pl-4 lg:flex xl:ml-6 xl:pl-6'
                   style={{ borderColor: persona.border }}
+                  initial={reduced ? false : { opacity: 0, x: 8 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{
+                    ...transition.structural,
+                    delay: reduced ? 0 : STAGGER.delay + navLinks.length * STAGGER.children,
+                  }}
                 >
                   <ThemeToggle />
                   <motion.a
@@ -330,7 +354,7 @@ const Navigation = memo(() => {
                   >
                     <Linkedin className='h-5 w-5' />
                   </motion.a>
-                </div>
+                </motion.div>
               </div>
 
               <div className={COMPACT_NAV}>

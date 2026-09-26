@@ -255,7 +255,7 @@ export default function Footer() {
               className='relative block -translate-x-[1.5vw] whitespace-nowrap text-center font-serif text-[13vw] font-bold leading-[0.85] tracking-[-0.07em] sm:text-[14vw]'
               style={{
                 backgroundImage: isDay
-                  ? 'linear-gradient(to bottom, rgba(232, 226, 214, 0.72), rgba(232, 226, 214, 0.18))'
+                  ? 'linear-gradient(to bottom, rgba(232, 226, 214, 0.88), rgba(198, 167, 94, 0.35))'
                   : 'linear-gradient(to bottom, rgba(210, 225, 245, 0.78), rgba(150, 175, 210, 0.22))',
                 WebkitBackgroundClip: 'text',
                 backgroundClip: 'text',

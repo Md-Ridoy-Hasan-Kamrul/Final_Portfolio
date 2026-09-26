@@ -27,6 +27,7 @@ function readCompact(): boolean {
 /**
  * Map persona dock → GPU transform pose.
  * Never animates top/left/width — only x / y / scale / radius.
+ * Each dock reads as a distinct chassis vs the others.
  */
 export function computeDockPose(
   dock: NavDockAnchor,
@@ -54,9 +55,11 @@ export function computeDockPose(
 
   const navH = NAV_H_DESKTOP;
   const bottomY = Math.max(GAP, viewportH - navH - GAP);
+  const sideShift = Math.min(72, opts.viewportW * 0.05);
 
   switch (dock) {
     case 'top-full':
+      // Home — edge-to-edge cinematic bar
       return {
         x: 0,
         y: 0,
@@ -66,48 +69,53 @@ export function computeDockPose(
         edge: 'top',
       };
     case 'top-center':
+      // About — floating frost pill
       return {
         x: 0,
-        y: GAP,
-        scale: 0.94,
+        y: GAP + 6,
+        scale: 0.9,
         borderRadius: 999,
-        insetPct: 4,
+        insetPct: 6,
         edge: 'top',
       };
     case 'top-left':
+      // Experience — left-biased blade chassis
       return {
-        x: -Math.min(56, opts.viewportW * 0.04),
-        y: GAP + 4,
-        scale: 0.9,
-        borderRadius: 28,
-        insetPct: 8,
+        x: -sideShift,
+        y: GAP + 8,
+        scale: 0.86,
+        borderRadius: 22,
+        insetPct: 10,
         edge: 'top',
       };
     case 'top-right':
+      // Skills — right-biased prism chassis
       return {
-        x: Math.min(56, opts.viewportW * 0.04),
-        y: GAP + 4,
-        scale: 0.9,
-        borderRadius: 28,
-        insetPct: 8,
+        x: sideShift,
+        y: GAP + 8,
+        scale: 0.86,
+        borderRadius: 22,
+        insetPct: 10,
         edge: 'top',
       };
     case 'bottom-wide':
+      // Projects — wide bottom dock
       return {
         x: 0,
         y: bottomY,
-        scale: 0.96,
-        borderRadius: 28,
-        insetPct: 3,
+        scale: 0.94,
+        borderRadius: 32,
+        insetPct: 4,
         edge: 'bottom',
       };
     case 'bottom-center':
+      // Contact — compact bottom pill
       return {
         x: 0,
         y: bottomY,
-        scale: 0.88,
+        scale: 0.82,
         borderRadius: 999,
-        insetPct: 10,
+        insetPct: 14,
         edge: 'bottom',
       };
     default:
@@ -170,12 +178,19 @@ export function useNavDockPose(
     );
   }, [pose.edge, pose.y, persona.id, compact]);
 
-  const springTransition = {
-    type: 'spring' as const,
-    stiffness: SPRING.soft.stiffness,
-    damping: SPRING.soft.damping,
-    mass: SPRING.soft.mass,
-  };
+  // Morph-aware spring: snappier for blade/prism docks, softer for pills
+  const springTransition = useMemo(() => {
+    const morph = persona.morph;
+    const snappy = morph === 'blade' || morph === 'prism' || morph === 'iris';
+    const soft = morph === 'rift' || morph === 'vortex' || morph === 'orbit';
+    const preset = snappy ? SPRING.snappy : soft ? SPRING.soft : SPRING.magnetic;
+    return {
+      type: 'spring' as const,
+      stiffness: preset.stiffness,
+      damping: preset.damping,
+      mass: preset.mass,
+    };
+  }, [persona.morph]);
 
   return {
     pose,
