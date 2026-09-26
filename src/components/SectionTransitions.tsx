@@ -149,23 +149,25 @@ function buildTimeline(
   if (!veil || !blade || !flash || !label) return tl;
 
   setLabel(refs, labelText);
-  // Dark-bar morphs stay cinematic; day labels get gold + ink halo so they
-  // stay readable when bars peel and the section (e.g. coral Skills) shows through.
+  // Dark-bar morphs stay cinematic. Labels need a strong ink halo in both
+  // themes — especially Skills prism, where light FRONTEND ghost bleeds through.
   const darkBarMorph =
     name === 'horizonRift' ||
     name === 'prismBreach' ||
     name === 'curtainFinale';
   const veilColor = isDark || darkBarMorph ? BRAND.voidDeep : '#f2ebe2';
-  const labelColor = isDark
-    ? BRAND.bone
-    : darkBarMorph
-      ? BRAND.gold
+  const labelColor = darkBarMorph
+    ? isDark
+      ? '#FFF8EE'
+      : BRAND.gold
+    : isDark
+      ? BRAND.bone
       : BRAND.ink;
-  const labelShadow = isDark
-    ? 'none'
-    : darkBarMorph
-      ? `0 1px 0 ${BRAND.ink}, 0 0 18px rgba(10,12,18,0.55), 0 2px 28px rgba(10,12,18,0.35)`
-      : 'none';
+  const labelShadow = darkBarMorph
+    ? isDark
+      ? `0 0 2px ${BRAND.voidDeep}, 0 1px 0 ${BRAND.voidDeep}, 0 2px 0 rgba(2,6,12,0.95), 0 0 28px rgba(2,6,12,0.85), 0 0 48px rgba(0,0,0,0.7)`
+      : `0 1px 0 ${BRAND.ink}, 0 0 18px rgba(10,12,18,0.55), 0 2px 28px rgba(10,12,18,0.35)`
+    : 'none';
   gsap.set(veil, { background: veilColor });
   gsap.set(label, { color: labelColor, textShadow: labelShadow });
   if (sub) {

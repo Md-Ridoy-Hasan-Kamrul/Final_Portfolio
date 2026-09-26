@@ -254,9 +254,9 @@ export default function Skills({ categories }: SkillsProps) {
                 letterSpacing: '-0.02em',
                 whiteSpace: 'nowrap',
                 maxWidth: '100%',
-                color: isDark ? '#D7E8FF' : 'rgba(255, 248, 240, 0.38)',
+                color: isDark ? 'rgba(180, 205, 240, 0.28)' : 'rgba(255, 248, 240, 0.38)',
                 textShadow: isDark
-                  ? '0 0 28px rgba(140,190,255,0.55), 0 0 60px rgba(80,140,220,0.35)'
+                  ? '0 0 18px rgba(80,120,180,0.25)'
                   : 'none',
               }}
             >
